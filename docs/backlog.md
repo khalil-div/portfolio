@@ -77,3 +77,4 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 2026-10-28 | Sky performance: per-frame positions/opacities written directly to the moving elements (no inherited variables), colours in ~250 steps per day, ridges/city on their own layers. Style work while scrolling −32% |
 | 2026-10-28 | Fixed: lens twin and resting lens rim widened the page on phones; single-column grids couldn't shrink at 320 px; duplicate SVG id in the café card |
 | 2026-10-29 | Golden hour, lens, "k." logo and loading screen live on khalil-alblushi.vercel.app (main fast-forwarded from golden-hour) |
+| 2026-10-29 | Phone hero: poster headline (each sentence in two balanced lines, ~60 px), full-width "Start a project" button, compact demo card. Laptop layout unchanged |
