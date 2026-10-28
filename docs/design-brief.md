@@ -40,9 +40,9 @@ The sun owns the day and the moon the night, both on the same east → west arc,
 
 **Hidden delight: the lens.** Over the hero demo card, the cursor carries a glass magnifier. Inside it, the card becomes its own wireframe on a dotted design grid, magnified; the part under the pointer is outlined in orange and named in code below the lens, live with the demo (`<SizePicker value="L" />`, `POST /api/orders → 201`). On phones: press and hold, and the lens floats above the fingertip like a text loupe. Optional, found by accident.
 
-**The logo: "code horizon".** Code brackets with the sun rising between them on a horizon: "I build", in Muscat. An ink tile with paper strokes (inverted in dark mode) and the sun always orange. Hovering the name in the header lifts the sun a little.
+**The logo: خ with a sun.** خ is the first letter of Khalil, and makes the same sound as K, so one mark covers both names. Its dot, the diamond a calligrapher's pen makes, is the orange sun of the golden hour (enlarged so it reads at 16 px). An ink tile with a paper letter (inverted in dark mode), the sun always orange. Hovering the name in the header raises the sun a little.
 
-**First second: the loading screen.** On the first visit the logo builds itself on a clean screen (the brackets open, the horizon draws from the middle, the sun rises from behind it and glows), then flies up into its place in the header while the screen clears and the hero makes its entrance. 1.5 s; any click, key or scroll skips it.
+**First second: the loading screen.** On the first visit, خ writes itself in one stroke on a clean screen and fills, its dot rises into place like the sun and glows, then the tile forms around it as it flies up into its place in the header, and the screen clears. 1.5 s; any click, key or scroll skips it.
 
 ## 3. Principles
 

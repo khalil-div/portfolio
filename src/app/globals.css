@@ -184,7 +184,7 @@ body::before {
   letter-spacing: -0.01em;
 }
 
-/* The logo (see logo.tsx): ink tile, paper strokes, orange sun. */
+/* The logo (see logo.tsx): ink tile, paper خ, orange sun. */
 .logo {
   display: block;
   flex: none;
@@ -194,17 +194,8 @@ body::before {
   fill: var(--ink);
 }
 
-.logo-bracket,
-.logo-horizon {
-  fill: none;
-  stroke: var(--bg);
-  stroke-width: 7.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.logo-horizon {
-  stroke-width: 6;
+.logo-letter {
+  fill: var(--bg);
 }
 
 .logo-sun {
@@ -217,9 +208,9 @@ body::before {
   height: 32px;
 }
 
-/* Hover the name and the sun lifts a little off the horizon. */
+/* Hover the name and the sun rises a little. */
 .brand:hover .logo-sun {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
 }
 
 .nav-links {
@@ -2916,10 +2907,8 @@ html.lenis body {
 }
 
 .intro-logo {
-  width: 112px;
-  height: 112px;
-  /* backwards, not both: a held end state would override the flight. */
-  animation: intro-in 380ms var(--ease) backwards;
+  width: 132px;
+  height: 132px;
   transition: transform 480ms var(--ease-in-out);
 }
 
@@ -2927,65 +2916,69 @@ html.lenis body {
   transform: translate(var(--fly-x, 0), var(--fly-y, 0)) scale(var(--fly-s, 0.3));
 }
 
-.intro-logo .logo-bracket,
-.intro-logo .logo-horizon,
+/* On the clean screen it is just the letter, written in ink; the tile forms
+   around it as it flies, and the letter turns to paper. */
+.intro-logo .logo-tile {
+  opacity: 0;
+  transition: opacity 420ms var(--ease);
+}
+
+.intro-logo .logo-letter {
+  fill: var(--ink);
+  fill-opacity: 0;
+  stroke: var(--ink);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation:
+    logo-write 620ms var(--ease-in-out) forwards,
+    logo-fill 360ms var(--ease) 420ms forwards;
+  transition:
+    fill 420ms var(--ease),
+    stroke 420ms var(--ease);
+}
+
+:root[data-intro="out"] .intro-logo .logo-tile {
+  opacity: 1;
+}
+
+:root[data-intro="out"] .intro-logo .logo-letter {
+  fill: var(--bg);
+  stroke: var(--bg);
+}
+
+/* The dot rises into place like the sun, and glows. */
 .intro-logo .logo-sun {
   transform-box: fill-box;
-}
-
-/* Brackets open outwards from the centre. */
-.intro-logo .logo-bracket-start {
-  animation: intro-open 520ms var(--ease) 120ms both;
-  --from: 14px;
-}
-
-.intro-logo .logo-bracket-end {
-  animation: intro-open 520ms var(--ease) 120ms both;
-  --from: -14px;
-}
-
-/* The horizon draws from the middle. */
-.intro-logo .logo-horizon {
   transform-origin: center;
-  animation: intro-horizon 420ms var(--ease) 260ms both;
-}
-
-/* The sun rises from behind it, and glows as it clears. */
-.intro-logo .logo-sun {
   animation:
-    intro-rise 520ms var(--ease) 420ms both,
-    intro-glow 700ms var(--ease) 800ms both;
+    logo-sunrise 560ms var(--ease) 560ms both,
+    logo-glow 700ms var(--ease) 900ms both;
 }
 
-@keyframes intro-in {
+@keyframes logo-write {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logo-fill {
+  to {
+    fill-opacity: 1;
+  }
+}
+
+@keyframes logo-sunrise {
   from {
     opacity: 0;
-    transform: scale(0.86);
+    transform: translateY(16px) scale(0.4);
   }
 }
 
-@keyframes intro-open {
-  from {
-    opacity: 0;
-    transform: translateX(var(--from));
-  }
-}
-
-@keyframes intro-horizon {
-  from {
-    transform: scaleX(0);
-  }
-}
-
-@keyframes intro-rise {
-  from {
-    transform: translateY(16px);
-  }
-}
-
-@keyframes intro-glow {
+@keyframes logo-glow {
   40% {
-    filter: drop-shadow(0 0 7px var(--accent));
+    filter: drop-shadow(0 0 4px var(--accent));
   }
 }
 
