@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="18" fill="#0f0f10"/>
+  <text x="31" y="41" fill="#f5f4f0" font-family="Helvetica, Arial, sans-serif" font-size="26" font-weight="700" text-anchor="middle" letter-spacing="-1">KA</text>
+  <rect x="47" y="45" width="7" height="7" rx="1.5" fill="#ff4f17"/>
+</svg>

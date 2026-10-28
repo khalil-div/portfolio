@@ -1,0 +1,79 @@
+<!doctype html>
+<!-- Share preview (1200×630). Rendered to public/og/{en,ar}.png by scripts/og/render.mjs.
+     Left: the site as clients see it. Right: the same idea in X-Ray. -->
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet" />
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr 400px;
+    background: #0b0b0c; color: #f2f1ec; font-family: "Readex Pro", sans-serif; font-weight: 300;
+  }
+  .copy { padding: 64px 0 56px 72px; display: flex; flex-direction: column; }
+  [dir="rtl"] .copy { padding: 64px 72px 56px 0; }
+  .brand { display: flex; align-items: center; gap: 16px; font-size: 24px; font-weight: 500; }
+  .mark { position: relative; width: 52px; height: 52px; border-radius: 15px; background: #f2f1ec; color: #0b0b0c; display: grid; place-items: center; font-size: 21px; font-weight: 600; letter-spacing: -0.02em; }
+  .mark::after { content: ""; position: absolute; right: 8px; bottom: 9px; width: 6px; height: 6px; border-radius: 1.5px; background: #ff5a24; }
+  h1 { margin-top: auto; font-size: 84px; font-weight: 500; line-height: 1; letter-spacing: -0.05em; white-space: nowrap; }
+  [lang="ar"] h1 { font-size: 92px; font-weight: 600; line-height: 1.25; letter-spacing: 0; }
+  h1 > span { display: block; }
+  h1 > span:first-child { color: #8f8d86; }
+  .caret { display: inline-block; width: 0.09em; height: 0.78em; margin-inline-start: 0.08em; background: #ff5a24; vertical-align: -0.04em; }
+  .meta { display: flex; align-items: center; gap: 18px; margin-top: 36px; font-size: 24px; color: #c9c8c2; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: #ff5a24; box-shadow: 0 0 0 7px rgb(255 90 36 / 22%); }
+  .sep { width: 5px; height: 5px; border-radius: 50%; background: #34343a; }
+  .xray {
+    position: relative; border-inline-start: 1px solid rgb(61 226 196 / 30%);
+    background: #04080b; color: #d9fff6;
+    background-image: linear-gradient(rgb(61 226 196 / 7%) 1px, transparent 1px), linear-gradient(90deg, rgb(61 226 196 / 7%) 1px, transparent 1px);
+    background-size: 24px 24px;
+    display: grid; place-items: center;
+  }
+  .card { position: relative; width: 236px; padding: 16px; border-radius: 24px; border: 1.5px dashed rgb(61 226 196 / 55%); display: grid; gap: 12px; }
+  .row { display: flex; gap: 10px; align-items: center; }
+  .box { border: 1.5px dashed rgb(61 226 196 / 45%); border-radius: 9px; }
+  .img { height: 118px; border-radius: 16px; position: relative; overflow: hidden; }
+  .img::before, .img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top right, transparent calc(50% - 1px), rgb(61 226 196 / 30%) calc(50% - 1px), rgb(61 226 196 / 30%) calc(50% + 1px), transparent calc(50% + 1px)); }
+  .img::after { transform: scaleX(-1); }
+  .btn { height: 42px; border-radius: 999px; border: 1.5px solid #3de2c4; color: #3de2c4; display: grid; place-items: center; font: 500 14px "JetBrains Mono", monospace; }
+  .tag { position: absolute; padding: 2px 8px; border-radius: 4px; background: #3de2c4; color: #04080b; font: 500 13px "JetBrains Mono", monospace; white-space: nowrap; direction: ltr; }
+  .t1 { top: -30px; left: -6px; }
+  .t2 { bottom: -34px; right: -10px; }
+  .label { position: absolute; top: 28px; left: 0; right: 0; text-align: center; font: 500 14px "JetBrains Mono", monospace; letter-spacing: 0.14em; color: #5fa597; direction: ltr; }
+  .scan { position: absolute; left: 0; right: 0; top: 0; height: 120px; background: linear-gradient(to bottom, transparent, rgb(61 226 196 / 16%)); border-bottom: 2px solid #3de2c4; box-shadow: 0 6px 22px rgb(61 226 196 / 55%); }
+</style>
+</head>
+<body>
+  <section class="copy">
+    <p class="brand"><span class="mark">KA</span><span id="name"></span></p>
+    <h1><span id="l1"></span><span><span id="l2"></span><span class="caret"></span></span></h1>
+    <p class="meta"><span class="dot"></span><span id="role"></span><span class="sep"></span><span id="place"></span></p>
+  </section>
+  <aside class="xray">
+    <div class="scan"></div>
+    <p class="label">X-RAY MODE</p>
+    <div class="card">
+      <span class="tag t1">&lt;OrderCard /&gt;</span>
+      <div class="row"><span class="box" style="width:34px;height:34px"></span><span class="box" style="width:60%;height:10px"></span></div>
+      <div class="box img"></div>
+      <div class="row"><span class="box" style="flex:1;height:30px;border-radius:999px"></span><span class="box" style="width:70px;height:30px;border-radius:999px"></span></div>
+      <div class="btn">POST /api/orders</div>
+      <span class="tag t2">201 · notify(shop) ✓</span>
+    </div>
+  </aside>
+  <script>
+    const copy = {
+      en: { name: "Khalil Alblushi", l1: "You bring the idea.", l2: "I build the rest.", role: "Software Engineer", place: "Muscat, Oman" },
+      ar: { name: "خليل البلوشي", l1: "الفكرة منك،", l2: "والباقي عليّ.", role: "مهندس برمجيات", place: "مسقط، عُمان" },
+    };
+    const lang = new URLSearchParams(location.search).get("lang") === "ar" ? "ar" : "en";
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    for (const [id, text] of Object.entries(copy[lang])) document.getElementById(id).textContent = text;
+  </script>
+</body>
+</html>
