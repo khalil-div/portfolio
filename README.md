@@ -1,5 +1,7 @@
 # Khalil Alblushi — Portfolio
 
+**Live: https://khalil-alblushi.vercel.app**
+
 Bilingual (English / Arabic) portfolio. "From Idea to Launch" on the surface, "X-Ray mode" underneath.
 
 ## Run it
@@ -35,7 +37,10 @@ Open http://localhost:3000. You'll be redirected to `/en` or `/ar` based on your
 If a CSS change doesn't show up, stop the server, delete `.next`, and run `npm run dev` again (Turbopack sometimes caches the stylesheet).
 
 ## Site address
-Until the custom domain exists, links in search results and share previews use Vercel's production address automatically. Once you have a domain, set `NEXT_PUBLIC_SITE_URL` (for example `https://khalil.om`) in Vercel's environment variables.
+`NEXT_PUBLIC_SITE_URL` (set in Vercel, production) is the address used in search results and share previews; it's currently `https://khalil-alblushi.vercel.app`. When you buy a domain, add it under Vercel → Project → Settings → Domains, then update this variable to the new address and redeploy.
+
+## Deploying
+Every push to `main` deploys to production automatically; other branches get preview links.
 
 ## Share previews
 The images shown when the site is shared (WhatsApp, LinkedIn, X) live in `public/og/`. To change them, edit `scripts/og/template.html` and run:

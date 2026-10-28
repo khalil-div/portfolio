@@ -10,8 +10,8 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 2 | Process: four chapters scrubbed by scroll (GSAP ScrollTrigger + Lenis) | ✅ Approved (promises removed) |
 | 3 | Work: Matcha Muse + government platform case studies | ✅ Approved |
 | 4 | X-Ray inspector: live HUD, hover measuring, spacing rulers, X / Esc shortcuts, first-visit hint | ✅ Approved |
-| 5 | Polish: contact + footer, share previews, SEO, accessibility, performance | ✅ Ready for review |
-| 6 | Launch on Vercel | ⏳ Next |
+| 5 | Polish: contact + footer, share previews, SEO, accessibility, performance | ✅ Approved |
+| 6 | Launch on Vercel: https://khalil-alblushi.vercel.app | ✅ Live |
 
 ## Later
 - Add new projects as they're finished
@@ -48,3 +48,5 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 2026-10-28 | Contact: WhatsApp (primary) + email with copy button; GitHub and LinkedIn; no reply-time promise |
 | 2026-10-28 | Share previews rendered from HTML with real fonts (Arabic shaping stays correct), one per language |
 | 2026-10-28 | Chat scene animates with transforms only, so scrolling causes zero layout shift |
+| 2026-10-28 | Code public at github.com/khalil-div/portfolio; every push to main deploys to production |
+| 2026-10-28 | Address: khalil-alblushi.vercel.app until a custom domain is bought |
