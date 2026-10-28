@@ -287,20 +287,6 @@ export function OrderDemo({ lang, t }: { lang: Locale; t: Dictionary["demo"] }) 
         </span>
       </div>
 
-      <div className="pipeline only-xray" aria-hidden="true">
-        <p className="pipeline-title mono">{t.layersTitle}</p>
-        <ol className="layers">
-          {t.layers.map((layer, i) => (
-            <li key={layer.name} className="layer" data-active={i <= frame.layer ? "" : undefined}>
-              <div className="layer-head">
-                <span>{layer.name}</span>
-                <span className="layer-tech mono">{layer.tech}</span>
-              </div>
-              <div className="layer-event mono">{layer.event}</div>
-            </li>
-          ))}
-        </ol>
-      </div>
     </div>
   );
 }
@@ -336,7 +322,7 @@ export function StoryRail({ chapters }: { chapters: Dictionary["chapters"] }) {
   const { frame, cycle, reduced } = useContext(ShowcaseContext);
 
   return (
-    <ol className="rail" aria-hidden="true" data-x="<StoryRail chapters={4} />">
+    <ol className="rail" aria-hidden="true">
       {chapters.map((chapter, i) => {
         const state = reduced || i < frame.phase ? "done" : i === frame.phase ? "active" : "idle";
         return (
@@ -351,8 +337,7 @@ export function StoryRail({ chapters }: { chapters: Dictionary["chapters"] }) {
             </span>
             <span className="rail-label">
               <span className="rail-num mono">0{i}</span>
-              <span className="rail-text no-xray">{chapter.label}</span>
-              <span className="rail-text only-xray mono">{chapter.xray}</span>
+              <span className="rail-text">{chapter.label}</span>
             </span>
           </li>
         );

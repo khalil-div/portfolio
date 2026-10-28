@@ -1,6 +1,6 @@
 # Design Brief — Khalil Alblushi Portfolio
 
-**Iteration 5** · Status: polish ready for review · 2026-10-28
+**Iteration 7** · Status: X-Ray removed; Golden hour in progress · 2026-10-28
 
 ---
 
@@ -13,31 +13,36 @@ A visitor should leave thinking *"this is the person we're looking for"* and kee
 
 **Surface: "From Idea to Launch"**, a story in four chapters any business owner understands:
 
-| # | EN | AR | X-Ray label |
-|---|----|----|-------------|
-| 00 | Idea | الفكرة | Requirements / المتطلبات |
-| 01 | Design | التصميم | Interface / الواجهة |
-| 02 | Build | البناء | API · Database / المنطق · قاعدة البيانات |
-| 03 | Launch | الإطلاق | Server · Deploy / السيرفر · النشر |
+| # | EN | AR |
+|---|----|----|
+| 00 | Idea | الفكرة |
+| 01 | Design | التصميم |
+| 02 | Build | البناء |
+| 03 | Launch | الإطلاق |
 
 The hero plays the whole story in ~9 seconds with a live ordering card for a fictional Muscat café, **Dar Karak**:
 a pencil sketch (idea) → a polished card (design) → someone picks a size and orders (build) → the shop gets an order notification (launch).
 The story rail under the hero fills in step by step.
 
-**Underneath: "X-Ray mode"**, the signature moment. The switch **"See how it's built / شوف كيف انبنى"** runs a scanner down the page, and behind it the site becomes its own blueprint:
-- the layout grid and every component's name and spec appear (`<Status live />`, `h1 · Readex Pro 500`, `<Button.Primary /> → wa.me`)
-- images turn into wireframe boxes
-- an **"Under the hood"** trace shows the same order flowing through Interface → Logic → Database → Server, live, in sync with the demo
-- the chapter rail re-labels as technical layers
-- a live **inspector** panel: current section, viewport and breakpoint, scroll, fps, theme and language
-- hovering any annotated part draws a **measuring box** with its exact size (mouse only)
-- **spacing rulers** show each section's padding
-- **X** toggles X-Ray from anywhere, **Esc** exits
-- first-time visitors get a single hint under the switch, after the hero demo has played once
+**Atmosphere: "Golden hour in Muscat"** (replaces X-Ray, which was removed on 2026-10-28: a separate mode that made the page harder to look at).
+The page is lit like a day passing in Muscat, with a fine line drawing of the Hajar mountains behind everything. Scrolling moves the light:
+
+| Where | Time of day |
+|---|---|
+| Hero | The real time in Muscat (night visitors arrive under the night sky) |
+| Work | The sky moves forward to morning |
+| 00 Idea → 03 Launch | Morning → midday → late afternoon → sunset |
+| Contact + footer | Night: stars, moon, city lights at the foot of the mountains |
+
+Cards catch the light: their shadows and highlights follow the sun.
+
+**Hidden delight: the lens.** Over the hero demo card, the cursor carries a soft magnifier that shows the sketch and wiring underneath (press-and-hold on phones). Optional, found by accident.
+
+**First second: the signature.** On the first visit, the name draws itself in Arabic strokes, turns into English, and the page settles in (under 1.5 s).
 
 ## 3. Principles
 
-1. **One star.** X-Ray is the only "wow". Everything else is calm and precise.
+1. **Atmosphere, not effects.** The light is the "wow"; it must stay comfortable to look at for minutes.
 2. **Motion explains.** Every animation shows where something came from or where it goes.
 3. **Equal languages.** Arabic and English designed together; neither is a translation.
 4. **Equal themes.** Light and dark each get full design attention.
@@ -69,12 +74,6 @@ Mostly monochrome with **one signal color**: a warm orange (a nod to Muscat suns
 | `--line` | `#242427` | Borders |
 | `--accent` | `#FF5A24` | Signal orange |
 
-### X-Ray
-| Theme | Look | Background | Lines / accent |
-|---|---|---|---|
-| Light | **Blueprint** | `#143C9A` cobalt | White lines, orange annotations |
-| Dark | **Scope** | `#04080B` | Glowing teal `#3DE2C4` |
-
 A subtle film grain sits over every theme to keep flat color from feeling sterile.
 
 ## 5. Typography
@@ -82,7 +81,7 @@ A subtle film grain sits over every theme to keep flat color from feeling steril
 | Role | Font | Notes |
 |---|---|---|
 | Everything (EN + AR) | **Readex Pro** | One family drawn for both scripts. EN headlines 500 with tight tracking; AR headlines 600, never letter-spaced |
-| Technical / X-Ray | **JetBrains Mono** + **IBM Plex Sans Arabic** | Arabic falls back to Plex automatically |
+| Technical details | **JetBrains Mono** + **IBM Plex Sans Arabic** | Arabic falls back to Plex automatically |
 
 The serif accent from Iteration 0 was **removed** after review. Emphasis now comes from contrast: the first sentence muted, the second full ink, plus an orange typing caret.
 
@@ -95,20 +94,19 @@ The hero headline is sized to its column (container units), so each sentence alw
 | `instant` | 150 ms | Hover, press |
 | `quick` | 300 ms | Toggles |
 | `smooth` | 600 ms | Reveals |
-| `story` | 900 ms | Headline rise, X-Ray scan |
+| `story` | 900 ms | Headline rise, section titles |
 
 - Easing `cubic-bezier(0.22, 1, 0.36, 1)`. No bounce.
 - **Theme switch:** the new theme grows in a circle from the button (View Transitions API).
-- **X-Ray switch:** a glowing scan line sweeps down, revealing the blueprint behind it.
 - **Language switch:** a soft blur-fade between `/en` and `/ar` (cross-document view transition).
 - Browsers without View Transitions simply switch instantly; reduced-motion users get a static, finished demo.
 
 ## 7. Site structure (target)
 
-1. **Nav**: KA mark · Work · Process · Contact · X-Ray · language · theme ✅
+1. **Nav**: KA mark · Work · Process · Contact · language · theme ✅
 2. **Hero**: status + live Muscat time, headline, intro, WhatsApp CTA, live demo, story rail ✅
 3. **Work** ✅: "Real projects. Real people using them."
-   - 01 Matcha Muse: real screenshots (laptop + phone, one per language), what was built, role, stack, link to the live site. In X-Ray, the screenshots fade to film and the stack appears.
+   - 01 Matcha Muse: real screenshots (laptop + phone, one per language), what was built, role, stack, link to the live site.
    - 02 Government platform: an animated diagram of requests flowing from each department through sign-in and the shared platform into that department's own data. Private, so no names or screenshots.
    - 03 "Your project could be next." with the WhatsApp button.
 4. **Process** ✅: "Four steps. No surprises." Each chapter states what the client gets and what their part is (no prices or timelines: they vary by project), and is told through Dar Karak:
@@ -117,9 +115,9 @@ The hero headline is sized to its column (container units), so each sentence alw
    - 02 the order API typing itself in, with a ticking checklist and weekly preview
    - 03 the live site: orders and visitors counting up, a sales line drawing itself, a new order arriving
 
-   Desktop: the chapters scroll past a sticky stage, with a progress line whose head sits at mid-screen. Phones: each chapter carries its own scene. In X-Ray, chapters show their technical layer and stack.
+   Desktop: the chapters scroll past a sticky stage, with a progress line whose head sits at mid-screen. Phones: each chapter carries its own scene.
 5. **Contact** ✅: "Got an idea? Let's talk about it." WhatsApp card (primary), email card with copy button, Muscat local time, GitHub and LinkedIn.
-6. **Footer** ✅: name, "designed and built by Khalil, in Muscat", the X-Ray shortcut, back to top.
+6. **Footer** ✅: name, "designed and built by Khalil, in Muscat", back to top.
 
 ## 8. Contact
 
@@ -152,7 +150,7 @@ Search and sharing: per-language title, description, canonical and hreflang (wit
 - [ ] Arabic and English
 - [ ] Light and dark
 - [ ] Phone, tablet, desktop
-- [ ] Has an X-Ray state
+- [ ] Looks right at every time of day (morning → night)
 - [ ] Smooth, and respects reduced motion
 - [ ] Keyboard-accessible, readable contrast
 - [ ] Approved by Khalil

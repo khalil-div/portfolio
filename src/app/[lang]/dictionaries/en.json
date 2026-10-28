@@ -8,14 +8,10 @@
     "work": "Work",
     "process": "Process",
     "contact": "Contact",
-    "xray": "See how it's built",
-    "xrayShort": "X-Ray",
     "toLight": "Switch to light theme",
     "toDark": "Switch to dark theme",
     "language": "عربي",
-    "languageLabel": "اقرأ الموقع بالعربية",
-    "xrayNudge": "Curious how it's built? Flip the switch.",
-    "xrayKeyHint": "or press"
+    "languageLabel": "اقرأ الموقع بالعربية"
   },
   "hero": {
     "status": "Available for new projects",
@@ -43,20 +39,21 @@
     "toastApp": "Orders",
     "toastTitle": "New order #1042",
     "toastBody": "2 × Karak Tea (L)",
-    "now": "now",
-    "layersTitle": "Under the hood",
-    "layers": [
-      { "name": "Interface", "tech": "Next.js · React", "event": "<OrderCard /> setQty(2)" },
-      { "name": "Logic", "tech": "API route", "event": "POST /api/orders → 201" },
-      { "name": "Database", "tech": "PostgreSQL", "event": "INSERT INTO orders" },
-      { "name": "Server", "tech": "Vercel · WhatsApp", "event": "notify(shop) ✓" }
-    ]
+    "now": "now"
   },
   "chapters": [
-    { "label": "Idea", "xray": "Requirements" },
-    { "label": "Design", "xray": "Interface" },
-    { "label": "Build", "xray": "API · Database" },
-    { "label": "Launch", "xray": "Server · Deploy" }
+    {
+      "label": "Idea"
+    },
+    {
+      "label": "Design"
+    },
+    {
+      "label": "Build"
+    },
+    {
+      "label": "Launch"
+    }
   ],
   "process": {
     "eyebrow": "How we'll work",
@@ -65,48 +62,60 @@
     "intro": "You always know where your project is, what comes next, and what it costs. Here's Dar Karak again, from the first message to the first real order.",
     "youGet": "You get",
     "yourPart": "Your part",
-    "stack": "Under the hood",
     "steps": [
       {
         "title": "We talk it through",
         "body": "Tell me about your business in your own words: on WhatsApp, on a call, or over karak. I ask the questions that matter, then send you a short, clear plan with a quote for your project.",
         "deliverable": "A clear plan with a quote for your project",
-        "yourPart": "Tell me your idea",
-        "stack": "Requirements · user stories · data model · estimate"
+        "yourPart": "Tell me your idea"
       },
       {
         "title": "You see it before it's built",
         "body": "I design every screen first. You try it on your own phone, ask for changes, and approve it. Nothing gets built until you love how it looks.",
         "deliverable": "A clickable design of every screen",
-        "yourPart": "Try it and tell me what to change",
-        "stack": "Wireframes · design system · prototype · RTL + LTR"
+        "yourPart": "Try it and tell me what to change"
       },
       {
         "title": "I build it properly",
         "body": "Fast, secure, and in Arabic and English from day one. You get a private link to follow real progress as it's built, not just promises.",
         "deliverable": "A private link to follow progress",
-        "yourPart": "Check in whenever you like",
-        "stack": "Next.js · TypeScript · PostgreSQL · REST API · tests"
+        "yourPart": "Check in whenever you like"
       },
       {
         "title": "It goes live, and I stay",
         "body": "I set up the domain, the hosting, and everything in between. Your customers start using it, and I'm still here for fixes, questions, and your next idea.",
         "deliverable": "A live website, plus support after launch",
-        "yourPart": "Share it with your customers",
-        "stack": "Vercel · domain + SSL · CDN · monitoring · backups"
+        "yourPart": "Share it with your customers"
       }
     ],
     "chat": {
       "initials": "DK",
       "status": "online",
       "messages": [
-        { "from": "them", "text": "Salam Khalil! I want customers to order karak from their phones." },
-        { "from": "me", "text": "Love it. Pickup from the shop, or delivery too?" },
-        { "from": "them", "text": "Pickup for now. And it has to be Arabic and English." },
-        { "from": "me", "text": "Perfect. Here's the plan:" }
+        {
+          "from": "them",
+          "text": "Salam Khalil! I want customers to order karak from their phones."
+        },
+        {
+          "from": "me",
+          "text": "Love it. Pickup from the shop, or delivery too?"
+        },
+        {
+          "from": "them",
+          "text": "Pickup for now. And it has to be Arabic and English."
+        },
+        {
+          "from": "me",
+          "text": "Perfect. Here's the plan:"
+        }
       ],
       "plan": "Plan · Dar Karak",
-      "planItems": ["Menu with sizes and prices", "Order from any phone", "Every order reaches the shop instantly", "Arabic + English"],
+      "planItems": [
+        "Menu with sizes and prices",
+        "Order from any phone",
+        "Every order reaches the shop instantly",
+        "Arabic + English"
+      ],
       "planFoot": "Plan agreed"
     },
     "design": {
@@ -114,9 +123,18 @@
       "version": "v3",
       "menu": "Menu",
       "items": [
-        { "name": "Karak Tea", "price": 0.3 },
-        { "name": "Saffron Karak", "price": 0.4 },
-        { "name": "Zaatar Paratha", "price": 0.5 }
+        {
+          "name": "Karak Tea",
+          "price": 0.3
+        },
+        {
+          "name": "Saffron Karak",
+          "price": 0.4
+        },
+        {
+          "name": "Zaatar Paratha",
+          "price": 0.5
+        }
       ],
       "order": "View order",
       "comment": "Love it. Approved!",
@@ -124,7 +142,12 @@
     },
     "build": {
       "branch": "main",
-      "checks": ["Orders save to the database", "Arabic + English", "Fast on any phone", "The shop gets notified"],
+      "checks": [
+        "Orders save to the database",
+        "Arabic + English",
+        "Fast on any phone",
+        "The shop gets notified"
+      ],
       "preview": "Preview updated",
       "when": "just now"
     },
@@ -170,12 +193,8 @@
       "note": "This work is private, so it's shown as a diagram instead of screenshots.",
       "diagram": {
         "network": "Internal network · no internet",
-        "tenants": [
-          "Department A",
-          "Department B",
-          "Department C"
-        ],
-      "tenantShort": ["A", "B", "C"],
+        "tenants": ["Department A", "Department B", "Department C"],
+        "tenantShort": ["A", "B", "C"],
         "platform": "One platform",
         "signIn": "Staff accounts",
         "data": "Separate data for each department"
@@ -204,8 +223,6 @@
   },
   "footer": {
     "built": "Designed and built by Khalil, in Muscat.",
-    "hint": "to see how it's built",
-    "press": "Press",
     "top": "Back to top"
   }
 }

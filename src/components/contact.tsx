@@ -16,7 +16,7 @@ const OUT = (
   </svg>
 );
 
-export function Contact({ t, whatsapp, title }: { t: Dictionary["contact"]; whatsapp: string; title: string }) {
+export function Contact({ t, whatsapp }: { t: Dictionary["contact"]; whatsapp: string }) {
   return (
     <section id="contact" className="contact">
       <div className="container">
@@ -24,7 +24,7 @@ export function Contact({ t, whatsapp, title }: { t: Dictionary["contact"]; what
           <p className="eyebrow mono" data-reveal>
             {t.eyebrow}
           </p>
-          <h2 className="section-title" data-reveal data-x={title}>
+          <h2 className="section-title" data-reveal>
             <span className="title-line">
               <span>{t.line1}</span>
             </span>
@@ -44,7 +44,7 @@ export function Contact({ t, whatsapp, title }: { t: Dictionary["contact"]; what
             target="_blank"
             rel="noopener noreferrer"
             data-reveal
-            data-x="wa.me · prefilled message"
+           
           >
             <span className="contact-icon" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -68,7 +68,7 @@ export function Contact({ t, whatsapp, title }: { t: Dictionary["contact"]; what
             </span>
           </a>
 
-          <div className="contact-card contact-mail" data-reveal style={{ "--d": "120ms" } as CSSProperties} data-x="mailto: · navigator.clipboard">
+          <div className="contact-card contact-mail" data-reveal style={{ "--d": "120ms" } as CSSProperties}>
             <span className="contact-icon" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" strokeWidth="1.6" />
@@ -115,9 +115,6 @@ export function Footer({ t, name }: { t: Dictionary["footer"]; name: string }) {
             © {name}
             <span className="footer-built">{t.built}</span>
           </span>
-        </p>
-        <p className="footer-hint">
-          {t.press} <kbd>X</kbd> {t.hint}
         </p>
         <a className="btn-text footer-top" href="#main">
           {t.top} ↑

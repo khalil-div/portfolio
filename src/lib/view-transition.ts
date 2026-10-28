@@ -1,11 +1,11 @@
 "use client";
 
 /**
- * Runs a DOM update inside a View Transition. `kind` becomes a class on <html>
- * for the duration, so CSS can pick the right animation (vt-theme, vt-xray).
+ * Runs a theme change inside a View Transition: the new theme grows in a
+ * circle from the button (`vt-theme` is on <html> for the duration).
  * Falls back to an instant update without support or with reduced motion.
  */
-export function withViewTransition(kind: "theme" | "xray", update: () => void) {
+export function withViewTransition(update: () => void) {
   const root = document.documentElement;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -14,11 +14,9 @@ export function withViewTransition(kind: "theme" | "xray", update: () => void) {
     return;
   }
 
-  const className = `vt-${kind}`;
   const transition = document.startViewTransition(() => {
-    // Added inside the update so only the new snapshot carries the scanline.
-    root.classList.add(className);
+    root.classList.add("vt-theme");
     update();
   });
-  transition.finished.finally(() => root.classList.remove(className));
+  transition.finished.finally(() => root.classList.remove("vt-theme"));
 }

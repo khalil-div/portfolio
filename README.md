@@ -2,7 +2,7 @@
 
 **Live: https://khalil-alblushi.vercel.app**
 
-Bilingual (English / Arabic) portfolio. "From Idea to Launch" on the surface, "X-Ray mode" underneath.
+Bilingual (English / Arabic) portfolio. "From Idea to Launch", lit like a day in Muscat.
 
 ## Run it
 
@@ -20,14 +20,13 @@ Open http://localhost:3000. You'll be redirected to `/en` or `/ar` based on your
 | `docs/design-brief.md` | The design system: concept, colors, fonts, motion |
 | `docs/backlog.md` | Iterations and decision log |
 | `src/app/[lang]/dictionaries/` | All text, `en.json` and `ar.json` |
-| `src/app/globals.css` | Design tokens, themes, X-Ray, transitions |
+| `src/app/globals.css` | Design tokens, themes, transitions |
 | `src/components/showcase.tsx` | The live hero demo and story rail |
 | `src/components/process-scenes.tsx` | The four Process scenes (chat, design, code, launch) |
 | `src/components/process-story.tsx` | Scroll engine for the Process section |
 | `src/components/work.tsx` | Work case studies and the government diagram |
 | `src/assets/work/` | Project screenshots |
-| `src/components/xray-inspector.tsx` | X-Ray HUD, measuring box, keyboard shortcuts |
-| `src/components/nav-tools.tsx` | X-Ray, language and theme switches |
+| `src/components/nav-tools.tsx` | Language and theme switches |
 | `src/components/contact.tsx` | Contact section and footer |
 | `src/lib/site.ts` | Site address, email, WhatsApp, social links |
 | `scripts/og/` | Share-preview images (template + renderer) |

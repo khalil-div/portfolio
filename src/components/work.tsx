@@ -12,14 +12,6 @@ type T = Dictionary["work"];
 
 const MATCHA_URL = "https://matcha-muse.vercel.app";
 
-// X-Ray only, so the same in both languages.
-const MATCHA_LAYERS = [
-  { name: "Interface", tech: "Next.js · React", event: "/ar · /en — RTL + LTR" },
-  { name: "Data", tech: "PostgreSQL", event: "products · milk options · prices" },
-  { name: "Hosting", tech: "Vercel", event: "edge CDN · HTTPS" },
-  { name: "Orders", tech: "WhatsApp", event: "wa.me → order summary" },
-];
-
 /* ── 01 · Matcha Muse ───────────────────────────────────────
    The laptop shows the page's language, the phone the other one:
    both languages, in one glance. */
@@ -34,7 +26,7 @@ export function MatchaCase({ lang, t }: { lang: Locale; t: T }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${t.visit}: ${m.name}`}
-        data-x="next/image · AVIF · blur placeholder"
+       
       >
         <span className="browser">
           <span className="browser-bar" aria-hidden="true">
@@ -57,20 +49,6 @@ export function MatchaCase({ lang, t }: { lang: Locale; t: T }) {
         </span>
         <span className="phone-shot">
           <Image src={other === "ar" ? mobileAr : mobileEn} alt="" sizes="190px" placeholder="blur" />
-        </span>
-        <span className="case-layers pipeline only-xray" aria-hidden="true">
-          <span className="pipeline-title mono block">{t.stack}</span>
-          <span className="layers">
-            {MATCHA_LAYERS.map((layer) => (
-              <span key={layer.name} className="layer block" data-active="">
-                <span className="layer-head">
-                  <span>{layer.name}</span>
-                  <span className="layer-tech mono">{layer.tech}</span>
-                </span>
-                <span className="layer-event mono block">{layer.event}</span>
-              </span>
-            ))}
-          </span>
         </span>
       </a>
 
@@ -105,13 +83,6 @@ const STORE_X = [140, 220, 300];
 const flow = (i: number) =>
   `M${TENANT_X[i]} 96 V152 C${TENANT_X[i]} 168 220 164 220 180 V234 C220 254 ${STORE_X[i]} 250 ${STORE_X[i]} 272`;
 
-const GOV_TECH = {
-  network: "air-gapped · Linux + Windows servers",
-  tenants: ["tenant_a", "tenant_b", "tenant_c"],
-  signIn: "Active Directory",
-  platform: "ASP.NET · Docker",
-  data: "SQL Server · isolated per tenant",
-};
 
 export function GovCase({ lang, t }: { lang: Locale; t: T }) {
   const g = t.gov;
@@ -120,14 +91,11 @@ export function GovCase({ lang, t }: { lang: Locale; t: T }) {
   const at = (i: number) => (lang === "ar" ? TENANT_X.length - 1 - i : i);
   return (
     <article className="case" data-reveal>
-      <figure className="case-visual diagram-card" data-x="<svg> · SMIL animateMotion">
+      <figure className="case-visual diagram-card">
         <svg className="diagram" viewBox="0 0 440 400" role="img" aria-label={g.name}>
           <rect className="dg-zone" x="8" y="8" width="424" height="384" rx="20" />
-          <text className="dg-small no-xray" x="220" y="38">
+          <text className="dg-small" x="220" y="38">
             {d.network}
-          </text>
-          <text className="dg-tech only-xray" x="220" y="38">
-            {GOV_TECH.network}
           </text>
 
           {TENANT_X.map((x, i) => (
@@ -154,29 +122,20 @@ export function GovCase({ lang, t }: { lang: Locale; t: T }) {
           {TENANT_X.map((x, i) => (
             <g key={x}>
               <rect className="dg-node" x={x - 60} y="56" width="120" height="40" rx="12" />
-              <text className="dg-label no-xray" x={x} y="81">
+              <text className="dg-label" x={x} y="81">
                 {d.tenants[at(i)]}
-              </text>
-              <text className="dg-tech only-xray" x={x} y="80">
-                {GOV_TECH.tenants[i]}
               </text>
             </g>
           ))}
 
           <rect className="dg-gate" x="40" y="124" width="360" height="28" rx="14" />
-          <text className="dg-small dg-on-gate no-xray" x="220" y="143">
+          <text className="dg-small dg-on-gate" x="220" y="143">
             {d.signIn}
-          </text>
-          <text className="dg-tech only-xray" x="220" y="142">
-            {GOV_TECH.signIn}
           </text>
 
           <rect className="dg-core" x="135" y="180" width="170" height="54" rx="14" />
-          <text className="dg-label dg-on-core no-xray" x="220" y="212">
+          <text className="dg-label dg-on-core" x="220" y="212">
             {d.platform}
-          </text>
-          <text className="dg-tech dg-on-core only-xray" x="220" y="211">
-            {GOV_TECH.platform}
           </text>
 
           {STORE_X.map((x, i) => (
@@ -188,11 +147,8 @@ export function GovCase({ lang, t }: { lang: Locale; t: T }) {
               </text>
             </g>
           ))}
-          <text className="dg-small no-xray" x="220" y="352">
+          <text className="dg-small" x="220" y="352">
             {d.data}
-          </text>
-          <text className="dg-tech only-xray" x="220" y="352">
-            {GOV_TECH.data}
           </text>
         </svg>
         <figcaption className="case-note">

@@ -12,6 +12,12 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 4 | X-Ray inspector: live HUD, hover measuring, spacing rulers, X / Esc shortcuts, first-visit hint | ✅ Approved |
 | 5 | Polish: contact + footer, share previews, SEO, accessibility, performance | ✅ Approved |
 | 6 | Launch on Vercel: https://khalil-alblushi.vercel.app | ✅ Live |
+| 7 | Clean slate: remove X-Ray completely | ✅ Ready for review |
+| 8 | Golden hour I: living sky, Hajar mountains, scroll = a day in Muscat, real-time opening, cards catch the light | ⏳ Next |
+| 9 | Golden hour II: night finale in Contact (stars, moon, city lights) | |
+| 10 | The lens: magnifier in the hero demo shows the sketch underneath | |
+| 11 | Signature: name drawn in Arabic, turns into English (first visit, < 1.5 s) | |
+| 12 | Quality pass, new share images, launch | |
 
 ## Later
 - Add new projects as they're finished
@@ -50,3 +56,6 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 2026-10-28 | Chat scene animates with transforms only, so scrolling causes zero layout shift |
 | 2026-10-28 | Code public at github.com/khalil-div/portfolio; every push to main deploys to production |
 | 2026-10-28 | Address: khalil-alblushi.vercel.app until a custom domain is bought |
+| 2026-10-28 | X-Ray removed: a separate mode that was uncomfortable to look at ("I want to switch back"). Code stays in git history |
+| 2026-10-28 | New direction: Golden hour in Muscat (atmosphere) + the lens (hidden delight) + signature intro |
+| 2026-10-28 | New work happens on the `golden-hour` branch with Vercel preview links; main (live) changes only after approval |

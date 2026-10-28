@@ -9,12 +9,6 @@ import { Check } from "./icons";
 
 type Props = { lang: Locale; t: Dictionary["process"]; demo: Dictionary["demo"] };
 
-const ANNOTATIONS = [
-  "<Chat /> → requirements.md",
-  "<Prototype /> → design tokens",
-  "POST /api/orders · PostgreSQL",
-  "Vercel · CDN · SSL",
-];
 
 export function Scene({ index, current, ...props }: Props & { index: number; current?: boolean }) {
   const Body = [ChatScene, DesignScene, BuildScene, LaunchScene][index];
@@ -23,7 +17,6 @@ export function Scene({ index, current, ...props }: Props & { index: number; cur
       className="scene"
       data-scene={index}
       data-current={current ? "" : undefined}
-      data-x={ANNOTATIONS[index]}
     >
       <Body {...props} />
       <span className="scene-progress" aria-hidden="true" />

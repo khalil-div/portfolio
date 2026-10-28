@@ -28,9 +28,8 @@ const plexArabic = IBM_Plex_Sans_Arabic({
   display: "swap",
 });
 
-// Runs before first paint so the stored theme (or the system's) never flashes,
-// and X-Ray stays on when the visitor switches language mid-session.
-const rootStateScript = `(function(){var r=document.documentElement;try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}r.dataset.theme=t;if(sessionStorage.getItem("xray")==="1")r.setAttribute("data-xray","")}catch(e){}})()`;
+// Runs before first paint so the stored theme (or the system's) never flashes.
+const rootStateScript = `(function(){var r=document.documentElement;try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}r.dataset.theme=t}catch(e){}})()`;
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }));

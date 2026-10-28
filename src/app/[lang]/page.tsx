@@ -8,7 +8,6 @@ import { Scene } from "@/components/process-scenes";
 import { ProcessStory } from "@/components/process-story";
 import { OrderDemo, ShowcaseProvider, StoryRail } from "@/components/showcase";
 import { GovCase, MatchaCase, NextCase } from "@/components/work";
-import { XrayInspector } from "@/components/xray-inspector";
 import { isLocale } from "@/lib/i18n";
 import { EMAIL, GITHUB, LINKEDIN, SITE_URL, whatsappLink } from "@/lib/site";
 import { getDictionary } from "./dictionaries";
@@ -19,7 +18,6 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const t = await getDictionary(lang);
   const whatsapp = whatsappLink(t.hero.whatsappMessage);
   const name = lang === "ar" ? "خليل البلوشي" : "Khalil Alblushi";
-  const h2Note = `h2 · Readex Pro ${lang === "ar" ? "600" : "500"}`;
 
   // Tells search engines who this site is about.
   const person = {
@@ -42,7 +40,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {t.skip}
       </a>
       <header className="nav">
-        <nav className="container nav-inner" data-x="<Nav sticky blur />">
+        <nav className="container nav-inner">
           <Link href={`/${lang}`} className="brand" aria-label={t.nav.home}>
             <span className="brand-mark" aria-hidden="true">
               KA
@@ -70,7 +68,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <ShowcaseProvider className="hero">
           <div className="container hero-grid">
             <div className="hero-copy">
-              <p className="hero-meta fade-up" data-x="<Status live />">
+              <p className="hero-meta fade-up">
                 <span className="inline-flex items-center text-ink">
                   <span className="status-dot" aria-hidden="true" />
                   {t.hero.status}
@@ -83,7 +81,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 </span>
               </p>
 
-              <h1 className="hero-title" data-x={`h1 · Readex Pro ${lang === "ar" ? "600" : "500"} · fluid 11.8cqi`}>
+              <h1 className="hero-title">
                 <span className="title-line">
                   <span>{t.hero.line1}</span>
                 </span>
@@ -95,11 +93,11 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 </span>
               </h1>
 
-              <p className="hero-intro fade-up" style={{ animationDelay: "380ms" }} data-x="p · 18px / 1.6">
+              <p className="hero-intro fade-up" style={{ animationDelay: "380ms" }}>
                 {t.hero.intro}
               </p>
 
-              <div className="hero-ctas fade-up" style={{ animationDelay: "480ms" }} data-x="<Button.Primary /> → wa.me">
+              <div className="hero-ctas fade-up" style={{ animationDelay: "480ms" }}>
                 <a className="btn-primary" href={whatsapp} target="_blank" rel="noopener noreferrer">
                   {t.hero.ctaPrimary}
                   <span className="btn-arrow" aria-hidden="true">
@@ -130,7 +128,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               <p className="eyebrow mono" data-reveal>
                 {t.work.eyebrow}
               </p>
-              <h2 className="section-title" data-reveal data-x={h2Note}>
+              <h2 className="section-title" data-reveal>
                 <span className="title-line">
                   <span>{t.work.line1}</span>
                 </span>
@@ -157,7 +155,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               <p className="eyebrow mono" data-reveal>
                 {t.process.eyebrow}
               </p>
-              <h2 className="section-title" data-reveal data-x={h2Note}>
+              <h2 className="section-title" data-reveal>
                 <span className="title-line">
                   <span>{t.process.line1}</span>
                 </span>
@@ -171,14 +169,13 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             </header>
 
             <div className="process-body">
-              <ol className="steps" data-steps data-x="<Chapters scroll-linked />">
+              <ol className="steps" data-steps>
                 {t.process.steps.map((step, i) => (
                   <li key={step.title} id={`step-${i}`} className="step" data-step={i} data-current={i === 0 ? "" : undefined}>
                     <div className="step-inner">
                       <p className="step-label">
                         <span className="step-num mono">0{i}</span>
-                        <span className="no-xray">{t.chapters[i].label}</span>
-                        <span className="only-xray mono">{t.chapters[i].xray}</span>
+                        <span>{t.chapters[i].label}</span>
                       </p>
                       <h3 className="step-title">{step.title}</h3>
                       <p className="step-body">{step.body}</p>
@@ -190,12 +187,6 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                         <div>
                           <dt>{t.process.yourPart}</dt>
                           <dd>{step.yourPart}</dd>
-                        </div>
-                        <div className="only-xray">
-                          <dt>{t.process.stack}</dt>
-                          <dd className="mono" dir="ltr">
-                            {step.stack}
-                          </dd>
                         </div>
                       </dl>
                     </div>
@@ -219,20 +210,11 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           </div>
         </ProcessStory>
 
-        <Contact t={t.contact} whatsapp={whatsapp} title={h2Note} />
+        <Contact t={t.contact} whatsapp={whatsapp} />
       </main>
 
       <Footer t={t.footer} name={name} />
 
-      <div className="layout-grid" aria-hidden="true">
-        <div className="container">
-          {Array.from({ length: 12 }, (_, i) => (
-            <span key={i} />
-          ))}
-        </div>
-      </div>
-      <div className="scanline" aria-hidden="true" />
-      <XrayInspector />
     </>
   );
 }

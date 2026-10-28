@@ -1,52 +1,18 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, type MouseEvent } from "react";
 import { LOCALE_COOKIE, type Locale } from "@/lib/i18n";
-import { useRootAttribute } from "@/lib/use-dom-state";
 import { withViewTransition } from "@/lib/view-transition";
-import { setXray, XRAY_SEEN_KEY } from "@/lib/xray";
-
-// First-time visitors get one hint, after the hero demo has played once.
-const NUDGE_AFTER_MS = 9000;
-const NUDGE_FOR_MS = 7000;
 
 type Labels = {
-  xray: string;
-  xrayShort: string;
   toLight: string;
   toDark: string;
   language: string;
   languageLabel: string;
-  xrayNudge: string;
-  xrayKeyHint: string;
 };
 
 export function NavTools({ lang, labels }: { lang: Locale; labels: Labels }) {
   const other: Locale = lang === "en" ? "ar" : "en";
-  // X-Ray lives on <html>, which outlives this component across navigations.
-  const xray = useRootAttribute("data-xray");
-  const [nudge, setNudge] = useState(false);
-
-  useEffect(() => {
-    let seen = true;
-    try {
-      seen = localStorage.getItem(XRAY_SEEN_KEY) === "1";
-    } catch {}
-    if (seen) return;
-    let hide: ReturnType<typeof setTimeout>;
-    const show = setTimeout(() => {
-      if (document.documentElement.hasAttribute("data-xray")) return;
-      setNudge(true);
-      try {
-        localStorage.setItem(XRAY_SEEN_KEY, "1");
-      } catch {}
-      hide = setTimeout(() => setNudge(false), NUDGE_FOR_MS);
-    }, NUDGE_AFTER_MS);
-    return () => {
-      clearTimeout(show);
-      clearTimeout(hide);
-    };
-  }, []);
 
   // Follow system theme changes until the visitor picks one.
   useEffect(() => {
@@ -66,17 +32,12 @@ export function NavTools({ lang, labels }: { lang: Locale; labels: Labels }) {
     root.style.setProperty("--vt-y", `${rect.top + rect.height / 2}px`);
 
     const next = root.dataset.theme === "dark" ? "light" : "dark";
-    withViewTransition("theme", () => {
+    withViewTransition(() => {
       root.dataset.theme = next;
     });
     try {
       localStorage.setItem("theme", next);
     } catch {}
-  };
-
-  const toggleXray = () => {
-    setNudge(false);
-    setXray(!xray);
   };
 
   const rememberLocale = () => {
@@ -85,34 +46,6 @@ export function NavTools({ lang, labels }: { lang: Locale; labels: Labels }) {
 
   return (
     <div className="nav-tools">
-      <span className="xray-anchor">
-        <button
-          type="button"
-          className="tool xray-switch"
-          aria-pressed={xray}
-          aria-keyshortcuts="X"
-          onClick={toggleXray}
-          title={labels.xray}
-          data-nudge={nudge ? "" : undefined}
-        >
-          <span className="xray-track" aria-hidden="true">
-            <span className="xray-thumb" />
-          </span>
-          <span className="xray-label-long">{labels.xray}</span>
-          <span className="xray-label-short">{labels.xrayShort}</span>
-        </button>
-        <span className="xray-nudge" role="status" data-show={nudge ? "" : undefined}>
-          {nudge && (
-            <>
-              {labels.xrayNudge}
-              <span className="xray-nudge-key">
-                {labels.xrayKeyHint} <kbd>X</kbd>
-              </span>
-            </>
-          )}
-        </span>
-      </span>
-
       {/* A full navigation on purpose: <html lang dir> changes, and the
           browser's cross-document view transition fades between languages. */}
       <a

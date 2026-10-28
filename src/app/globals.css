@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
 /* ───────────────────────── Tokens ─────────────────────────
-   Light "Paper" · Dark "Ink" · X-Ray "Blueprint" (light) / "Scope" (dark)
-   One signal color (orange) per theme; X-Ray swaps the whole palette. */
+   Light "Paper" · Dark "Ink". One signal color (orange) per theme. */
 
 :root {
   --bg: #f5f4f0;
@@ -66,40 +65,7 @@
   }
 }
 
-/* X-Ray · Blueprint (light) */
-:root[data-xray] {
-  --bg: #143c9a;
-  --surface: transparent;
-  --surface-2: rgb(255 255 255 / 6%);
-  --ink: #ffffff;
-  --ink-2: #dbe5ff;
-  --muted: #a9bdf0;
-  --line: rgb(255 255 255 / 22%);
-  --line-strong: rgb(255 255 255 / 55%);
-  --accent: #ff8a4c;
-  --accent-ink: #ffb088;
-  --on-accent: #0f0f10;
-  --shadow: none;
-  --grid: rgb(255 255 255 / 7%);
-  --grain-opacity: 0.08;
-  color-scheme: dark;
-}
 
-/* X-Ray · Scope (dark) */
-:root[data-xray][data-theme="dark"] {
-  --bg: #04080b;
-  --surface: transparent;
-  --surface-2: rgb(61 226 196 / 6%);
-  --ink: #d9fff6;
-  --ink-2: #a6e9da;
-  --muted: #5fa597;
-  --line: rgb(61 226 196 / 20%);
-  --line-strong: rgb(61 226 196 / 55%);
-  --accent: #3de2c4;
-  --accent-ink: #3de2c4;
-  --on-accent: #04080b;
-  --grid: rgb(61 226 196 / 6%);
-}
 
 @theme inline {
   --color-bg: var(--bg);
@@ -151,14 +117,6 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-:root[data-xray] body {
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-position: -1px -1px;
-}
-
 ::selection {
   background: var(--accent);
   color: var(--on-accent);
@@ -187,10 +145,6 @@ body::before {
 :root[data-theme="dark"] .only-light,
 :root:not([data-theme="dark"]) .only-dark {
   display: none;
-}
-:root[data-xray] .no-xray,
-:root:not([data-xray]) .only-xray {
-  display: none !important;
 }
 
 /* ───────────────────────── Nav ───────────────────────── */
@@ -346,62 +300,6 @@ body::before {
   font-family: var(--font-readex);
 }
 
-/* X-Ray switch */
-.xray-switch {
-  padding-inline: 6px 14px;
-}
-
-[dir="rtl"] .xray-switch {
-  padding-inline: 6px 14px;
-}
-
-.xray-track {
-  width: 30px;
-  height: 18px;
-  border-radius: 999px;
-  background: var(--surface-2);
-  border: 1px solid var(--line-strong);
-  position: relative;
-  transition: background-color var(--t-quick) var(--ease);
-}
-
-.xray-thumb {
-  position: absolute;
-  inset-block-start: 2px;
-  inset-inline-start: 2px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--ink);
-  transition: transform var(--t-quick) var(--ease);
-}
-
-.xray-switch[aria-pressed="true"] .xray-track {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-.xray-switch[aria-pressed="true"] .xray-thumb {
-  background: var(--on-accent);
-  transform: translateX(12px);
-}
-
-[dir="rtl"] .xray-switch[aria-pressed="true"] .xray-thumb {
-  transform: translateX(-12px);
-}
-
-.xray-label-long {
-  display: none;
-}
-
-@media (min-width: 640px) {
-  .xray-label-long {
-    display: inline;
-  }
-  .xray-label-short {
-    display: none;
-  }
-}
 
 /* ───────────────────────── Hero ───────────────────────── */
 
@@ -741,30 +639,11 @@ body::before {
   gap: 28px;
 }
 
-:root[data-xray] .demo {
-  justify-items: stretch;
-}
-
-@media (min-width: 640px) {
-  :root[data-xray] .demo {
-    grid-template-columns: minmax(0, 1fr) 296px;
-    align-items: center;
-    gap: 24px;
-  }
-}
-
 .stage {
   position: relative;
   width: min(100%, 340px);
   padding-top: 44px;
   justify-self: center;
-}
-
-@media (min-width: 640px) {
-  :root[data-xray] .stage {
-    width: 296px;
-    order: 2;
-  }
 }
 
 .order-card {
@@ -784,11 +663,6 @@ body::before {
   border-style: dashed;
   border-color: var(--line-strong);
   box-shadow: none;
-}
-
-:root[data-xray] .order-card {
-  border-style: dashed;
-  border-color: var(--line-strong);
 }
 
 .card-content > * {
@@ -929,33 +803,6 @@ body::before {
     linear-gradient(160deg, #2a1d14, #3a2718);
 }
 
-:root[data-xray] .product-visual {
-  background: none;
-  border: 1px dashed var(--line-strong);
-}
-
-:root[data-xray] .product-visual::before,
-:root[data-xray] .product-visual::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top right,
-    transparent calc(50% - 0.5px),
-    var(--line) calc(50% - 0.5px),
-    var(--line) calc(50% + 0.5px),
-    transparent calc(50% + 0.5px)
-  );
-}
-
-:root[data-xray] .product-visual::after {
-  transform: scaleX(-1);
-}
-
-:root[data-xray] .product-visual svg {
-  opacity: 0;
-}
-
 .steam path {
   animation: steam 3.2s var(--ease-in-out) infinite;
   transform-box: fill-box;
@@ -1018,11 +865,6 @@ body::before {
   position: relative;
 }
 
-:root[data-xray] .segmented,
-:root[data-xray] .stepper {
-  border: 1px dashed var(--line-strong);
-}
-
 .seg-thumb {
   position: absolute;
   inset-block: 3px;
@@ -1037,12 +879,6 @@ body::before {
 
 :root[data-theme="dark"] .seg-thumb {
   background: var(--line-strong);
-}
-
-:root[data-xray] .seg-thumb {
-  background: none;
-  border: 1px solid var(--accent);
-  box-shadow: none;
 }
 
 [dir="rtl"] {
@@ -1125,17 +961,6 @@ body::before {
   color: var(--on-accent);
 }
 
-:root[data-xray] .order-btn {
-  background: none;
-  color: var(--ink);
-  border: 1px dashed var(--line-strong);
-}
-
-:root[data-xray] .order-btn[data-sent] {
-  border: 1px solid var(--accent);
-  color: var(--accent);
-}
-
 .order-btn .price {
   font-variant-numeric: tabular-nums;
   opacity: 0.85;
@@ -1183,12 +1008,6 @@ body::before {
 .toast[data-show] {
   opacity: 1;
   transform: none;
-}
-
-:root[data-xray] .toast {
-  background: var(--bg);
-  border-style: dashed;
-  border-color: var(--line-strong);
 }
 
 .toast-icon {
@@ -1284,112 +1103,6 @@ body::before {
   }
 }
 
-/* X-Ray pipeline: the same order, traced through every layer. */
-.pipeline {
-  font-size: 12px;
-  width: 100%;
-}
-
-.pipeline-title {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--muted);
-  margin-bottom: 16px;
-}
-
-:lang(ar) .pipeline-title {
-  text-transform: none;
-  letter-spacing: 0;
-  font-family: var(--font-plex-ar);
-}
-
-.layers {
-  position: relative;
-  display: grid;
-  gap: 18px;
-}
-
-.layers::before {
-  content: "";
-  position: absolute;
-  inset-block: 8px;
-  inset-inline-start: 5px;
-  width: 1px;
-  background: var(--line-strong);
-}
-
-.layer {
-  position: relative;
-  padding-inline-start: 26px;
-  color: var(--muted);
-  transition: color var(--t-quick) var(--ease);
-}
-
-.layer::before {
-  content: "";
-  position: absolute;
-  inset-inline-start: 0;
-  top: 5px;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  border: 1px solid var(--line-strong);
-  background: var(--bg);
-  transition:
-    background-color var(--t-quick) var(--ease),
-    box-shadow var(--t-quick) var(--ease),
-    border-color var(--t-quick) var(--ease);
-}
-
-.layer[data-active] {
-  color: var(--ink);
-}
-
-.layer[data-active]::before {
-  background: var(--accent);
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent),
-    0 0 18px var(--accent);
-}
-
-.layer-head {
-  display: grid;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.layer-tech {
-  font-size: 10.5px;
-  color: var(--muted);
-  font-weight: 400;
-  direction: ltr;
-  text-align: start;
-}
-
-[dir="rtl"] .layer-tech,
-[dir="rtl"] .layer-event {
-  text-align: right;
-}
-
-.layer-event {
-  margin-top: 6px;
-  font-size: 11px;
-  direction: ltr;
-  text-align: start;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: inherit;
-  opacity: 0.55;
-  transition: opacity var(--t-quick) var(--ease);
-}
-
-.layer[data-active] .layer-event {
-  opacity: 1;
-  color: var(--accent-ink);
-}
 
 /* ───────────────────────── Work ───────────────────────── */
 
@@ -1531,33 +1244,6 @@ body::before {
   }
 }
 
-:root[data-xray] .browser,
-:root[data-xray] .phone-shot {
-  background: none;
-  border: 1px dashed var(--line-strong);
-  box-shadow: none;
-}
-
-:root[data-xray] .browser-bar {
-  background: none;
-}
-
-:root[data-xray] .shots img {
-  opacity: 0.14;
-  filter: grayscale(1) contrast(1.4);
-}
-
-.case-layers {
-  position: absolute;
-  inset-block-start: 54px;
-  inset-inline-start: 20px;
-  width: min(300px, 72%);
-  padding: 18px;
-  border-radius: 14px;
-  border: 1px dashed var(--line-strong);
-  background: var(--bg);
-}
-
 /* Diagram */
 .diagram-card {
   margin: 0;
@@ -1566,13 +1252,6 @@ body::before {
   border: 1px solid var(--line);
   background: var(--surface);
   box-shadow: var(--shadow);
-}
-
-:root[data-xray] .diagram-card {
-  background: none;
-  border-style: dashed;
-  border-color: var(--line-strong);
-  box-shadow: none;
 }
 
 .diagram {
@@ -1643,23 +1322,6 @@ body::before {
 
 .dg-on-core {
   fill: var(--bg);
-}
-
-.diagram .dg-tech {
-  font-family: var(--font-jetbrains);
-  font-size: 11px;
-  fill: var(--accent-ink);
-}
-
-:root[data-xray] .dg-node,
-:root[data-xray] .dg-gate,
-:root[data-xray] .dg-db {
-  fill: var(--bg);
-}
-
-:root[data-xray] .dg-core {
-  fill: var(--bg);
-  stroke: var(--accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2084,10 +1746,6 @@ html.lenis body {
   padding-top: 14px;
 }
 
-.step-facts > .only-xray {
-  grid-column: 1 / -1;
-}
-
 .step-facts dt {
   margin-bottom: 2px;
   font-size: 12px;
@@ -2130,11 +1788,6 @@ html.lenis body {
   .scene {
     height: min(540px, calc(100svh - 150px));
   }
-}
-
-:root[data-xray] .scene {
-  border-style: dashed;
-  border-color: var(--line-strong);
 }
 
 /* Stage: chapters hand over with a blur-slide in the scroll direction. */
@@ -2365,24 +2018,12 @@ html.lenis body {
   color: var(--bg);
 }
 
-:root[data-xray] .bubble {
-  border: 1px dashed var(--line-strong);
-  background: none;
-  color: var(--ink);
-}
-
 .plan {
   margin-top: 12px;
   padding: 14px 16px;
   border-radius: 18px;
   border: 1px solid var(--line);
   background: var(--bg);
-}
-
-:root[data-xray] .plan {
-  background: none;
-  border-style: dashed;
-  border-color: var(--line-strong);
 }
 
 .plan-title {
@@ -2449,11 +2090,6 @@ html.lenis body {
   overflow: hidden;
 }
 
-:root[data-xray] .phone {
-  border-style: dashed;
-  background: var(--bg);
-}
-
 .screen {
   position: absolute;
   inset: 8px;
@@ -2495,10 +2131,6 @@ html.lenis body {
 .ui {
   background: var(--surface);
   clip-path: inset(0 0 calc((1 - var(--m)) * 100%) 0);
-}
-
-:root[data-xray] .ui {
-  background: var(--bg);
 }
 
 .ui .shop {
@@ -2586,14 +2218,6 @@ html.lenis body {
   font-weight: 500;
 }
 
-:root[data-xray] .ui .screen-hero,
-:root[data-xray] .thumb,
-:root[data-xray] .screen-btn {
-  background: none;
-  border: 1px dashed var(--line-strong);
-  color: var(--ink);
-}
-
 .scan-edge {
   position: absolute;
   inset-inline: 0;
@@ -2625,12 +2249,6 @@ html.lenis body {
 .comment .avatar {
   background: var(--accent);
   color: var(--on-accent);
-}
-
-:root[data-xray] .comment {
-  background: var(--bg);
-  color: var(--ink);
-  border: 1px dashed var(--line-strong);
 }
 
 .stamp {
@@ -2666,10 +2284,6 @@ html.lenis body {
   transform: rotate(6deg) scale(1.6);
 }
 
-:root[data-xray] .stamp {
-  background: var(--bg);
-}
-
 /* 02 · Build: code types in, then the checklist ticks over. */
 .build {
   display: flex;
@@ -2687,10 +2301,6 @@ html.lenis body {
   color: var(--ink-2);
   text-align: left;
   overflow: hidden;
-}
-
-:root[data-xray] .code {
-  border: 1px dashed var(--line-strong);
 }
 
 .code-line {
@@ -2747,12 +2357,6 @@ html.lenis body {
   opacity: 0.65;
 }
 
-:root[data-xray] .preview-pill {
-  background: none;
-  color: var(--ink);
-  border: 1px dashed var(--line-strong);
-}
-
 /* 03 · Launch: live, and the numbers move with the scroll. */
 .url-bar {
   flex: 1;
@@ -2802,10 +2406,6 @@ html.lenis body {
   background: var(--surface-2);
 }
 
-:root[data-xray] .stat {
-  border: 1px dashed var(--line-strong);
-}
-
 .stat-label {
   font-size: 12px;
   color: var(--muted);
@@ -2853,12 +2453,6 @@ html.lenis body {
   box-shadow: var(--shadow);
 }
 
-:root[data-xray] .mini-toast {
-  border-style: dashed;
-  border-color: var(--line-strong);
-  background: var(--bg);
-}
-
 @media (max-width: 420px) {
   .scene-body {
     padding: 14px;
@@ -2871,33 +2465,6 @@ html.lenis body {
   }
 }
 
-/* ───────────────────────── X-Ray annotations ───────────────────────── */
-
-:root[data-xray] [data-x] {
-  position: relative;
-  outline: 1px dashed var(--line-strong);
-  outline-offset: 6px;
-  border-radius: 2px;
-}
-
-:root[data-xray] [data-x]::after {
-  content: attr(data-x);
-  position: absolute;
-  inset-block-end: calc(100% + 8px);
-  inset-inline-start: -6px;
-  padding: 1px 6px;
-  border-radius: 3px;
-  background: var(--accent);
-  color: var(--on-accent);
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 1.6;
-  letter-spacing: 0;
-  white-space: nowrap;
-  direction: ltr;
-  pointer-events: none;
-}
 
 /* ───────────────────────── Contact + footer ───────────────────────── */
 
@@ -2963,13 +2530,6 @@ html.lenis body {
 
 .contact-wa:hover {
   transform: translateY(-4px);
-}
-
-:root[data-xray] .contact-card {
-  background: none;
-  color: var(--ink);
-  border: 1px dashed var(--line-strong);
-  box-shadow: none;
 }
 
 .contact-icon {
@@ -3070,10 +2630,6 @@ html.lenis body {
   color: var(--on-accent);
 }
 
-:root[data-xray] .copy-btn {
-  background: none;
-}
-
 .contact-meta {
   display: flex;
   flex-wrap: wrap;
@@ -3153,272 +2709,16 @@ html.lenis body {
   }
 }
 
-/* ───────────────────────── X-Ray inspector ─────────────────────────
-   First-visit hint, live HUD, hover measuring box, spacing rulers. */
-
-kbd {
-  display: inline-block;
-  min-width: 1.6em;
-  padding: 0 5px;
-  border-radius: 5px;
-  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
-  font-size: 0.85em;
-  line-height: 1.5;
-  text-align: center;
-}
-
-.xray-anchor {
-  position: relative;
-  display: inline-flex;
-}
-
-.xray-nudge {
-  position: absolute;
-  top: calc(100% + 12px);
-  inset-inline-end: 0;
-  z-index: 2;
-  width: max-content;
-  max-width: min(280px, calc(100vw - 32px));
-  padding: 10px 14px;
-  border-radius: 14px;
-  background: var(--ink);
-  color: var(--bg);
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.45;
-  box-shadow: var(--shadow);
-  opacity: 0;
-  transform: translateY(-6px);
-  pointer-events: none;
-  transition:
-    opacity var(--t-quick) var(--ease),
-    transform 450ms var(--ease);
-}
-
-.xray-nudge::before {
-  content: "";
-  position: absolute;
-  top: -5px;
-  inset-inline-end: 30px;
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  background: inherit;
-  transform: rotate(45deg);
-}
-
-.xray-nudge[data-show] {
-  opacity: 1;
-  transform: none;
-}
-
-.xray-nudge-key {
-  display: block;
-  margin-top: 4px;
-  font-size: 12px;
-  opacity: 0.65;
-}
-
-@media (pointer: coarse) {
-  .xray-nudge-key,
-  .hud-keys {
-    display: none !important;
-  }
-}
-
-.xray-switch[data-nudge] {
-  animation: nudge-ring 1.6s var(--ease) infinite;
-}
-
-@keyframes nudge-ring {
-  from {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
-  }
-  to {
-    box-shadow: 0 0 0 12px transparent;
-  }
-}
 
 /* HUD */
-.hud {
-  position: fixed;
-  z-index: 60;
-  bottom: 16px;
-  right: 16px;
-  width: 240px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid var(--line-strong);
-  background: color-mix(in srgb, var(--bg) 96%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  font-size: 11px;
-  line-height: 1.6;
-  pointer-events: none;
-}
-
-.hud-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-.hud-keys {
-  margin-left: auto;
-  color: var(--muted);
-  letter-spacing: 0;
-  text-transform: none;
-}
-
-.hud-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
-  animation: blink 1.1s steps(1) infinite;
-}
-
-.hud dl {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 2px 14px;
-}
-
-.hud dt {
-  color: var(--muted);
-}
-
-.hud dd {
-  text-align: right;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-}
-
-@media (max-width: 639px) {
-  .hud {
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    width: auto;
-  }
-  .hud-extra {
-    display: none;
-  }
-}
 
 /* Measuring box */
-.measure {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 55;
-  pointer-events: none;
-  border: 1px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 7%, transparent);
-  opacity: 0;
-  transition:
-    opacity var(--t-instant) var(--ease),
-    transform 180ms var(--ease),
-    width 180ms var(--ease),
-    height 180ms var(--ease);
-}
-
-.measure[data-show] {
-  opacity: 1;
-}
-
-:root:not([data-xray]) .measure {
-  display: none;
-}
-
-.measure-label {
-  position: absolute;
-  top: 100%;
-  right: -1px;
-  margin-top: 4px;
-  padding: 1px 6px;
-  border-radius: 3px;
-  background: var(--ink);
-  color: var(--bg);
-  font-size: 10px;
-  white-space: nowrap;
-}
 
 /* Spacing rulers on section padding */
-:root[data-xray] .work::before,
-:root[data-xray] .process::before,
-:root[data-xray] .contact::before {
-  content: "padding-top: 120px";
-  position: absolute;
-  top: 0;
-  inset-inline-end: 10px;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  padding-left: 14px;
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
-  font-size: 10px;
-  color: var(--accent-ink);
-  direction: ltr;
-  background:
-    linear-gradient(var(--accent), var(--accent)) 0 0 / 9px 1px no-repeat,
-    linear-gradient(var(--accent), var(--accent)) 0 100% / 9px 1px no-repeat,
-    linear-gradient(var(--accent), var(--accent)) 4px 0 / 1px 100% no-repeat;
-}
 
-/* Layout grid overlay, like a designer's file. */
-.layout-grid {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  display: none;
-}
-
-:root[data-xray] .layout-grid {
-  display: block;
-}
-
-.layout-grid .container {
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-@media (min-width: 1024px) {
-  .layout-grid .container {
-    grid-template-columns: repeat(12, 1fr);
-    gap: 24px;
-  }
-}
-
-.layout-grid .container > span {
-  background: color-mix(in srgb, var(--accent) 5%, transparent);
-  border-inline: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
-}
-
-.layout-grid .container > span:nth-child(n + 5) {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .layout-grid .container > span:nth-child(n + 5) {
-    display: block;
-  }
-}
 
 /* ───────────────────────── Transitions ─────────────────────────
-   Language: cross-document fade. Theme: circle from the button.
-   X-Ray: a scanner sweeps down the page and reveals the blueprint. */
+   Language: cross-document fade. Theme: circle from the button. */
 
 @view-transition {
   navigation: auto;
@@ -3448,8 +2748,7 @@ kbd {
   }
 }
 
-:root.vt-theme::view-transition-old(root),
-:root.vt-xray::view-transition-old(root) {
+:root.vt-theme::view-transition-old(root) {
   animation: none;
 }
 
@@ -3463,46 +2762,6 @@ kbd {
   }
   to {
     clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 0));
-  }
-}
-
-:root.vt-xray::view-transition-new(root) {
-  animation: vt-scan var(--t-story) var(--ease-in-out) both;
-}
-
-@keyframes vt-scan {
-  from {
-    clip-path: inset(0 0 100% 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-.scanline {
-  position: fixed;
-  inset-inline: 0;
-  top: 0;
-  z-index: 200;
-  height: 140px;
-  pointer-events: none;
-  display: none;
-  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--accent) 22%, transparent));
-  border-bottom: 2px solid var(--accent);
-  box-shadow: 0 0 24px 2px var(--accent);
-}
-
-:root.vt-xray .scanline {
-  display: block;
-  animation: scan var(--t-story) var(--ease-in-out) both;
-}
-
-@keyframes scan {
-  from {
-    transform: translateY(-140px);
-  }
-  to {
-    transform: translateY(calc(100vh - 140px));
   }
 }
 
