@@ -1,15 +1,33 @@
-import { LOGO } from "@/lib/logo";
+import { LOGOS, type LogoId } from "@/lib/logos";
 
-/* The mark: خ, the first letter of Khalil (the same sound as K), with its
-   dot as the orange sun. Readex Pro outlines from scripts/logo/khah.py.
-   Colours come from CSS (.logo-*), so it follows the theme: an ink tile
-   with a paper letter, and the sun always orange. */
+/* The logo, in each candidate form (?logo=e1 … e4 picks one; see the head
+   script and globals.css). Colours come from CSS (.logo-*): an ink tile
+   with paper letters, and the sun always orange. */
 export function Logo({ className }: { className?: string }) {
   return (
-    <svg className={`logo ${className ?? ""}`} viewBox="0 0 100 100" aria-hidden="true">
-      <rect className="logo-tile" width="100" height="100" rx="28" />
-      <path className="logo-letter" d={LOGO.letter} pathLength={1} />
-      <path className="logo-sun" d={LOGO.sun} />
-    </svg>
+    <>
+      {(Object.keys(LOGOS) as LogoId[]).map((id) => (
+        <svg key={id} className={`logo ${className ?? ""}`} data-mark={id} viewBox="0 0 100 100" aria-hidden="true">
+          <rect className="logo-tile" width="100" height="100" rx="28" />
+          {LOGOS[id].letters.map((d, i) => (
+            <path key={i} className="logo-letter" d={d} pathLength={1} />
+          ))}
+          {LOGOS[id].strokes.map((d, i) => (
+            <path key={i} className="logo-stroke" d={d} pathLength={1} />
+          ))}
+          <path className="logo-sun" d={LOGOS[id].sun} />
+        </svg>
+      ))}
+    </>
+  );
+}
+
+/* e4 only: the name itself is the logo, ending in the orange sun. */
+export function Wordmark({ name, className }: { name: string; className?: string }) {
+  return (
+    <span className={`wordmark ${className ?? ""}`} aria-hidden="true">
+      {name}
+      <span className="wordmark-sun" />
+    </span>
   );
 }

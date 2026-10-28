@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Contact, Footer } from "@/components/contact";
 import { Intro } from "@/components/intro";
 import { LocalTime } from "@/components/local-time";
-import { Logo } from "@/components/logo";
+import { Logo, Wordmark } from "@/components/logo";
 import { NavTools } from "@/components/nav-tools";
 import { Scene } from "@/components/process-scenes";
 import { ProcessStory } from "@/components/process-story";
@@ -43,12 +43,13 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {t.skip}
       </a>
       <Sky />
-      <Intro />
+      <Intro name={name} />
       <header className="nav">
         <nav className="container nav-inner">
           <Link href={`/${lang}`} className="brand" aria-label={t.nav.home}>
             <Logo className="brand-mark" />
-            <span className="hidden sm:inline">{name}</span>
+            <span className="brand-name hidden sm:inline">{name}</span>
+            <Wordmark name={name} className="brand-wordmark" />
           </Link>
 
           <div className="nav-links">

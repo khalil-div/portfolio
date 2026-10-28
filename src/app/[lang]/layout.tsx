@@ -29,10 +29,11 @@ const plexArabic = IBM_Plex_Sans_Arabic({
 });
 
 // Runs before first paint so the stored theme (or the system's) never flashes,
+// picks the logo candidate being previewed (?logo=e1 … e4, kept for the session),
 // and decides whether the logo intro plays: first visit only (or
 // ?intro to replay), never with reduced motion. If anything fails, the
 // intro removes itself after 3 seconds.
-const rootStateScript = `(function(){var r=document.documentElement;try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}r.dataset.theme=t;var q=location.search.indexOf("intro")>-1;if((q||!localStorage.getItem("intro"))&&!matchMedia("(prefers-reduced-motion: reduce)").matches){r.dataset.intro="on";r.dataset.introAt=String(Math.round(performance.now()));localStorage.setItem("intro","1");setTimeout(function(){r.removeAttribute("data-intro")},3000)}}catch(e){}})()`;
+const rootStateScript = `(function(){var r=document.documentElement;try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}r.dataset.theme=t;var l=new URLSearchParams(location.search).get("logo")||sessionStorage.getItem("logo");if(/^e[1-4]$/.test(l||"")){r.dataset.logo=l;sessionStorage.setItem("logo",l)}var q=location.search.indexOf("intro")>-1;if((q||!localStorage.getItem("intro"))&&!matchMedia("(prefers-reduced-motion: reduce)").matches){r.dataset.intro="on";r.dataset.introAt=String(Math.round(performance.now()));localStorage.setItem("intro","1");setTimeout(function(){r.removeAttribute("data-intro")},3000)}}catch(e){}})()`;
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }));

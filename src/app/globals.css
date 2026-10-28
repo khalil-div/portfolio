@@ -198,9 +198,68 @@ body::before {
   fill: var(--bg);
 }
 
+.logo-stroke {
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .logo-sun {
   fill: var(--accent);
   transition: transform var(--t-smooth) var(--ease);
+}
+
+/* Candidates being previewed (?logo=e1 … e4); e1 unless one is picked. */
+.logo[data-mark]:not([data-mark="e1"]),
+:root[data-logo] .logo[data-mark] {
+  display: none;
+}
+
+:root[data-logo="e1"] .logo[data-mark="e1"],
+:root[data-logo="e2"] .logo[data-mark="e2"],
+:root[data-logo="e3"] .logo[data-mark="e3"],
+:root[data-logo="e4"] .logo[data-mark="e4"] {
+  display: block;
+}
+
+/* e4: the name is the logo, ending in the orange sun. */
+.wordmark {
+  display: none;
+  align-items: baseline;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.wordmark-sun {
+  display: inline-block;
+  width: 0.3em;
+  height: 0.3em;
+  margin-inline-start: 0.07em;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: transform var(--t-smooth) var(--ease);
+}
+
+:root[data-logo="e4"] .brand-wordmark,
+:root[data-logo="e4"] .intro-wordmark {
+  display: inline-flex;
+}
+
+:root[data-logo="e4"] .brand .brand-mark,
+:root[data-logo="e4"] .brand .brand-name,
+:root[data-logo="e4"] .intro .intro-logo {
+  display: none;
+}
+
+.brand-wordmark {
+  font-size: 17px;
+}
+
+.brand:hover .wordmark-sun {
+  transform: translateY(-3px);
 }
 
 .brand-mark {
@@ -2895,7 +2954,8 @@ html.lenis body {
 }
 
 /* The header's logo waits; the flying one lands exactly on it. */
-:root[data-intro] .nav .brand-mark {
+:root[data-intro] .nav .brand-mark,
+:root[data-intro] .nav .brand-wordmark {
   visibility: hidden;
 }
 
@@ -2948,7 +3008,44 @@ html.lenis body {
   stroke: var(--bg);
 }
 
-/* The dot rises into place like the sun, and glows. */
+.intro-logo .logo-stroke {
+  stroke: var(--ink);
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: logo-write 520ms var(--ease-in-out) 260ms forwards;
+  transition: stroke 420ms var(--ease);
+}
+
+:root[data-intro="out"] .intro-logo .logo-stroke {
+  stroke: var(--bg);
+}
+
+/* e4: the name settles in, then its full stop lands like the sun. */
+.intro-wordmark {
+  font-size: clamp(30px, 7vw, 52px);
+  transition: transform 480ms var(--ease-in-out);
+  animation: logo-name 560ms var(--ease) backwards;
+}
+
+:root[data-intro="out"] .intro-wordmark {
+  transform: translate(var(--fly-x, 0), var(--fly-y, 0)) scale(var(--fly-s, 0.3));
+}
+
+.intro-wordmark .wordmark-sun {
+  animation:
+    logo-sunrise 520ms var(--ease) 560ms both,
+    logo-glow 700ms var(--ease) 880ms both;
+}
+
+@keyframes logo-name {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(6px);
+  }
+}
+
+/* The sun rises into place, and glows. */
 .intro-logo .logo-sun {
   transform-box: fill-box;
   transform-origin: center;
