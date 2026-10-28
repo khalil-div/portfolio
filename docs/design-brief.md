@@ -40,7 +40,9 @@ The sun owns the day and the moon the night, both on the same east → west arc,
 
 **Hidden delight: the lens.** Over the hero demo card, the cursor carries a glass magnifier. Inside it, the card becomes its own wireframe on a dotted design grid, magnified; the part under the pointer is outlined in orange and named in code below the lens, live with the demo (`<SizePicker value="L" />`, `POST /api/orders → 201`). On phones: press and hold, and the lens floats above the fingertip like a text loupe. Optional, found by accident.
 
-**First second: the signature.** On the first visit, the name traces itself letter by letter in writing order (right to left in Arabic) and fills in, then dissolves into the other language while a thin orange line grows beneath; the screen lifts at 1.15 s and the hero makes its entrance underneath. 1.45 s in total, ending in the visitor's language. Any click, key or scroll skips it.
+**The logo: "code horizon".** Code brackets with the sun rising between them on a horizon: "I build", in Muscat. An ink tile with paper strokes (inverted in dark mode) and the sun always orange. Hovering the name in the header lifts the sun a little.
+
+**First second: the loading screen.** On the first visit the logo builds itself on a clean screen (the brackets open, the horizon draws from the middle, the sun rises from behind it and glows), then flies up into its place in the header while the screen clears and the hero makes its entrance. 1.5 s; any click, key or scroll skips it.
 
 ## 3. Principles
 
@@ -105,7 +107,7 @@ The hero headline is sized to its column (container units), so each sentence alw
 
 ## 7. Site structure (target)
 
-1. **Nav**: KA mark · Work · Process · Contact · language · theme ✅
+1. **Nav**: logo + name · Work · Process · Contact · language · theme ✅
 2. **Hero**: status + live Muscat time, headline, intro, WhatsApp CTA, live demo, story rail ✅
 3. **Work** ✅: "Real projects. Real people using them."
    - 01 Matcha Muse: real screenshots (laptop + phone, one per language), what was built, role, stack, link to the live site.

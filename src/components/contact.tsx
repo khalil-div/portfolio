@@ -3,6 +3,7 @@ import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { EMAIL, GITHUB, LINKEDIN } from "@/lib/site";
 import { CopyEmail } from "./copy-email";
 import { LocalTime } from "./local-time";
+import { Logo } from "./logo";
 
 const ARROW = (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -108,9 +109,7 @@ export function Footer({ t, name }: { t: Dictionary["footer"]; name: string }) {
     <footer className="footer">
       <div className="container footer-inner">
         <p className="footer-brand">
-          <span className="brand-mark" aria-hidden="true">
-            KA
-          </span>
+          <Logo className="brand-mark" />
           <span>
             © {name}
             <span className="footer-built">{t.built}</span>

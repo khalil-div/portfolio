@@ -184,37 +184,42 @@ body::before {
   letter-spacing: -0.01em;
 }
 
+/* The logo (see logo.tsx): ink tile, paper strokes, orange sun. */
+.logo {
+  display: block;
+  flex: none;
+}
+
+.logo-tile {
+  fill: var(--ink);
+}
+
+.logo-bracket,
+.logo-horizon {
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 7.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.logo-horizon {
+  stroke-width: 6;
+}
+
+.logo-sun {
+  fill: var(--accent);
+  transition: transform var(--t-smooth) var(--ease);
+}
+
 .brand-mark {
   width: 32px;
   height: 32px;
-  border-radius: 9px;
-  display: grid;
-  place-items: center;
-  background: var(--ink);
-  color: var(--bg);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  transition: transform var(--t-quick) var(--ease);
 }
 
-.brand:hover .brand-mark {
-  transform: rotate(-8deg) scale(1.05);
-}
-
-.brand-mark {
-  position: relative;
-}
-
-.brand-mark::after {
-  content: "";
-  position: absolute;
-  inset-block-end: 6px;
-  inset-inline-end: 5px;
-  width: 4px;
-  height: 4px;
-  border-radius: 1px;
-  background: var(--accent);
+/* Hover the name and the sun lifts a little off the horizon. */
+.brand:hover .logo-sun {
+  transform: translateY(-5px);
 }
 
 .nav-links {
@@ -2849,8 +2854,6 @@ html.lenis body {
 .footer-brand .brand-mark {
   width: 28px;
   height: 28px;
-  border-radius: 8px;
-  font-size: 11px;
 }
 
 .footer-built {
@@ -2876,10 +2879,10 @@ html.lenis body {
 /* Spacing rulers on section padding */
 
 
-/* ───────────────────────── Signature ─────────────────────────
-   First visit: the name draws itself (0–0.72 s), turns into the other
-   language (0.76–1.26 s) and the screen lifts away (1.15–1.45 s) while the
-   hero makes its entrance underneath. Keep in step with signature-player. */
+/* ───────────────────────── Intro ─────────────────────────
+   First visit: the logo builds itself (0–1 s), then flies into the header
+   while the screen clears (1–1.5 s) and the hero makes its entrance
+   underneath. Keep in step with intro-player. */
 
 .intro {
   display: none;
@@ -2891,116 +2894,98 @@ html.lenis body {
   z-index: 400;
   display: grid;
   place-items: center;
-  background: var(--bg);
-  transition:
-    opacity 300ms var(--ease),
-    visibility 0s linear 300ms;
+  background-color: var(--bg);
+  transition: background-color 420ms var(--ease);
 }
 
 :root[data-intro="out"] .intro {
-  opacity: 0;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+/* The header's logo waits; the flying one lands exactly on it. */
+:root[data-intro] .nav .brand-mark {
   visibility: hidden;
 }
 
-/* The hero waits for the signature, then makes its entrance. */
+/* The hero waits for the intro, then makes its entrance. */
 :root[data-intro="on"] .hero *,
 :root[data-intro="on"] .hero *::before,
 :root[data-intro="on"] .hero *::after {
   animation-play-state: paused !important;
 }
 
-.intro-names {
-  position: relative;
-  display: grid;
-  width: min(80vw, 640px);
-  transition:
-    transform 300ms var(--ease),
-    filter 300ms var(--ease);
+.intro-logo {
+  width: 112px;
+  height: 112px;
+  /* backwards, not both: a held end state would override the flight. */
+  animation: intro-in 380ms var(--ease) backwards;
+  transition: transform 480ms var(--ease-in-out);
 }
 
-:root[data-intro="out"] .intro-names {
-  transform: scale(1.04);
-  filter: blur(4px);
+:root[data-intro="out"] .intro-logo {
+  transform: translate(var(--fly-x, 0), var(--fly-y, 0)) scale(var(--fly-s, 0.3));
 }
 
-.intro-name {
-  grid-area: 1 / 1;
-  width: 100%;
-  height: auto;
-  overflow: visible;
-  align-self: center;
+.intro-logo .logo-bracket,
+.intro-logo .logo-horizon,
+.intro-logo .logo-sun {
+  transform-box: fill-box;
 }
 
-.intro-name path {
-  fill: var(--ink);
-  fill-opacity: 0;
-  stroke: var(--ink);
-  stroke-width: 12;
-  stroke-linejoin: round;
-  stroke-dasharray: 1 1;
-  stroke-dashoffset: 1;
+/* Brackets open outwards from the centre. */
+.intro-logo .logo-bracket-start {
+  animation: intro-open 520ms var(--ease) 120ms both;
+  --from: 14px;
 }
 
-/* First name: traced in writing order, then filled. */
-.intro-first path {
+.intro-logo .logo-bracket-end {
+  animation: intro-open 520ms var(--ease) 120ms both;
+  --from: -14px;
+}
+
+/* The horizon draws from the middle. */
+.intro-logo .logo-horizon {
+  transform-origin: center;
+  animation: intro-horizon 420ms var(--ease) 260ms both;
+}
+
+/* The sun rises from behind it, and glows as it clears. */
+.intro-logo .logo-sun {
   animation:
-    intro-trace 460ms var(--ease-in-out) calc(var(--i) * 260ms) forwards,
-    intro-fill 320ms var(--ease) calc(360ms + var(--i) * 260ms) forwards;
+    intro-rise 520ms var(--ease) 420ms both,
+    intro-glow 700ms var(--ease) 800ms both;
 }
 
-.intro-first {
-  animation: intro-leave 200ms var(--ease) 760ms forwards;
-}
-
-/* Second name: faster, it is the answer to the first. */
-.intro-second path {
-  animation:
-    intro-trace 320ms var(--ease-in-out) calc(780ms + var(--i) * 160ms) forwards,
-    intro-fill 260ms var(--ease) calc(900ms + var(--i) * 160ms) forwards;
-}
-
-.intro-name[data-lang="en"] {
-  width: 84%;
-  justify-self: center;
-}
-
-/* A thin orange line grows beneath, like the story rail. */
-.intro-line {
-  position: absolute;
-  left: 50%;
-  bottom: -28px;
-  width: 64px;
-  height: 2px;
-  margin-left: -32px;
-  border-radius: 2px;
-  background: var(--accent);
-  transform: scaleX(0);
-  animation: intro-line 1100ms var(--ease-in-out) forwards;
-}
-
-@keyframes intro-trace {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes intro-fill {
-  to {
-    fill-opacity: 1;
-  }
-}
-
-@keyframes intro-leave {
-  to {
+@keyframes intro-in {
+  from {
     opacity: 0;
-    filter: blur(6px);
-    transform: translateY(-8px);
+    transform: scale(0.86);
   }
 }
 
-@keyframes intro-line {
-  to {
-    transform: scaleX(1);
+@keyframes intro-open {
+  from {
+    opacity: 0;
+    transform: translateX(var(--from));
+  }
+}
+
+@keyframes intro-horizon {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes intro-rise {
+  from {
+    transform: translateY(16px);
+  }
+}
+
+@keyframes intro-glow {
+  40% {
+    filter: drop-shadow(0 0 7px var(--accent));
   }
 }
 

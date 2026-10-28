@@ -16,7 +16,7 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 8 | Golden hour I: living sky, Hajar mountains, scroll = a day in Muscat, real-time opening, cards catch the light | ✅ Approved |
 | 9 | Golden hour II: night finale (city lights in the valley, city glow, shooting star, ending shot) | ✅ Approved |
 | 10 | The lens: magnifier over the hero card shows its wiring; one live code label for the part under the pointer | ✅ Approved |
-| 11 | Signature: name traced letter by letter, turns into the other language, screen lifts (first visit, 1.45 s) | ✅ Ready for review |
+| 11 | Logo + loading screen: code brackets with the sun rising on a horizon; builds itself, then flies into the header (first visit, 1.5 s) | ✅ Ready for review |
 | 12 | Quality pass, new share images, launch | ⏳ Next |
 
 ## Later
@@ -69,3 +69,5 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 2026-10-28 | On touch the lens opens after a 0.32 s hold and floats above the fingertip like a text loupe; a quick swipe still scrolls |
 | 2026-10-28 | Signature ends in the visitor's language: /en draws Arabic → English, /ar draws English → Arabic. Readex Pro outlines shaped with HarfBuzz (scripts/signature/name.py) |
 | 2026-10-28 | Intro decided before first paint (first visit, not reduced motion); skippable; removes itself after 3 s if anything fails; `?intro` replays |
+| 2026-10-28 | Name signature rejected ("I prefer a logo"). Four concepts shown (خ with a sun, KA sunrise, K + caret, code horizon); Khalil chose **D: code horizon** |
+| 2026-10-28 | Logo used for the header, footer, loading screen, browser tab and iPhone icon. The loading screen's logo lands on the header's |
