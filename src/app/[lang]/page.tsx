@@ -6,6 +6,7 @@ import { LocalTime } from "@/components/local-time";
 import { NavTools } from "@/components/nav-tools";
 import { Scene } from "@/components/process-scenes";
 import { ProcessStory } from "@/components/process-story";
+import { Signature } from "@/components/signature";
 import { Sky } from "@/components/sky";
 import { OrderDemo, ShowcaseProvider, StoryRail } from "@/components/showcase";
 import { GovCase, MatchaCase, NextCase } from "@/components/work";
@@ -41,6 +42,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {t.skip}
       </a>
       <Sky />
+      <Signature lang={lang} />
       <header className="nav">
         <nav className="container nav-inner">
           <Link href={`/${lang}`} className="brand" aria-label={t.nav.home}>

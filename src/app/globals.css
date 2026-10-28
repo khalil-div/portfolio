@@ -2876,6 +2876,134 @@ html.lenis body {
 /* Spacing rulers on section padding */
 
 
+/* ───────────────────────── Signature ─────────────────────────
+   First visit: the name draws itself (0–0.72 s), turns into the other
+   language (0.76–1.26 s) and the screen lifts away (1.15–1.45 s) while the
+   hero makes its entrance underneath. Keep in step with signature-player. */
+
+.intro {
+  display: none;
+}
+
+:root[data-intro] .intro {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  transition:
+    opacity 300ms var(--ease),
+    visibility 0s linear 300ms;
+}
+
+:root[data-intro="out"] .intro {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* The hero waits for the signature, then makes its entrance. */
+:root[data-intro="on"] .hero *,
+:root[data-intro="on"] .hero *::before,
+:root[data-intro="on"] .hero *::after {
+  animation-play-state: paused !important;
+}
+
+.intro-names {
+  position: relative;
+  display: grid;
+  width: min(80vw, 640px);
+  transition:
+    transform 300ms var(--ease),
+    filter 300ms var(--ease);
+}
+
+:root[data-intro="out"] .intro-names {
+  transform: scale(1.04);
+  filter: blur(4px);
+}
+
+.intro-name {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  align-self: center;
+}
+
+.intro-name path {
+  fill: var(--ink);
+  fill-opacity: 0;
+  stroke: var(--ink);
+  stroke-width: 12;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+}
+
+/* First name: traced in writing order, then filled. */
+.intro-first path {
+  animation:
+    intro-trace 460ms var(--ease-in-out) calc(var(--i) * 260ms) forwards,
+    intro-fill 320ms var(--ease) calc(360ms + var(--i) * 260ms) forwards;
+}
+
+.intro-first {
+  animation: intro-leave 200ms var(--ease) 760ms forwards;
+}
+
+/* Second name: faster, it is the answer to the first. */
+.intro-second path {
+  animation:
+    intro-trace 320ms var(--ease-in-out) calc(780ms + var(--i) * 160ms) forwards,
+    intro-fill 260ms var(--ease) calc(900ms + var(--i) * 160ms) forwards;
+}
+
+.intro-name[data-lang="en"] {
+  width: 84%;
+  justify-self: center;
+}
+
+/* A thin orange line grows beneath, like the story rail. */
+.intro-line {
+  position: absolute;
+  left: 50%;
+  bottom: -28px;
+  width: 64px;
+  height: 2px;
+  margin-left: -32px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  animation: intro-line 1100ms var(--ease-in-out) forwards;
+}
+
+@keyframes intro-trace {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes intro-fill {
+  to {
+    fill-opacity: 1;
+  }
+}
+
+@keyframes intro-leave {
+  to {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes intro-line {
+  to {
+    transform: scaleX(1);
+  }
+}
+
 /* ───────────────────────── Sky ─────────────────────────
    Golden hour in Muscat. <Sky /> writes the colours and the sun's place
    for the current scroll position; this paints them. */

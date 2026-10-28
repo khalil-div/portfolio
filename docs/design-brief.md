@@ -40,7 +40,7 @@ The sun owns the day and the moon the night, both on the same east → west arc,
 
 **Hidden delight: the lens.** Over the hero demo card, the cursor carries a glass magnifier. Inside it, the card becomes its own wireframe on a dotted design grid, magnified; the part under the pointer is outlined in orange and named in code below the lens, live with the demo (`<SizePicker value="L" />`, `POST /api/orders → 201`). On phones: press and hold, and the lens floats above the fingertip like a text loupe. Optional, found by accident.
 
-**First second: the signature.** On the first visit, the name draws itself in Arabic strokes, turns into English, and the page settles in (under 1.5 s).
+**First second: the signature.** On the first visit, the name traces itself letter by letter in writing order (right to left in Arabic) and fills in, then dissolves into the other language while a thin orange line grows beneath; the screen lifts at 1.15 s and the hero makes its entrance underneath. 1.45 s in total, ending in the visitor's language. Any click, key or scroll skips it.
 
 ## 3. Principles
 
