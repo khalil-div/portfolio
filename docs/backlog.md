@@ -17,7 +17,7 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 9 | Golden hour II: night finale (city lights in the valley, city glow, shooting star, ending shot) | ✅ Approved |
 | 10 | The lens: magnifier over the hero card shows its wiring; one live code label for the part under the pointer | ✅ Approved |
 | 11 | Logo + loading screen: "k." (the full stop is the orange sun); writes itself, the sun rises, then flies into the header (first visit, 1.5 s) | ✅ Approved |
-| 12 | Quality pass, new share images, launch | ✅ Ready (launch awaits approval) |
+| 12 | Quality pass, new share images, launch | ✅ Live |
 
 ## Later
 - Add new projects as they're finished
@@ -76,3 +76,4 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 2026-10-28 | Share images: a sunset over the Hajar ridges with the city lights, the "k." logo, and the headline's full stop in the logo's orange |
 | 2026-10-28 | Sky performance: per-frame positions/opacities written directly to the moving elements (no inherited variables), colours in ~250 steps per day, ridges/city on their own layers. Style work while scrolling −32% |
 | 2026-10-28 | Fixed: lens twin and resting lens rim widened the page on phones; single-column grids couldn't shrink at 320 px; duplicate SVG id in the café card |
+| 2026-10-29 | Golden hour, lens, "k." logo and loading screen live on khalil-alblushi.vercel.app (main fast-forwarded from golden-hour) |

@@ -1,6 +1,6 @@
 # Design Brief — Khalil Alblushi Portfolio
 
-**Iteration 12** · Status: golden hour, logo and quality pass ready; launch awaits approval · 2026-10-28
+**Live** · Golden hour, the lens and the "k." logo · 2026-10-29
 
 ---
 
