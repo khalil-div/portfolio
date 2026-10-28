@@ -6,6 +6,7 @@ import { LocalTime } from "@/components/local-time";
 import { NavTools } from "@/components/nav-tools";
 import { Scene } from "@/components/process-scenes";
 import { ProcessStory } from "@/components/process-story";
+import { Sky } from "@/components/sky";
 import { OrderDemo, ShowcaseProvider, StoryRail } from "@/components/showcase";
 import { GovCase, MatchaCase, NextCase } from "@/components/work";
 import { isLocale } from "@/lib/i18n";
@@ -39,6 +40,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <a className="skip-link" href="#main">
         {t.skip}
       </a>
+      <Sky />
       <header className="nav">
         <nav className="container nav-inner">
           <Link href={`/${lang}`} className="brand" aria-label={t.nav.home}>

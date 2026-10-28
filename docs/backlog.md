@@ -12,9 +12,9 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 4 | X-Ray inspector: live HUD, hover measuring, spacing rulers, X / Esc shortcuts, first-visit hint | ✅ Approved |
 | 5 | Polish: contact + footer, share previews, SEO, accessibility, performance | ✅ Approved |
 | 6 | Launch on Vercel: https://khalil-alblushi.vercel.app | ✅ Live |
-| 7 | Clean slate: remove X-Ray completely | ✅ Ready for review |
-| 8 | Golden hour I: living sky, Hajar mountains, scroll = a day in Muscat, real-time opening, cards catch the light | ⏳ Next |
-| 9 | Golden hour II: night finale in Contact (stars, moon, city lights) | |
+| 7 | Clean slate: remove X-Ray completely | ✅ Done |
+| 8 | Golden hour I: living sky, Hajar mountains, scroll = a day in Muscat, real-time opening, cards catch the light | ✅ Ready for review |
+| 9 | Golden hour II: night finale in Contact (stars, moon, city lights) | ⏳ Next |
 | 10 | The lens: magnifier in the hero demo shows the sketch underneath | |
 | 11 | Signature: name drawn in Arabic, turns into English (first visit, < 1.5 s) | |
 | 12 | Quality pass, new share images, launch | |
@@ -59,3 +59,6 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 2026-10-28 | X-Ray removed: a separate mode that was uncomfortable to look at ("I want to switch back"). Code stays in git history |
 | 2026-10-28 | New direction: Golden hour in Muscat (atmosphere) + the lens (hidden delight) + signature intro |
 | 2026-10-28 | New work happens on the `golden-hour` branch with Vercel preview links; main (live) changes only after approval |
+| 2026-10-28 | The sun follows Muscat's real path: rises on the right (east), sets on the left (west), heights measured from the mountains' horizon |
+| 2026-10-28 | Opening sky = real Muscat time; Work carries it to morning by the shortest way round the clock (evening visitors see a sunrise) |
+| 2026-10-28 | `?hour=21` previews any time of day |

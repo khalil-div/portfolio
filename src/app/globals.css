@@ -15,7 +15,10 @@
   --accent: #ff4f17;
   --accent-ink: #c73a0b;
   --on-accent: #0f0f10;
-  --shadow: 0 1px 1px rgb(15 15 16 / 4%), 0 24px 48px -24px rgb(15 15 16 / 22%);
+  /* Shadows fall away from the sun (see .sky); --light-x is -1 … 1. */
+  --shadow: 0 1px 1px rgb(15 15 16 / 4%), calc(var(--light-x, 0) * -22px) 24px 48px -24px rgb(15 15 16 / 22%);
+  --light-tint: color-mix(in srgb, #ffffff, #ff9a5a calc(var(--light-warm, 0) * 100%));
+  --sheen: 55%;
   --grain-opacity: 0.045;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -42,7 +45,8 @@
   --accent: #ff5a24;
   --accent-ink: #ff7b4f;
   --on-accent: #0b0b0c;
-  --shadow: 0 1px 0 rgb(255 255 255 / 4%) inset, 0 30px 60px -30px rgb(0 0 0 / 70%);
+  --shadow: 0 1px 0 rgb(255 255 255 / 4%) inset, calc(var(--light-x, 0) * -26px) 30px 60px -30px rgb(0 0 0 / 70%);
+  --sheen: 9%;
   --grain-opacity: 0.06;
   color-scheme: dark;
 }
@@ -155,7 +159,7 @@ body::before {
   inset-inline: 0;
   z-index: 50;
   height: 72px;
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
   backdrop-filter: blur(16px) saturate(1.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
@@ -2716,6 +2720,253 @@ html.lenis body {
 
 /* Spacing rulers on section padding */
 
+
+/* ───────────────────────── Sky ─────────────────────────
+   Golden hour in Muscat. <Sky /> writes the colours and the sun's place
+   for the current scroll position; this paints them. */
+
+.sky {
+  --sky-top: var(--bg);
+  --sky-mid: var(--bg);
+  --sky-horizon: var(--bg);
+  --sky-glow: transparent;
+  --sun-x: 0.7;
+  --sun-up: 0.6;
+  --glow-x: 0.7;
+  --glow-up: 0.6;
+  /* Heights are measured from the mountains' horizon, so the sun meets
+     the ridges at sunset on any screen shape. */
+  --ridges: clamp(96px, min(24vh, 12.5vw), 300px);
+  --horizon: calc(100vh - var(--ridges) * 0.62);
+  --zenith: 13vh;
+  --ridge-ink: #2b2420;
+  --ridge-line: #2b2420;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--sky-top) 0%, var(--sky-mid) 58%, var(--sky-horizon) 100%);
+  opacity: 0;
+  transition: opacity 1400ms var(--ease);
+}
+
+/* The lights come up once the real Muscat time is known. */
+.sky[data-ready] {
+  opacity: 1;
+}
+
+:root[data-theme="dark"] .sky {
+  --ridge-ink: #000;
+  --ridge-line: #f2f1ec;
+}
+
+main,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+.sky-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    70vmax 50vmax at calc(var(--glow-x) * 100%)
+      calc(var(--horizon) - var(--glow-up) * (var(--horizon) - var(--zenith))),
+    var(--sky-glow),
+    transparent 70%
+  );
+}
+
+.sky-sun {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--sun-core, #fff6dc) 0 42%, transparent 72%);
+  box-shadow: 0 0 70px 18px color-mix(in srgb, var(--sun-core, #fff6dc) 28%, transparent);
+  opacity: var(--sun-o, 0);
+  transform: translate(
+    calc(var(--sun-x) * 100vw),
+    calc(var(--horizon) - var(--sun-up) * (var(--horizon) - var(--zenith)))
+  );
+}
+
+.sky-moon {
+  position: absolute;
+  top: 15%;
+  left: 76%;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  box-shadow: inset 12px -5px 0 0 #8e97ba;
+  opacity: var(--moon-o, 0);
+  transform: rotate(-18deg);
+}
+
+:root[data-theme="dark"] .sky-moon {
+  box-shadow:
+    inset 12px -5px 0 0 #f2efe6,
+    0 0 40px -6px rgb(242 239 230 / 35%);
+}
+
+.sky-stars {
+  position: absolute;
+  inset: 0 0 25% 0;
+  display: none;
+  opacity: var(--stars-o, 0);
+  background-image:
+    radial-gradient(1.2px 1.2px at 32.4% 15.1%, rgb(255 255 255 / 0.79), transparent),
+    radial-gradient(1.2px 1.2px at 7.2% 53.6%, rgb(255 255 255 / 0.66), transparent),
+    radial-gradient(1.2px 1.2px at 5.8% 50.7%, rgb(255 255 255 / 0.52), transparent),
+    radial-gradient(1.2px 1.2px at 43.4% 7.0%, rgb(255 255 255 / 0.54), transparent),
+    radial-gradient(1.2px 1.2px at 42.5% 82.7%, rgb(255 255 255 / 0.56), transparent),
+    radial-gradient(1.2px 1.2px at 22.3% 62.7%, rgb(255 255 255 / 0.93), transparent),
+    radial-gradient(1.2px 1.2px at 57.7% 39.7%, rgb(255 255 255 / 0.94), transparent),
+    radial-gradient(1.2px 1.2px at 4.7% 85.8%, rgb(255 255 255 / 0.63), transparent),
+    radial-gradient(1.2px 1.2px at 14.4% 11.8%, rgb(255 255 255 / 0.64), transparent),
+    radial-gradient(1.2px 1.2px at 81.6% 18.1%, rgb(255 255 255 / 0.76), transparent),
+    radial-gradient(1.2px 1.2px at 63.9% 37.2%, rgb(255 255 255 / 0.75), transparent),
+    radial-gradient(1.2px 1.2px at 6.3% 6.0%, rgb(255 255 255 / 0.59), transparent),
+    radial-gradient(1.2px 1.2px at 68.0% 42.8%, rgb(255 255 255 / 0.64), transparent),
+    radial-gradient(1.2px 1.2px at 58.6% 45.3%, rgb(255 255 255 / 0.63), transparent);
+  background-size: 520px 360px;
+}
+
+.sky-stars::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.6px 1.6px at 79.4% 69.9%, rgb(255 255 255 / 0.70), transparent),
+    radial-gradient(1.6px 1.6px at 57.4% 52.5%, rgb(255 255 255 / 0.95), transparent),
+    radial-gradient(1.6px 1.6px at 72.9% 28.8%, rgb(255 255 255 / 0.99), transparent),
+    radial-gradient(1.6px 1.6px at 11.8% 41.8%, rgb(255 255 255 / 0.90), transparent),
+    radial-gradient(1.6px 1.6px at 15.2% 48.9%, rgb(255 255 255 / 0.62), transparent),
+    radial-gradient(1.6px 1.6px at 66.8% 76.5%, rgb(255 255 255 / 0.83), transparent),
+    radial-gradient(1.6px 1.6px at 87.5% 31.4%, rgb(255 255 255 / 0.88), transparent),
+    radial-gradient(1.6px 1.6px at 59.4% 58.0%, rgb(255 255 255 / 0.78), transparent),
+    radial-gradient(1.6px 1.6px at 84.0% 94.5%, rgb(255 255 255 / 0.79), transparent),
+    radial-gradient(1.6px 1.6px at 66.4% 6.1%, rgb(255 255 255 / 0.88), transparent);
+  background-size: 760px 480px;
+  animation: twinkle 4.5s var(--ease-in-out) infinite alternate;
+}
+
+:root[data-theme="dark"] .sky-stars {
+  display: block;
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 0.35;
+  }
+}
+
+/* The Hajar mountains: three ridges, nearer ones darker and slower. */
+.sky-ridges {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  width: 100%;
+  /* Tracks the drawing's 8:1 shape so wide screens never crop the peaks. */
+  height: var(--ridges);
+}
+
+.ridge {
+  transform: translateY(calc(var(--depth, 0) * var(--rise)));
+}
+
+.ridge-far {
+  --rise: 10px;
+}
+
+.ridge-mid {
+  --rise: 22px;
+}
+
+.ridge-near {
+  --rise: 40px;
+}
+
+.ridge-fill {
+  fill: color-mix(in srgb, var(--sky-horizon) var(--keep), var(--ridge-ink));
+}
+
+.ridge-far .ridge-fill {
+  --keep: 97%;
+}
+
+.ridge-mid .ridge-fill {
+  --keep: 95%;
+}
+
+.ridge-near .ridge-fill {
+  --keep: 92%;
+}
+
+:root[data-theme="dark"] .ridge-far .ridge-fill {
+  --keep: 82%;
+}
+
+:root[data-theme="dark"] .ridge-mid .ridge-fill {
+  --keep: 66%;
+}
+
+:root[data-theme="dark"] .ridge-near .ridge-fill {
+  --keep: 45%;
+}
+
+/* Fine line art along each crest; at sunset the nearest catches the sun. */
+.ridge-line {
+  fill: none;
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke: color-mix(in srgb, var(--ridge-line) var(--line), transparent);
+}
+
+.ridge-far .ridge-line {
+  --line: 12%;
+}
+
+.ridge-mid .ridge-line {
+  --line: 18%;
+}
+
+.ridge-near .ridge-line {
+  --line: 24%;
+  stroke: color-mix(
+    in srgb,
+    var(--sun-core, #fff) calc(var(--warmth, 0) * 70%),
+    color-mix(in srgb, var(--ridge-line) var(--line), transparent)
+  );
+}
+
+:root[data-theme="dark"] .ridge-line {
+  --line: 9%;
+}
+
+/* Cards catch the light: a soft sheen on the sun's side. */
+.order-card,
+.scene,
+.diagram-card,
+.contact-mail,
+.phone {
+  background-image: radial-gradient(
+    140% 70% at calc(50% + var(--light-x, 0) * 55%) -12%,
+    color-mix(in srgb, var(--light-tint) calc(var(--light-on, 0) * var(--sheen)), transparent),
+    transparent 60%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-stars::after {
+    animation: none;
+  }
+}
 
 /* ───────────────────────── Transitions ─────────────────────────
    Language: cross-document fade. Theme: circle from the button. */
