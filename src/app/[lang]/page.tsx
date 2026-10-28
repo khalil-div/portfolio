@@ -115,7 +115,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </div>
             </div>
 
-            <div className="fade-up" style={{ animationDelay: "260ms" }}>
+            <div className="hero-demo fade-up" style={{ animationDelay: "260ms" }}>
               <OrderDemo lang={lang} t={t.demo} />
             </div>
           </div>

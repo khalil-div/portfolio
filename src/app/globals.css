@@ -558,55 +558,89 @@ body::before {
   transform: scaleX(1);
 }
 
-/* Phones: a poster headline (each sentence in two balanced lines, almost
-   twice the size), a thumb-sized call to action, and the live card rising
-   into view on the first screen. Laptops keep the one-line headline. */
+/* Phones: one cinematic frame, like the laptop's. The status line, the
+   headline and the live café card, standing in front of the mountains,
+   fill the first screen; the call to action and introduction follow. */
 @media (max-width: 639px) {
+  :root {
+    --ridges: clamp(150px, 26svh, 230px);
+  }
+
   .hero-grid {
-    gap: 36px;
-    padding-block: 26px 24px;
-    align-items: start;
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding-block: 16px 36px;
+    text-align: center;
+  }
+
+  /* Its children join the frame directly, so they can be re-ordered. */
+  .hero-copy {
+    display: contents;
   }
 
   .hero-meta {
-    margin-bottom: 22px;
+    order: 1;
+    justify-content: center;
+    margin-bottom: 12px;
   }
 
-  .hero-title,
-  :lang(ar) .hero-title {
-    font-size: clamp(2.5rem, 16.5cqi, 4.25rem);
-    white-space: normal;
-    margin-bottom: 22px;
+  .hero-title {
+    order: 2;
+    margin-bottom: 14px;
   }
 
-  .title-line > span {
-    display: block;
-    text-wrap: balance;
-  }
-
-  .hero-intro {
-    font-size: 1rem;
-    margin-bottom: 26px;
+  .hero-demo {
+    order: 3;
+    width: 100%;
+    text-align: start; /* the frame is centred; the card inside is not */
+    animation-name: rise-in;
+    animation-duration: 1100ms;
   }
 
   .hero-ctas {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
+    order: 4;
+    justify-content: center;
+    margin-top: 22px;
   }
 
-  .hero-ctas .btn-primary {
-    justify-content: space-between;
-    height: 56px;
-    padding-inline: 24px 18px;
+  .hero-intro {
+    order: 5;
+    margin: 30px auto 0;
+    max-width: 30em;
   }
 
-  .hero-ctas .btn-text {
-    align-self: center;
+  /* A smaller card that floats gently, like it is standing in the scene. */
+  .stage {
+    width: min(100%, 300px);
+    padding-top: 40px;
+    animation: float 7s var(--ease-in-out) 1.4s infinite alternate;
   }
 
   .product-visual {
-    height: 118px;
+    height: 104px;
+  }
+
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(48px) scale(0.96);
+  }
+}
+
+@keyframes float {
+  to {
+    translate: 0 -7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    animation: none;
   }
 }
 

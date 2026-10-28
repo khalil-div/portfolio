@@ -33,7 +33,9 @@ export function Sky() {
     let lastLight = "";
 
     // Scroll positions where the clock reaches each part of the story.
+    let ridges = 0; // the mountain band's height, measured: CSS sets it per screen size
     const measure = () => {
+      ridges = sky.querySelector(".ridges-back")?.getBoundingClientRect().height ?? 0;
       const vh = innerHeight;
       const top = (el: Element) => el.getBoundingClientRect().top + scrollY;
       const work = document.getElementById("work");
@@ -112,8 +114,7 @@ export function Sky() {
       // Heights are measured from the mountains' horizon (see .sky in CSS).
       const vw = innerWidth;
       const vh = innerHeight;
-      const ridges = Math.min(300, Math.max(96, Math.min(vh * 0.24, vw * 0.125)));
-      const horizon = vh - ridges * 0.62;
+      const horizon = vh - (ridges || Math.min(300, Math.max(96, Math.min(vh * 0.24, vw * 0.125)))) * 0.62;
       const zenith = vh * 0.13;
       const place = (x: number, up: number) =>
         `translate(${(x * vw).toFixed(1)}px, ${(horizon - up * (horizon - zenith)).toFixed(1)}px)`;
