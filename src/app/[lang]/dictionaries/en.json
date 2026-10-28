@@ -1,0 +1,211 @@
+{
+  "meta": {
+    "title": "Khalil Alblushi — Software Engineer, Muscat",
+    "description": "I design, build and launch complete websites and web apps, from the first sketch to the server it runs on."
+  },
+  "nav": {
+    "home": "Khalil Alblushi, home",
+    "work": "Work",
+    "process": "Process",
+    "contact": "Contact",
+    "xray": "See how it's built",
+    "xrayShort": "X-Ray",
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme",
+    "language": "عربي",
+    "languageLabel": "اقرأ الموقع بالعربية",
+    "xrayNudge": "Curious how it's built? Flip the switch.",
+    "xrayKeyHint": "or press"
+  },
+  "hero": {
+    "status": "Available for new projects",
+    "location": "Muscat, Oman",
+    "line1": "You bring the idea.",
+    "line2": "I build the rest.",
+    "intro": "I'm Khalil, a software engineer in Muscat. I design, build and launch complete websites and web apps — from the first sketch to the server it runs on.",
+    "ctaPrimary": "Start a project",
+    "ctaSecondary": "See the work",
+    "whatsappMessage": "Hi Khalil, I have a project idea I'd like to talk about."
+  },
+  "demo": {
+    "label": "Live example: an online ordering page",
+    "shop": "Dar Karak",
+    "shopMeta": "Open now · Al Khuwair",
+    "product": "Karak Tea",
+    "notes": "Cardamom, saffron, slow-brewed",
+    "size": "Size",
+    "sizes": ["S", "M", "L"],
+    "quantity": "Qty",
+    "total": "Total",
+    "currency": "OMR",
+    "add": "Add to order",
+    "added": "Order sent",
+    "toastApp": "Orders",
+    "toastTitle": "New order #1042",
+    "toastBody": "2 × Karak Tea (L)",
+    "now": "now",
+    "layersTitle": "Under the hood",
+    "layers": [
+      { "name": "Interface", "tech": "Next.js · React", "event": "<OrderCard /> setQty(2)" },
+      { "name": "Logic", "tech": "API route", "event": "POST /api/orders → 201" },
+      { "name": "Database", "tech": "PostgreSQL", "event": "INSERT INTO orders" },
+      { "name": "Server", "tech": "Vercel · WhatsApp", "event": "notify(shop) ✓" }
+    ]
+  },
+  "chapters": [
+    { "label": "Idea", "xray": "Requirements" },
+    { "label": "Design", "xray": "Interface" },
+    { "label": "Build", "xray": "API · Database" },
+    { "label": "Launch", "xray": "Server · Deploy" }
+  ],
+  "process": {
+    "eyebrow": "How we'll work",
+    "line1": "Four steps.",
+    "line2": "No surprises.",
+    "intro": "You always know where your project is, what comes next, and what it costs. Here's Dar Karak again, from the first message to the first real order.",
+    "youGet": "You get",
+    "yourPart": "Your part",
+    "stack": "Under the hood",
+    "steps": [
+      {
+        "title": "We talk it through",
+        "body": "Tell me about your business in your own words: on WhatsApp, on a call, or over karak. I ask the questions that matter, then send you a short, clear plan with a quote for your project.",
+        "deliverable": "A clear plan with a quote for your project",
+        "yourPart": "Tell me your idea",
+        "stack": "Requirements · user stories · data model · estimate"
+      },
+      {
+        "title": "You see it before it's built",
+        "body": "I design every screen first. You try it on your own phone, ask for changes, and approve it. Nothing gets built until you love how it looks.",
+        "deliverable": "A clickable design of every screen",
+        "yourPart": "Try it and tell me what to change",
+        "stack": "Wireframes · design system · prototype · RTL + LTR"
+      },
+      {
+        "title": "I build it properly",
+        "body": "Fast, secure, and in Arabic and English from day one. You get a private link to follow real progress as it's built, not just promises.",
+        "deliverable": "A private link to follow progress",
+        "yourPart": "Check in whenever you like",
+        "stack": "Next.js · TypeScript · PostgreSQL · REST API · tests"
+      },
+      {
+        "title": "It goes live, and I stay",
+        "body": "I set up the domain, the hosting, and everything in between. Your customers start using it, and I'm still here for fixes, questions, and your next idea.",
+        "deliverable": "A live website, plus support after launch",
+        "yourPart": "Share it with your customers",
+        "stack": "Vercel · domain + SSL · CDN · monitoring · backups"
+      }
+    ],
+    "chat": {
+      "initials": "DK",
+      "status": "online",
+      "messages": [
+        { "from": "them", "text": "Salam Khalil! I want customers to order karak from their phones." },
+        { "from": "me", "text": "Love it. Pickup from the shop, or delivery too?" },
+        { "from": "them", "text": "Pickup for now. And it has to be Arabic and English." },
+        { "from": "me", "text": "Perfect. Here's the plan:" }
+      ],
+      "plan": "Plan · Dar Karak",
+      "planItems": ["Menu with sizes and prices", "Order from any phone", "Every order reaches the shop instantly", "Arabic + English"],
+      "planFoot": "Plan agreed"
+    },
+    "design": {
+      "file": "Dar Karak · Design",
+      "version": "v3",
+      "menu": "Menu",
+      "items": [
+        { "name": "Karak Tea", "price": 0.3 },
+        { "name": "Saffron Karak", "price": 0.4 },
+        { "name": "Zaatar Paratha", "price": 0.5 }
+      ],
+      "order": "View order",
+      "comment": "Love it. Approved!",
+      "approved": "Approved"
+    },
+    "build": {
+      "branch": "main",
+      "checks": ["Orders save to the database", "Arabic + English", "Fast on any phone", "The shop gets notified"],
+      "preview": "Preview updated",
+      "when": "just now"
+    },
+    "launch": {
+      "url": "darkarak.om",
+      "live": "Live",
+      "orders": "Orders today",
+      "visitors": "Visitors",
+      "toastTitle": "New order #1088",
+      "toastBody": "3 × Saffron Karak"
+    }
+  },
+  "work": {
+    "eyebrow": "Selected work",
+    "line1": "Real projects.",
+    "line2": "Real people using them.",
+    "intro": "A café's ordering site in Muscat and a platform for a government entity. Very different clients, the same care.",
+    "role": "My role",
+    "stack": "Built with",
+    "visit": "Visit the live site",
+    "matcha": {
+      "kind": "Freelance · Café · Muscat",
+      "name": "Matcha Muse",
+      "summary": "A matcha café wanted customers to order from their phones without downloading an app. I designed, built and launched the whole site, in Arabic and English.",
+      "points": [
+        "Arabic and English, each designed on its own, not just translated",
+        "Pick a flavour, choose the milk, review the bag",
+        "Orders arrive on the shop's WhatsApp, ready to confirm"
+      ],
+      "role": "Design · Build · Launch",
+      "shotLabel": "The Matcha Muse website on a laptop and a phone"
+    },
+    "gov": {
+      "kind": "Full-time · Government entity · Oman",
+      "name": "One platform, many departments",
+      "summary": "I work on a platform used by several departments of a government entity. Each department has its own space and its own data, and everything runs on the entity's own servers, with no internet connection.",
+      "points": [
+        "Many departments share one platform, with their data kept apart",
+        "Runs fully offline on internal servers",
+        "Staff sign in with the accounts they already have"
+      ],
+      "role": "Programmer · since 2025",
+      "note": "This work is private, so it's shown as a diagram instead of screenshots.",
+      "diagram": {
+        "network": "Internal network · no internet",
+        "tenants": [
+          "Department A",
+          "Department B",
+          "Department C"
+        ],
+      "tenantShort": ["A", "B", "C"],
+        "platform": "One platform",
+        "signIn": "Staff accounts",
+        "data": "Separate data for each department"
+      }
+    },
+    "next": {
+      "title": "Your project could be next.",
+      "body": "More case studies are on the way. In the meantime, tell me what you're building.",
+      "cta": "Start a project"
+    }
+  },
+  "skip": "Skip to content",
+  "contact": {
+    "eyebrow": "Contact",
+    "line1": "Got an idea?",
+    "line2": "Let's talk about it.",
+    "intro": "Tell me about it on WhatsApp or by email, in Arabic or English. No technical words needed.",
+    "whatsappTitle": "WhatsApp",
+    "whatsappBody": "The quickest way to reach me.",
+    "whatsappCta": "Start a chat",
+    "emailTitle": "Email",
+    "copy": "Copy",
+    "copied": "Copied",
+    "local": "In Muscat it's",
+    "elsewhere": "Also on"
+  },
+  "footer": {
+    "built": "Designed and built by Khalil, in Muscat.",
+    "hint": "to see how it's built",
+    "press": "Press",
+    "top": "Back to top"
+  }
+}
