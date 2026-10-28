@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Khalil Alblushi — Portfolio
 
-## Getting Started
+Bilingual (English / Arabic) portfolio. "From Idea to Launch" on the surface, "X-Ray mode" underneath.
 
-First, run the development server:
+## Run it
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. You'll be redirected to `/en` or `/ar` based on your browser language.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Where things live
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Path | What |
+|---|---|
+| `docs/design-brief.md` | The design system: concept, colors, fonts, motion |
+| `docs/backlog.md` | Iterations and decision log |
+| `src/app/[lang]/dictionaries/` | All text, `en.json` and `ar.json` |
+| `src/app/globals.css` | Design tokens, themes, X-Ray, transitions |
+| `src/components/showcase.tsx` | The live hero demo and story rail |
+| `src/components/process-scenes.tsx` | The four Process scenes (chat, design, code, launch) |
+| `src/components/process-story.tsx` | Scroll engine for the Process section |
+| `src/components/work.tsx` | Work case studies and the government diagram |
+| `src/assets/work/` | Project screenshots |
+| `src/components/xray-inspector.tsx` | X-Ray HUD, measuring box, keyboard shortcuts |
+| `src/components/nav-tools.tsx` | X-Ray, language and theme switches |
+| `src/components/contact.tsx` | Contact section and footer |
+| `src/lib/site.ts` | Site address, email, WhatsApp, social links |
+| `scripts/og/` | Share-preview images (template + renderer) |
+| `src/proxy.ts` | Picks the visitor's language |
 
-## Learn More
+## Dev tip
+If a CSS change doesn't show up, stop the server, delete `.next`, and run `npm run dev` again (Turbopack sometimes caches the stylesheet).
 
-To learn more about Next.js, take a look at the following resources:
+## Site address
+Until the custom domain exists, links in search results and share previews use Vercel's production address automatically. Once you have a domain, set `NEXT_PUBLIC_SITE_URL` (for example `https://khalil.om`) in Vercel's environment variables.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Share previews
+The images shown when the site is shared (WhatsApp, LinkedIn, X) live in `public/og/`. To change them, edit `scripts/og/template.html` and run:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+node --experimental-websocket scripts/og/render.mjs
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+(Needs Google Chrome. On Node 22+ the flag isn't needed.)

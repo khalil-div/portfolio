@@ -5,26 +5,46 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 
 | # | Iteration | Status |
 |---|-----------|--------|
-| 0 | Design brief + visual style board | ✅ Ready for review |
-| 1 | Prototype — hero, language switch, theme switch, first X-Ray | ⏳ Next |
-| 2 | Story — all four chapters with scroll animation | |
-| 3 | Work — Matcha Muse + government platform case studies | |
-| 4 | X-Ray mode across the whole site | |
-| 5 | Polish — contact, performance, mobile, accessibility, SEO | |
-| 6 | Launch on Vercel | |
+| 0 | Design brief + style board | ✅ Reviewed (palette and serif accent rejected → redesigned) |
+| 1 | Prototype: hero, live demo, language switch, theme switch, X-Ray | ✅ Approved |
+| 2 | Process: four chapters scrubbed by scroll (GSAP ScrollTrigger + Lenis) | ✅ Approved (promises removed) |
+| 3 | Work: Matcha Muse + government platform case studies | ✅ Approved |
+| 4 | X-Ray inspector: live HUD, hover measuring, spacing rulers, X / Esc shortcuts, first-visit hint | ✅ Approved |
+| 5 | Polish: contact + footer, share previews, SEO, accessibility, performance | ✅ Ready for review |
+| 6 | Launch on Vercel | ⏳ Next |
 
 ## Later
 - Add new projects as they're finished
 - Connect a custom domain
 - "How I built this portfolio" case study
+- Review all wording in both languages (Khalil)
+- Confirm the Matcha Muse story and the government platform description are OK to publish (Khalil)
 
 ## Decision log
 | Date | Decision |
 |------|----------|
 | 2026-10-27 | Main goal: freelance clients (non-technical + project-based company work) |
 | 2026-10-27 | Concept: "From Idea to Launch" surface + "X-Ray mode" underneath |
-| 2026-10-27 | Arabic and English equal; language follows the visitor's browser |
-| 2026-10-27 | Light and dark equal; follows the visitor's device |
+| 2026-10-27 | Arabic and English equal; language follows a saved choice, then the browser |
+| 2026-10-27 | Light and dark equal; follows the device until the visitor picks one |
 | 2026-10-27 | No photo, no phone number shown; WhatsApp button + email |
 | 2026-10-27 | Government project shown as "a government entity", diagrams only |
 | 2026-10-27 | Deploy on Vercel; domain later |
+| 2026-10-27 | Matcha green palette rejected → monochrome + signal orange; X-Ray = blueprint / scope |
+| 2026-10-27 | Serif accent fonts (Instrument Serif / Amiri) rejected → Readex Pro only, emphasis by contrast |
+| 2026-10-27 | Headline: "You bring the idea. I build the rest." / «الفكرة منك، والباقي عليّ.» |
+| 2026-10-27 | Hero demo: fictional café "Dar Karak" plays the four chapters live |
+| 2026-10-27 | Language switch is a full navigation (keeps theme + X-Ray reliable) with a cross-document fade |
+| 2026-10-28 | Iteration 1 approved |
+| 2026-10-28 | Process = the same Dar Karak project told in depth: chat → design → code → live dashboard |
+| 2026-10-28 | Scroll animation is scrubbed (moves with the reader), not timed; sticky stage on desktop, inline scenes on phones |
+| 2026-10-28 | Smooth wheel scrolling (Lenis); touch stays native; both off with reduced motion |
+| 2026-10-28 | No fixed price or timelines anywhere: they vary by project and availability. "Time" → "Your part" |
+| 2026-10-28 | Work comes right after the hero (proof first); Process follows |
+| 2026-10-28 | Matcha Muse shown with real screenshots: laptop in the page's language, phone in the other |
+| 2026-10-28 | Government platform shown as a live diagram (departments → sign-in → platform → separate data), no names or screenshots |
+| 2026-10-28 | X-Ray gets a one-time hint (after the hero demo plays once) so clients discover it |
+| 2026-10-28 | X toggles X-Ray, Esc exits; uses the physical key so it works on Arabic keyboards |
+| 2026-10-28 | Contact: WhatsApp (primary) + email with copy button; GitHub and LinkedIn; no reply-time promise |
+| 2026-10-28 | Share previews rendered from HTML with real fonts (Arabic shaping stays correct), one per language |
+| 2026-10-28 | Chat scene animates with transforms only, so scrolling causes zero layout shift |
