@@ -51,8 +51,9 @@ export function Sky() {
         const start = top(step) - vh * 0.5;
         next.push([start, from + offset], [start + step.offsetHeight, to + offset]);
       });
+      // Night falls slowly, over almost two screens of scrolling.
       if (contact) {
-        next.push([top(contact) - vh * 0.9, STORY.chapters[3][1] + offset], [top(contact) - vh * 0.1, STORY.night + offset]);
+        next.push([top(contact) - vh * 1.4, STORY.chapters[3][1] + offset], [top(contact) + vh * 0.3, STORY.night + offset]);
       }
       knots = next.sort((a, b) => a[0] - b[0]);
     };
@@ -80,29 +81,34 @@ export function Sky() {
       s.setProperty("--sky-mid", c.mid);
       s.setProperty("--sky-horizon", c.horizon);
       s.setProperty("--sky-glow", c.glow);
-      s.setProperty("--sun-x", b.sunX.toFixed(4));
-      s.setProperty("--sun-up", b.sunUp.toFixed(4));
-      s.setProperty("--sun-o", b.sun.toFixed(3));
+      for (const [name, body] of [
+        ["sun", b.sun],
+        ["moon", b.moon],
+      ] as const) {
+        s.setProperty(`--${name}-x`, body.x.toFixed(4));
+        s.setProperty(`--${name}-up`, body.up.toFixed(4));
+        s.setProperty(`--${name}-seen`, body.seen.toFixed(3));
+        s.setProperty(`--${name}-o`, body.disc.toFixed(3));
+      }
       s.setProperty("--sun-core", sunCore(b.warmth));
-      s.setProperty("--moon-o", b.moon.toFixed(3));
       s.setProperty("--stars-o", b.stars.toFixed(3));
       s.setProperty("--warmth", Math.min(1, b.warmth).toFixed(3));
-      // At night the halo belongs to the moon, high on the right.
-      s.setProperty("--glow-x", (b.sun > 0 ? b.sunX : 0.78).toFixed(4));
-      s.setProperty("--glow-up", (b.sun > 0 ? b.sunUp : 0.92).toFixed(4));
       const max = root.scrollHeight - innerHeight;
       s.setProperty("--depth", (max > 0 ? scrollY / max : 0).toFixed(4));
 
       // Cards cast shadows away from the sun. Stepped, so the whole page
       // restyles only a few dozen times per scroll instead of every frame.
-      const lx = b.sun > 0 ? Math.round((b.sunX - 0.5) * 2 * 10) / 10 : 0;
-      const warm = Math.round(Math.min(1, b.warmth) * 5) / 5;
-      const light = `${lx}|${warm}|${b.sun > 0 ? 1 : 0}`;
+      // Fine steps (about 1px of shadow each) so the change reads as a glide.
+      const lit = b.sun.seen;
+      const lx = Math.round((b.sun.x - 0.5) * 2 * lit * 20) / 20;
+      const warm = Math.round(Math.min(1, b.warmth) * 10) / 10;
+      const on = Math.round(lit * 10) / 10;
+      const light = `${lx}|${warm}|${on}`;
       if (light !== lastLight) {
         lastLight = light;
         root.style.setProperty("--light-x", String(lx));
         root.style.setProperty("--light-warm", String(warm));
-        root.style.setProperty("--light-on", b.sun > 0 ? "1" : "0");
+        root.style.setProperty("--light-on", String(on));
       }
     };
 
@@ -134,7 +140,8 @@ export function Sky() {
   return (
     <div ref={ref} className="sky" aria-hidden="true">
       <div className="sky-stars" />
-      <div className="sky-glow" />
+      <div className="sky-glow sky-glow-moon" />
+      <div className="sky-glow sky-glow-sun" />
       <div className="sky-moon" />
       <div className="sky-sun" />
       <svg className="sky-ridges" viewBox={HAJAR_VIEWBOX} preserveAspectRatio="xMidYMax slice">

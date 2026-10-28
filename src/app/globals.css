@@ -2732,10 +2732,11 @@ html.lenis body {
   --sky-glow: transparent;
   --sun-x: 0.7;
   --sun-up: 0.6;
-  --glow-x: 0.7;
-  --glow-up: 0.6;
-  /* Heights are measured from the mountains' horizon, so the sun meets
-     the ridges at sunset on any screen shape. */
+  --moon-x: 0.5;
+  --moon-up: 0;
+  --moon-glow: rgb(150 165 225 / 45%);
+  /* Heights are measured from the mountains' horizon, so the sun and moon
+     meet the ridges on any screen shape. */
   --ridges: clamp(96px, min(24vh, 12.5vw), 300px);
   --horizon: calc(100vh - var(--ridges) * 0.62);
   --zenith: 13vh;
@@ -2759,6 +2760,7 @@ html.lenis body {
 :root[data-theme="dark"] .sky {
   --ridge-ink: #000;
   --ridge-line: #f2f1ec;
+  --moon-glow: rgb(127 149 224 / 22%);
 }
 
 main,
@@ -2767,25 +2769,42 @@ main,
   z-index: 1;
 }
 
+/* Each glow travels with its body and fades with it, so day hands over
+   to night without anything jumping across the sky. */
 .sky-glow {
+  --at-x: calc(var(--x) * 100%);
+  --at-y: calc(var(--horizon) - var(--up) * (var(--horizon) - var(--zenith)));
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    70vmax 50vmax at calc(var(--glow-x) * 100%)
-      calc(var(--horizon) - var(--glow-up) * (var(--horizon) - var(--zenith))),
-    var(--sky-glow),
-    transparent 70%
-  );
+  background: radial-gradient(70vmax 50vmax at var(--at-x) var(--at-y), var(--color), transparent 70%);
 }
 
-.sky-sun {
+.sky-glow-sun {
+  --x: var(--sun-x);
+  --up: var(--sun-up);
+  --color: var(--sky-glow);
+  opacity: var(--sun-seen, 0);
+}
+
+.sky-glow-moon {
+  --x: var(--moon-x);
+  --up: var(--moon-up);
+  --color: var(--moon-glow);
+  opacity: var(--moon-seen, 0);
+}
+
+.sky-sun,
+.sky-moon {
   position: absolute;
   top: 0;
   left: 0;
+  border-radius: 50%;
+}
+
+.sky-sun {
   width: 46px;
   height: 46px;
   margin: -23px 0 0 -23px;
-  border-radius: 50%;
   background: radial-gradient(circle, var(--sun-core, #fff6dc) 0 42%, transparent 72%);
   box-shadow: 0 0 70px 18px color-mix(in srgb, var(--sun-core, #fff6dc) 28%, transparent);
   opacity: var(--sun-o, 0);
@@ -2796,21 +2815,24 @@ main,
 }
 
 .sky-moon {
-  position: absolute;
-  top: 15%;
-  left: 76%;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  box-shadow: inset 12px -5px 0 0 #8e97ba;
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  box-shadow: inset 10px -4px 0 0 #8e97ba;
   opacity: var(--moon-o, 0);
-  transform: rotate(-18deg);
+  /* Once it has climbed it goes soft-focus as well as faint. */
+  filter: blur(calc((1 - var(--moon-o, 0)) * 2.2px));
+  transform: translate(
+      calc(var(--moon-x) * 100vw),
+      calc(var(--horizon) - var(--moon-up) * (var(--horizon) - var(--zenith)))
+    )
+    rotate(-18deg);
 }
 
 :root[data-theme="dark"] .sky-moon {
   box-shadow:
-    inset 12px -5px 0 0 #f2efe6,
-    0 0 40px -6px rgb(242 239 230 / 35%);
+    inset 10px -4px 0 0 #f2efe6,
+    0 0 36px -6px rgb(242 239 230 / 35%);
 }
 
 .sky-stars {

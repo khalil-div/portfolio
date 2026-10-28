@@ -62,3 +62,4 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 2026-10-28 | The sun follows Muscat's real path: rises on the right (east), sets on the left (west), heights measured from the mountains' horizon |
 | 2026-10-28 | Opening sky = real Muscat time; Work carries it to morning by the shortest way round the clock (evening visitors see a sunrise) |
 | 2026-10-28 | `?hour=21` previews any time of day |
+| 2026-10-28 | Review: bodies behind small text felt too strong, and day↔night seemed to jump. Sun and moon now share one east→west arc with their own glows; discs are sharp only just above the ridges and dissolve as they climb; night falls over ~2 screens |

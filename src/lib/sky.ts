@@ -68,35 +68,45 @@ export function skyAt(t: number, theme: "light" | "dark"): SkyColors {
   return { top, mid, horizon, glow };
 }
 
-// Sun is up from dawn to dusk; the moon owns the rest.
+// The sun owns the day, the moon the night; both cross the same arc.
 const SUNRISE = 0.12;
 const SUNSET = 0.86;
+const NIGHT = 1 - (SUNSET - SUNRISE);
 
-export type Bodies = {
-  sunX: number; // 0 (left) … 1 (right), fraction of the screen
-  sunUp: number; // 0 on the horizon … 1 at its highest
-  sun: number; // visibility 0 … 1
-  moon: number;
-  stars: number;
-  warmth: number; // 0 neutral … 1 deep sunset orange
+export type Body = {
+  x: number; // 0 (left) … 1 (right), fraction of the screen
+  up: number; // 0 on the horizon … 1 at its highest
+  seen: number; // how much of its light is in the sky, 0 … 1
+  disc: number; // opacity of the disc itself
 };
 
-/* From Muscat the sea is to the north, so the sun rises on the right
-   (east) and sets on the left (west), arcing high over the city at noon. */
+export type Bodies = { sun: Body; moon: Body; stars: number; warmth: number };
+
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+/* From Muscat the sea is to the north, so the sun and moon rise on the
+   right (east) and set on the left (west). */
+const arc = (phase: number) => ({ x: 0.88 - phase * 0.76, up: Math.sin(Math.PI * phase) });
+
+/* Sharp only just above the mountains, where rising and setting are the
+   moments worth seeing (and the ridges hide half the disc). Higher up it
+   dissolves into light so it never sits as a bright object behind text.
+   `floor` is how much disc is left once it has climbed. */
+const disc = (up: number, seen: number, floor: number) => seen * (floor + (1 - floor) * (1 - smooth(clamp01((up - 0.05) / 0.15))));
+
 export function bodiesAt(t: number): Bodies {
   const x = wrap(t);
-  const day = Math.min(1, Math.max(0, (x - SUNRISE) / (SUNSET - SUNRISE)));
-  const up = x > SUNRISE - 0.03 && x < SUNSET + 0.03;
-  const height = Math.sin(Math.PI * day);
-  const nightness = up ? 0 : 1;
-  const edge = (from: number, to: number) => Math.min(1, Math.max(0, (x - from) / (to - from)));
-  const twilight = x < 0.5 ? 1 - edge(0.04, 0.12) : edge(0.88, 0.97);
+  const dayPhase = (x - SUNRISE) / (SUNSET - SUNRISE); // outside 0 … 1 at night
+  const nightPhase = wrap(x - SUNSET) / NIGHT; // past 1 during the day
+  const sun = arc(clamp01(dayPhase));
+  const moon = arc(clamp01(nightPhase));
+  // Full strength until the ridges cover it; the mountains do the fading.
+  const sunSeen = dayPhase > 0 && dayPhase < 1 ? Math.min(1, sun.up * 12) : 0;
+  const moonSeen = nightPhase < 1 ? Math.min(1, moon.up * 12) : 0;
   return {
-    sunX: 0.88 - day * 0.76,
-    sunUp: height,
-    sun: up ? Math.min(1, height * 4) : 0,
-    moon: Math.max(nightness, twilight),
-    stars: twilight,
+    sun: { ...sun, seen: sunSeen, disc: disc(sun.up, sunSeen, 0.12) },
+    moon: { ...moon, seen: moonSeen, disc: disc(moon.up, moonSeen, 0.22) },
+    stars: nightPhase < 1 ? Math.min(1, Math.sin(Math.PI * nightPhase) * 2.5) : 0,
     warmth: Math.max(0, 1 - Math.abs(x - 0.82) / 0.12) + Math.max(0, 1 - Math.abs(x - 0.13) / 0.08) * 0.6,
   };
 }
