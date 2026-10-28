@@ -32,7 +32,7 @@ The page is lit like a day passing in Muscat, with a fine line drawing of the Ha
 | Hero | The real time in Muscat (night visitors arrive under the night sky) |
 | Work | The sky moves forward to morning |
 | 00 Idea → 03 Launch | Morning → midday → late afternoon → sunset |
-| Contact + footer | Night: stars, moon, city lights at the foot of the mountains |
+| Contact + footer | Night: stars, the moon, Muscat's lights glittering in the valley under a warm haze; in dark mode, a rare shooting star. The page ends on this view, clear of text |
 
 Cards catch the light: their shadows and highlights follow the sun.
 

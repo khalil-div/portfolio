@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { HAJAR, HAJAR_VIEWBOX } from "@/lib/hajar";
+import { CITY, HAJAR, HAJAR_VIEWBOX } from "@/lib/hajar";
 import { bodiesAt, clockT, muscatT, nearest, skyAt, STORY } from "@/lib/sky";
 
 const RIDGES = ["far", "mid", "near"] as const;
@@ -92,6 +92,7 @@ export function Sky() {
       }
       s.setProperty("--sun-core", sunCore(b.warmth));
       s.setProperty("--stars-o", b.stars.toFixed(3));
+      s.setProperty("--lights", b.lights.toFixed(3));
       s.setProperty("--warmth", Math.min(1, b.warmth).toFixed(3));
       const max = root.scrollHeight - innerHeight;
       s.setProperty("--depth", (max > 0 ? scrollY / max : 0).toFixed(4));
@@ -144,11 +145,25 @@ export function Sky() {
       <div className="sky-glow sky-glow-sun" />
       <div className="sky-moon" />
       <div className="sky-sun" />
+      <div className="sky-meteor" />
+      <div className="sky-city-glow" />
       <svg className="sky-ridges" viewBox={HAJAR_VIEWBOX} preserveAspectRatio="xMidYMax slice">
         {RIDGES.map((name) => (
           <g key={name} className={`ridge ridge-${name}`}>
             <path className="ridge-fill" d={HAJAR[name].fill} />
             <path className="ridge-line" d={HAJAR[name].crest} />
+            {/* The city sits in the valley, in front of the middle ridge. */}
+            {name === "mid" && (
+              <g className="city">
+                {[0, 1, 2].map((group) => (
+                  <g key={group} className={`city-${group}`}>
+                    {CITY.filter((light) => light[3] === group).map(([x, y, r], i) => (
+                      <circle key={i} cx={x} cy={y} r={r} />
+                    ))}
+                  </g>
+                ))}
+              </g>
+            )}
           </g>
         ))}
       </svg>

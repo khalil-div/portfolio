@@ -34,6 +34,34 @@ RIDGES = {
     "near": ridge(37, 166, 0.48, 13, [(330, 22), (760, 14), (1180, 29), (1520, 12)]),
 }
 
+def crest_at(pts, x):
+    for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+        if x0 <= x <= x1:
+            return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
+    return pts[-1][1]
+
+def city(seed):
+    """Muscat at night, seen over the foothills: lights on the slopes below
+    the middle ridge, clustered in the valleys. The near ridge is drawn in
+    front, so some are hidden behind it. (x, y, r, group) in viewBox units;
+    `group` staggers the twinkle."""
+    rnd = random.Random(seed)
+    mid, near = RIDGES["mid"], RIDGES["near"]
+    lights = []
+    for cx, spread, count in [(120, 110, 30), (430, 150, 52), (820, 120, 36), (1180, 160, 56), (1500, 90, 26)]:
+        for _ in range(count):
+            x = rnd.gauss(cx, spread / 2)
+            if not 4 < x < W - 4:
+                continue
+            top = crest_at(mid, x) + 5
+            y = top + abs(rnd.gauss(0, 14))
+            if y > crest_at(near, x) + 2:  # fully behind the foothills
+                continue
+            lights.append((x, y, rnd.uniform(1.2, 2.2), rnd.randrange(3)))
+    return sorted(lights)
+
+CITY = city(53)
+
 def fmt(pts):
     return " ".join(f"{x:.0f} {y:.1f}" for x, y in pts)
 
@@ -51,5 +79,11 @@ for name, pts in RIDGES.items():
     out.append(f"    fill: \"{crest} L{W} {H} L0 {H} Z\",")
     out.append("  },")
 out.append("} as const;")
+out.append("")
+out.append("/** City lights: [x, y, radius, twinkle group]. */")
+out.append("export const CITY: [number, number, number, number][] = [")
+for x, y, r, g in CITY:
+    out.append(f"  [{x:.0f}, {y:.1f}, {r:.1f}, {g}],")
+out.append("];")
 open("src/lib/hajar.ts", "w").write("\n".join(out) + "\n")
-print({k: len(v) for k, v in RIDGES.items()})
+print({k: len(v) for k, v in RIDGES.items()}, "city", len(CITY))

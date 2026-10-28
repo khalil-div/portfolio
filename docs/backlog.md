@@ -13,9 +13,9 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 5 | Polish: contact + footer, share previews, SEO, accessibility, performance | ✅ Approved |
 | 6 | Launch on Vercel: https://khalil-alblushi.vercel.app | ✅ Live |
 | 7 | Clean slate: remove X-Ray completely | ✅ Done |
-| 8 | Golden hour I: living sky, Hajar mountains, scroll = a day in Muscat, real-time opening, cards catch the light | ✅ Ready for review |
-| 9 | Golden hour II: night finale in Contact (stars, moon, city lights) | ⏳ Next |
-| 10 | The lens: magnifier in the hero demo shows the sketch underneath | |
+| 8 | Golden hour I: living sky, Hajar mountains, scroll = a day in Muscat, real-time opening, cards catch the light | ✅ Approved |
+| 9 | Golden hour II: night finale (city lights in the valley, city glow, shooting star, ending shot) | ✅ Ready for review |
+| 10 | The lens: magnifier in the hero demo shows the sketch underneath | ⏳ Next |
 | 11 | Signature: name drawn in Arabic, turns into English (first visit, < 1.5 s) | |
 | 12 | Quality pass, new share images, launch | |
 
@@ -63,3 +63,5 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 2026-10-28 | Opening sky = real Muscat time; Work carries it to morning by the shortest way round the clock (evening visitors see a sunrise) |
 | 2026-10-28 | `?hour=21` previews any time of day |
 | 2026-10-28 | Review: bodies behind small text felt too strong, and day↔night seemed to jump. Sun and moon now share one east→west arc with their own glows; discs are sharp only just above the ridges and dissolve as they climb; night falls over ~2 screens |
+| 2026-10-28 | City lights sit in the valley between the middle and front ridges (some hidden by the foothills); they switch on as the sun nears the mountains |
+| 2026-10-28 | The page ends on an "ending shot": space below the footer so the city is never under text |

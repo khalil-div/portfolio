@@ -80,7 +80,7 @@ export type Body = {
   disc: number; // opacity of the disc itself
 };
 
-export type Bodies = { sun: Body; moon: Body; stars: number; warmth: number };
+export type Bodies = { sun: Body; moon: Body; stars: number; lights: number; warmth: number };
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
@@ -107,6 +107,8 @@ export function bodiesAt(t: number): Bodies {
     sun: { ...sun, seen: sunSeen, disc: disc(sun.up, sunSeen, 0.12) },
     moon: { ...moon, seen: moonSeen, disc: disc(moon.up, moonSeen, 0.22) },
     stars: nightPhase < 1 ? Math.min(1, Math.sin(Math.PI * nightPhase) * 2.5) : 0,
+    // The city switches on as the sun nears the mountains, off as it climbs.
+    lights: sunSeen > 0 ? 1 - smooth(clamp01(sun.up * 3.5)) : 1,
     warmth: Math.max(0, 1 - Math.abs(x - 0.82) / 0.12) + Math.max(0, 1 - Math.abs(x - 0.13) / 0.08) * 0.6,
   };
 }
