@@ -17,10 +17,8 @@ export function IntroPlayer() {
     const timers: ReturnType<typeof setTimeout>[] = [];
     const fly = () => {
       if (root.dataset.intro !== "on") return;
-      // Whichever logo form is showing, fly it onto its twin in the header.
-      const shown = (el: Element) => el.getClientRects().length > 0;
-      const logo = [...document.querySelectorAll<HTMLElement>(".intro-logo, .intro-wordmark")].find(shown);
-      const target = [...document.querySelectorAll<HTMLElement>(".nav .brand-mark, .nav .brand-wordmark")].find(shown);
+      const logo = document.querySelector<SVGElement>(".intro-logo");
+      const target = document.querySelector<SVGElement>(".nav .brand-mark");
       if (logo && target) {
         const from = logo.getBoundingClientRect();
         const to = target.getBoundingClientRect();
