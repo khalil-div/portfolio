@@ -1126,6 +1126,13 @@ body::before {
   pointer-events: none;
 }
 
+.lens-clip {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  border-radius: inherit;
+}
+
 .lens-view {
   position: absolute;
   inset: 0;
@@ -1273,6 +1280,7 @@ body::before {
 
 .case {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 40px;
   align-items: center;
 }
@@ -1743,8 +1751,11 @@ html.lenis body {
   display: grid;
 }
 
+/* minmax(0, 1fr): a single grid column must shrink to the screen even
+   when something inside (the code card's longest line) is wider. */
 .step {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 32px;
   padding-block: 48px;
 }
@@ -2649,6 +2660,7 @@ html.lenis body {
 
 .contact-grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
 }
 
@@ -2992,16 +3004,8 @@ html.lenis body {
   --sky-mid: var(--bg);
   --sky-horizon: var(--bg);
   --sky-glow: transparent;
-  --sun-x: 0.7;
-  --sun-up: 0.6;
-  --moon-x: 0.5;
-  --moon-up: 0;
   --moon-glow: rgb(150 165 225 / 45%);
   --city-glow: rgb(240 150 90 / 32%);
-  /* Heights are measured from the mountains' horizon, so the sun and moon
-     meet the ridges on any screen shape. */
-  --horizon: calc(100vh - var(--ridges) * 0.62);
-  --zenith: 13vh;
   --ridge-ink: #2b2420;
   --ridge-line: #2b2420;
   position: fixed;
@@ -3035,25 +3039,25 @@ main,
 /* Each glow travels with its body and fades with it, so day hands over
    to night without anything jumping across the sky. */
 .sky-glow {
-  --at-x: calc(var(--x) * 100%);
-  --at-y: calc(var(--horizon) - var(--up) * (var(--horizon) - var(--zenith)));
   position: absolute;
-  inset: 0;
-  background: radial-gradient(70vmax 50vmax at var(--at-x) var(--at-y), var(--color), transparent 70%);
+  top: 0;
+  left: 0;
+  width: 140vmax;
+  height: 100vmax;
+  margin: -50vmax 0 0 -70vmax;
+  background: radial-gradient(closest-side, var(--color), transparent 70%);
+  /* Moved, not repainted: a fixed halo that travels with its body (<Sky />
+     writes its transform and opacity). */
+  opacity: 0;
+  will-change: transform, opacity;
 }
 
 .sky-glow-sun {
-  --x: var(--sun-x);
-  --up: var(--sun-up);
   --color: var(--sky-glow);
-  opacity: var(--sun-seen, 0);
 }
 
 .sky-glow-moon {
-  --x: var(--moon-x);
-  --up: var(--moon-up);
   --color: var(--moon-glow);
-  opacity: var(--moon-seen, 0);
 }
 
 .sky-sun,
@@ -3062,6 +3066,7 @@ main,
   top: 0;
   left: 0;
   border-radius: 50%;
+  will-change: transform, opacity;
 }
 
 .sky-sun {
@@ -3070,11 +3075,7 @@ main,
   margin: -23px 0 0 -23px;
   background: radial-gradient(circle, var(--sun-core, #fff6dc) 0 42%, transparent 72%);
   box-shadow: 0 0 70px 18px color-mix(in srgb, var(--sun-core, #fff6dc) 28%, transparent);
-  opacity: var(--sun-o, 0);
-  transform: translate(
-    calc(var(--sun-x) * 100vw),
-    calc(var(--horizon) - var(--sun-up) * (var(--horizon) - var(--zenith)))
-  );
+  opacity: 0;
 }
 
 .sky-moon {
@@ -3082,14 +3083,7 @@ main,
   height: 38px;
   margin: -19px 0 0 -19px;
   box-shadow: inset 10px -4px 0 0 #8e97ba;
-  opacity: var(--moon-o, 0);
-  /* Once it has climbed it goes soft-focus as well as faint. */
-  filter: blur(calc((1 - var(--moon-o, 0)) * 2.2px));
-  transform: translate(
-      calc(var(--moon-x) * 100vw),
-      calc(var(--horizon) - var(--moon-up) * (var(--horizon) - var(--zenith)))
-    )
-    rotate(-18deg);
+  opacity: 0;
 }
 
 :root[data-theme="dark"] .sky-moon {
@@ -3099,10 +3093,11 @@ main,
 }
 
 .sky-stars {
+  will-change: opacity;
   position: absolute;
   inset: 0 0 25% 0;
   display: none;
-  opacity: var(--stars-o, 0);
+  opacity: 0;
   background-image:
     radial-gradient(1.2px 1.2px at 32.4% 15.1%, rgb(255 255 255 / 0.79), transparent),
     radial-gradient(1.2px 1.2px at 7.2% 53.6%, rgb(255 255 255 / 0.66), transparent),
@@ -3160,20 +3155,12 @@ main,
   height: var(--ridges);
 }
 
-.ridge {
-  transform: translateY(calc(var(--depth, 0) * var(--rise)));
-}
-
-.ridge-far {
-  --rise: 4px;
-}
-
-.ridge-mid {
-  --rise: 10px;
-}
-
-.ridge-near {
-  --rise: 18px;
+/* Each layer is moved as a whole for depth (nearer layers a little more;
+   <Sky /> writes the transform), never redrawn while scrolling. */
+.ridges-back,
+.city,
+.ridges-front {
+  will-change: transform;
 }
 
 .ridge-fill {
@@ -3242,15 +3229,23 @@ main,
   bottom: 0;
   height: calc(var(--ridges) * 2.2);
   background: radial-gradient(80% 100% at 50% 100%, var(--city-glow), transparent 72%);
-  opacity: var(--lights, 0);
+  opacity: 0;
 }
 
 .city {
   --city-a: #f08a3c;
   --city-b: #e06a24;
   --city-c: #f5a65a;
-  opacity: var(--lights, 0);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Static drawings on their own layers; the twinkle only fades them. */
+.city svg {
   filter: drop-shadow(0 0 2px var(--city-a));
+  will-change: opacity;
 }
 
 :root[data-theme="dark"] .city {
@@ -3286,7 +3281,7 @@ main,
   top: 7%;
   left: 34%;
   display: none;
-  opacity: clamp(0, (var(--stars-o, 0) - 0.9) * 10, 1);
+  opacity: 0;
 }
 
 :root[data-theme="dark"] .sky-meteor {
@@ -3338,7 +3333,7 @@ main,
 
 @media (prefers-reduced-motion: reduce) {
   .sky-stars::after,
-  .city g {
+  .city svg {
     animation: none;
   }
   .sky-meteor {

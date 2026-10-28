@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useId,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -386,6 +387,11 @@ function Lens({ lang, t, frame }: { lang: Locale; t: Dictionary["demo"]; frame: 
       hold = undefined;
     };
 
+    // Park the closed lens in the middle of the card: at its corner, the
+    // invisible rim would hang off the edge and widen the page.
+    card.style.setProperty("--lx", `${card.offsetWidth / 2}px`);
+    card.style.setProperty("--ly", `${card.offsetHeight / 2}px`);
+
     const onEnter = (e: PointerEvent) => {
       if (e.pointerType !== "mouse") return;
       place(e);
@@ -439,8 +445,11 @@ function Lens({ lang, t, frame }: { lang: Locale; t: Dictionary["demo"]; frame: 
 
   return (
     <div ref={ref} className="lens" aria-hidden="true">
-      <div className="lens-view">
-        <CardContent lang={lang} t={t} frame={frame} wire />
+      {/* Clipped to the card: the magnified twin must not widen the page. */}
+      <div className="lens-clip">
+        <div className="lens-view">
+          <CardContent lang={lang} t={t} frame={frame} wire />
+        </div>
       </div>
       <span className="lens-ring" />
       <span ref={label} className="lens-label mono" />
@@ -449,10 +458,12 @@ function Lens({ lang, t, frame }: { lang: Locale; t: Dictionary["demo"]; frame: 
 }
 
 function KarakGlass() {
+  // Drawn twice (the card and its twin in the lens), so the gradient id is unique.
+  const tea = useId();
   return (
     <svg width="132" height="132" viewBox="0 0 120 120" fill="none" aria-hidden="true">
       <defs>
-        <linearGradient id="karak" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={tea} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#d08a48" />
           <stop offset="1" stopColor="#8d4c1f" />
         </linearGradient>
@@ -464,7 +475,7 @@ function KarakGlass() {
       </g>
       <ellipse cx="60" cy="113" rx="34" ry="4.5" fill="#000" fillOpacity=".12" />
       <path d="M37 44h46l-6.5 64.5c-.3 2.4-8 3.5-16.5 3.5s-16.2-1.1-16.5-3.5L37 44Z" fill="#fff" fillOpacity=".22" />
-      <path d="M39.6 56h40.8l-5.1 51.6c-.3 1.9-7 2.9-15.3 2.9s-15-1-15.3-2.9L39.6 56Z" fill="url(#karak)" />
+      <path d="M39.6 56h40.8l-5.1 51.6c-.3 1.9-7 2.9-15.3 2.9s-15-1-15.3-2.9L39.6 56Z" fill={`url(#${tea})`} />
       <ellipse cx="60" cy="56" rx="20.4" ry="3.2" fill="#ecc89a" />
       <path d="M37 44h46l-6.5 64.5c-.3 2.4-8 3.5-16.5 3.5s-16.2-1.1-16.5-3.5L37 44Z" stroke="#fff" strokeOpacity=".8" strokeWidth="1.5" />
       <ellipse cx="60" cy="44" rx="23" ry="3.4" stroke="#fff" strokeOpacity=".9" strokeWidth="1.5" />

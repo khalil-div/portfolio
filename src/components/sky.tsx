@@ -70,32 +70,73 @@ export function Sky() {
       return knots[knots.length - 1][1];
     };
 
+    // Colours drift slowly, so they go through CSS variables in ~250 steps
+    // per day. Positions and opacities change every frame, so they are
+    // written straight onto the few elements that move: inherited variables
+    // would make the browser restyle every element in the sky, every frame.
+    const part = (name: string) => sky.querySelector<HTMLElement | SVGElement>(`.${name}`)!;
+    const sun = part("sky-sun");
+    const moon = part("sky-moon");
+    const sunGlow = part("sky-glow-sun");
+    const moonGlow = part("sky-glow-moon");
+    const stars = part("sky-stars");
+    const meteor = part("sky-meteor");
+    const cityGlow = part("sky-city-glow");
+    const layers: [HTMLElement | SVGElement, number][] = [
+      [part("ridges-back"), 7],
+      [part("city"), 10],
+      [part("ridges-front"), 18],
+    ];
+    let lastShade = -1;
+    let lastTheme = "";
+
     const paint = () => {
       raf = 0;
       const t = timeAt(scrollY);
-      const dark = root.dataset.theme === "dark";
-      const c = skyAt(t, dark ? "dark" : "light");
+      const theme = root.dataset.theme === "dark" ? "dark" : "light";
       const b = bodiesAt(t);
-      const s = sky.style;
-      s.setProperty("--sky-top", c.top);
-      s.setProperty("--sky-mid", c.mid);
-      s.setProperty("--sky-horizon", c.horizon);
-      s.setProperty("--sky-glow", c.glow);
-      for (const [name, body] of [
-        ["sun", b.sun],
-        ["moon", b.moon],
-      ] as const) {
-        s.setProperty(`--${name}-x`, body.x.toFixed(4));
-        s.setProperty(`--${name}-up`, body.up.toFixed(4));
-        s.setProperty(`--${name}-seen`, body.seen.toFixed(3));
-        s.setProperty(`--${name}-o`, body.disc.toFixed(3));
+      const shade = Math.round(t * 250);
+      if (shade !== lastShade || theme !== lastTheme) {
+        lastShade = shade;
+        lastTheme = theme;
+        const c = skyAt(shade / 250, theme);
+        const s = sky.style;
+        s.setProperty("--sky-top", c.top);
+        s.setProperty("--sky-mid", c.mid);
+        s.setProperty("--sky-horizon", c.horizon);
+        s.setProperty("--sky-glow", c.glow);
+        s.setProperty("--sun-core", sunCore(b.warmth));
+        s.setProperty("--warmth", Math.min(1, b.warmth).toFixed(2));
       }
-      s.setProperty("--sun-core", sunCore(b.warmth));
-      s.setProperty("--stars-o", b.stars.toFixed(3));
-      s.setProperty("--lights", b.lights.toFixed(3));
-      s.setProperty("--warmth", Math.min(1, b.warmth).toFixed(3));
-      const max = root.scrollHeight - innerHeight;
-      s.setProperty("--depth", (max > 0 ? scrollY / max : 0).toFixed(4));
+
+      // Heights are measured from the mountains' horizon (see .sky in CSS).
+      const vw = innerWidth;
+      const vh = innerHeight;
+      const ridges = Math.min(300, Math.max(96, Math.min(vh * 0.24, vw * 0.125)));
+      const horizon = vh - ridges * 0.62;
+      const zenith = vh * 0.13;
+      const place = (x: number, up: number) =>
+        `translate(${(x * vw).toFixed(1)}px, ${(horizon - up * (horizon - zenith)).toFixed(1)}px)`;
+
+      sun.style.transform = place(b.sun.x, b.sun.up);
+      sun.style.opacity = b.sun.disc.toFixed(3);
+      moon.style.transform = `${place(b.moon.x, b.moon.up)} rotate(-18deg)`;
+      moon.style.opacity = b.moon.disc.toFixed(3);
+      // Once it has climbed, the moon goes soft-focus as well as faint.
+      moon.style.filter = `blur(${((1 - b.moon.disc) * 2.2).toFixed(2)}px)`;
+      sunGlow.style.transform = place(b.sun.x, b.sun.up);
+      sunGlow.style.opacity = b.sun.seen.toFixed(3);
+      moonGlow.style.transform = place(b.moon.x, b.moon.up);
+      moonGlow.style.opacity = b.moon.seen.toFixed(3);
+      stars.style.opacity = b.stars.toFixed(3);
+
+      const max = root.scrollHeight - vh;
+      const depth = max > 0 ? scrollY / max : 0;
+      for (const [layer, rise] of layers) layer.style.transform = `translateY(${(depth * rise).toFixed(2)}px)`;
+      layers[1][0].style.opacity = b.lights.toFixed(3);
+      cityGlow.style.opacity = b.lights.toFixed(3);
+      // Shooting stars only once the night is fully dark.
+      meteor.style.opacity = Math.min(1, Math.max(0, (b.stars - 0.9) * 10)).toFixed(2);
 
       // Cards cast shadows away from the sun. Stepped, so the whole page
       // restyles only a few dozen times per scroll instead of every frame.
@@ -147,25 +188,35 @@ export function Sky() {
       <div className="sky-sun" />
       <div className="sky-meteor" />
       <div className="sky-city-glow" />
-      <svg className="sky-ridges" viewBox={HAJAR_VIEWBOX} preserveAspectRatio="xMidYMax slice">
-        {RIDGES.map((name) => (
+      {/* Separate layers, so the twinkling city never repaints the mountains:
+          far + middle ridges, the city in the valley, then the foothills. */}
+      <svg className="sky-ridges ridges-back" viewBox={HAJAR_VIEWBOX} preserveAspectRatio="xMidYMax slice">
+        {RIDGES.slice(0, 2).map((name) => (
           <g key={name} className={`ridge ridge-${name}`}>
             <path className="ridge-fill" d={HAJAR[name].fill} />
             <path className="ridge-line" d={HAJAR[name].crest} />
-            {/* The city sits in the valley, in front of the middle ridge. */}
-            {name === "mid" && (
-              <g className="city">
-                {[0, 1, 2].map((group) => (
-                  <g key={group} className={`city-${group}`}>
-                    {CITY.filter((light) => light[3] === group).map(([x, y, r], i) => (
-                      <circle key={i} cx={x} cy={y} r={r} />
-                    ))}
-                  </g>
-                ))}
-              </g>
-            )}
           </g>
         ))}
+      </svg>
+      <div className="city">
+        {[0, 1, 2].map((group) => (
+          <svg
+            key={group}
+            className={`sky-ridges city-${group}`}
+            viewBox={HAJAR_VIEWBOX}
+            preserveAspectRatio="xMidYMax slice"
+          >
+            {CITY.filter((light) => light[3] === group).map(([x, y, r], i) => (
+              <circle key={i} cx={x} cy={y} r={r} />
+            ))}
+          </svg>
+        ))}
+      </div>
+      <svg className="sky-ridges ridges-front" viewBox={HAJAR_VIEWBOX} preserveAspectRatio="xMidYMax slice">
+        <g className="ridge ridge-near">
+          <path className="ridge-fill" d={HAJAR.near.fill} />
+          <path className="ridge-line" d={HAJAR.near.crest} />
+        </g>
       </svg>
     </div>
   );
