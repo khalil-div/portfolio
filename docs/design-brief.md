@@ -38,7 +38,7 @@ Cards catch the light: their shadows and highlights follow the sun.
 
 The sun owns the day and the moon the night, both on the same east → west arc, each with its own halo, so one always picks up where the other left off. Discs are sharp only just above the mountains (rising and setting); as they climb they dissolve into soft light so they never sit behind text as bright objects.
 
-**Hidden delight: the lens.** Over the hero demo card, the cursor carries a soft magnifier that shows the sketch and wiring underneath (press-and-hold on phones). Optional, found by accident.
+**Hidden delight: the lens.** Over the hero demo card, the cursor carries a glass magnifier. Inside it, the card becomes its own wireframe on a dotted design grid, magnified; the part under the pointer is outlined in orange and named in code below the lens, live with the demo (`<SizePicker value="L" />`, `POST /api/orders → 201`). On phones: press and hold, and the lens floats above the fingertip like a text loupe. Optional, found by accident.
 
 **First second: the signature.** On the first visit, the name draws itself in Arabic strokes, turns into English, and the page settles in (under 1.5 s).
 

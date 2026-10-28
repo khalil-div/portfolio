@@ -1110,6 +1110,157 @@ body::before {
 }
 
 
+/* ───────────────────────── Lens ─────────────────────────
+   Hidden in the hero card: a magnifier that shows the wiring underneath.
+   The twin inside is the same markup, so outlines sit exactly on parts. */
+
+.order-card {
+  --lens-r: 78px;
+  --lift: 0px;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+.lens {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.lens-view {
+  position: absolute;
+  inset: 0;
+  padding: 16px;
+  border-radius: inherit;
+  background-color: var(--surface);
+  background-image: radial-gradient(circle at 1px 1px, var(--line-strong) 1px, transparent 0);
+  background-size: 14px 14px;
+  clip-path: circle(0 at var(--lx, 50%) var(--ly, 50%));
+  transform: translateY(calc(var(--lift) * -1)) scale(1.12);
+  transform-origin: var(--lx, 50%) var(--ly, 50%);
+  transition:
+    clip-path 220ms var(--ease),
+    transform-origin 220ms var(--ease);
+}
+
+.order-card[data-lens] .lens-view {
+  clip-path: circle(var(--lens-r) at var(--lx) var(--ly));
+}
+
+.lens-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--lens-r) * 2.24);
+  height: calc(var(--lens-r) * 2.24);
+  margin: calc(var(--lens-r) * -1.12);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 24%, rgb(255 255 255 / 20%), transparent 42%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--ink) 16%, transparent),
+    inset 0 1px 12px rgb(255 255 255 / 30%),
+    0 16px 36px -12px rgb(0 0 0 / 35%);
+  opacity: 0;
+  transform: translate(var(--lx, 0), calc(var(--ly, 0px) - var(--lift))) scale(0.5);
+  transition:
+    transform 220ms var(--ease),
+    opacity 200ms var(--ease);
+}
+
+.order-card[data-lens] .lens-ring {
+  opacity: 1;
+  transform: translate(var(--lx), calc(var(--ly) - var(--lift))) scale(1);
+}
+
+.order-card[data-touch] {
+  --lift: calc(var(--lens-r) * 1.12 + 28px);
+}
+
+/* The wiring: every part outlined; the one under the pointer is
+   highlighted and named, in code, in the label at the foot of the lens. */
+.lens-content [data-part] {
+  position: relative;
+  border-radius: 10px;
+  outline: 1px dashed color-mix(in srgb, var(--ink) 34%, transparent);
+  outline-offset: 2px;
+  transition: outline-color var(--t-instant) var(--ease);
+}
+
+.lens-content [data-part][data-active] {
+  outline: 1.5px solid var(--accent);
+}
+
+.lens-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  max-width: calc(var(--lens-r) * 2.6);
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 10.5px;
+  line-height: 1.5;
+  white-space: nowrap;
+  direction: ltr;
+  opacity: 0;
+  transform: translate(var(--lx, 0), calc(var(--ly, 0px) + var(--lens-r) * 1.12 + 10px)) translateX(-50%);
+  transition:
+    transform 220ms var(--ease),
+    opacity 160ms var(--ease);
+}
+
+.order-card[data-lens] .lens-label[data-show] {
+  opacity: 1;
+}
+
+/* On touch the label sits above the lifted lens, clear of the hand. */
+.order-card[data-touch] .lens-label {
+  transform: translate(var(--lx), calc(var(--ly) - var(--lift) - var(--lens-r) * 1.12 - 34px)) translateX(-50%);
+}
+
+.lens-content [data-part] > *,
+.lens-content .seg-option,
+.lens-content .qty {
+  opacity: 0.5;
+}
+
+.lens-content .shop-logo,
+.lens-content .segmented,
+.lens-content .stepper,
+.lens-content .seg-thumb,
+.lens-content .order-btn {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: none;
+  border: 1px dashed var(--line-strong);
+}
+
+.lens-content .order-btn[data-sent] {
+  border: 1px solid var(--accent);
+  color: var(--accent-ink);
+}
+
+.lens-content .product-visual {
+  background:
+    linear-gradient(to top right, transparent calc(50% - 0.5px), var(--line-strong) calc(50% - 0.5px), var(--line-strong) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(to top left, transparent calc(50% - 0.5px), var(--line-strong) calc(50% - 0.5px), var(--line-strong) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+}
+
+.lens-content .product-visual svg {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lens-view,
+  .lens-ring {
+    transition: none;
+  }
+}
+
 /* ───────────────────────── Work ───────────────────────── */
 
 .work {

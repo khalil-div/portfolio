@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
@@ -152,7 +153,9 @@ export function OrderDemo({ lang, t }: { lang: Locale; t: Dictionary["demo"] }) 
   }, [frame.cursor, frame.phase]);
 
   const total = formatPrice(PRICES[frame.size] * frame.qty, lang, t.currency);
-  const press = (target: Target) => (frame.press && frame.cursor === target ? "" : undefined);
+  const register = useCallback((target: Target, el: HTMLElement | null) => {
+    targets.current[target] = el;
+  }, []);
 
   return (
     <div className="demo">
@@ -199,74 +202,8 @@ export function OrderDemo({ lang, t }: { lang: Locale; t: Dictionary["demo"] }) 
             <span className="sk sk-btn" />
           </div>
 
-          <div className="card-content">
-            <div className="shop">
-              <span className="shop-logo">{lang === "ar" ? "ك" : "K"}</span>
-              <span className="grid">
-                <span className="shop-name">{t.shop}</span>
-                <span className="shop-meta">{t.shopMeta}</span>
-              </span>
-            </div>
-
-            <div className="product-visual">
-              <KarakGlass />
-            </div>
-
-            <div>
-              <div className="product-row">
-                <span className="product-name">{t.product}</span>
-                <span className="shop-meta mono">{formatPrice(PRICES[frame.size], lang, t.currency)}</span>
-              </div>
-              <p className="product-notes">{t.notes}</p>
-            </div>
-
-            <div className="controls-row">
-              <div className="segmented" style={{ "--i": frame.size } as CSSProperties}>
-                <span className="seg-thumb" />
-                {t.sizes.map((label, i) => (
-                  <span
-                    key={label}
-                    className="seg-option grid place-items-center"
-                    aria-checked={frame.size === i}
-                    ref={i === 2 ? (el) => void (targets.current.size = el) : undefined}
-                  >
-                    {label}
-                  </span>
-                ))}
-              </div>
-              <div className="stepper">
-                <span className="step-btn">
-                  <svg width="12" height="12" viewBox="0 0 12 12">
-                    <path d="M2 6h8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                  </svg>
-                </span>
-                <span className="qty">{frame.qty}</span>
-                <span className="step-btn" data-pressed={press("plus")} ref={(el) => void (targets.current.plus = el)}>
-                  <svg width="12" height="12" viewBox="0 0 12 12">
-                    <path d="M2 6h8M6 2v8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                  </svg>
-                </span>
-              </div>
-            </div>
-
-            <div
-              className="order-btn"
-              data-pressed={press("add")}
-              data-sent={frame.sent ? "" : undefined}
-              ref={(el) => void (targets.current.add = el)}
-            >
-              <span className="swap">
-                <span data-hidden={frame.sent ? "" : undefined}>{t.add}</span>
-                <span data-hidden={frame.sent ? undefined : ""} className="inline-flex items-center gap-2">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="m2.5 7.5 3 3 6-7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  {t.added}
-                </span>
-              </span>
-              <span className="price mono">{total}</span>
-            </div>
-          </div>
+          <CardContent lang={lang} t={t} frame={frame} register={register} />
+          <Lens lang={lang} t={t} frame={frame} />
         </div>
 
         <span
@@ -287,6 +224,226 @@ export function OrderDemo({ lang, t }: { lang: Locale; t: Dictionary["demo"] }) 
         </span>
       </div>
 
+    </div>
+  );
+}
+
+/* ── Card ───────────────────────────────────────────────────
+   Rendered twice: the real card, and its wireframe twin inside the lens.
+   Same markup and state, so every outline sits exactly on its part. */
+
+const CODE_SIZES = ["S", "M", "L"];
+
+function CardContent({
+  lang,
+  t,
+  frame,
+  register,
+  wire = false,
+}: {
+  lang: Locale;
+  t: Dictionary["demo"];
+  frame: Frame;
+  register?: (target: Target, el: HTMLElement | null) => void;
+  wire?: boolean;
+}) {
+  const total = formatPrice(PRICES[frame.size] * frame.qty, lang, t.currency);
+  const press = (target: Target) => (frame.press && frame.cursor === target ? "" : undefined);
+
+  return (
+    <div className={wire ? "lens-content" : "card-content"}>
+      <div className="shop" data-part="shop" data-tag={wire ? `<Shop name="${t.shop}" />` : undefined}>
+        <span className="shop-logo">{lang === "ar" ? "ك" : "K"}</span>
+        <span className="grid">
+          <span className="shop-name">{t.shop}</span>
+          <span className="shop-meta">{t.shopMeta}</span>
+        </span>
+      </div>
+
+      <div className="product-visual" data-part="photo" data-tag={wire ? "<Image src=\"karak.webp\" />" : undefined}>
+        <KarakGlass />
+      </div>
+
+      <div data-part="product" data-tag={wire ? `<Product price={${PRICES[frame.size].toFixed(3)}} />` : undefined}>
+        <div className="product-row">
+          <span className="product-name">{t.product}</span>
+          <span className="shop-meta mono">{formatPrice(PRICES[frame.size], lang, t.currency)}</span>
+        </div>
+        <p className="product-notes">{t.notes}</p>
+      </div>
+
+      <div className="controls-row">
+        <div
+          className="segmented"
+          style={{ "--i": frame.size } as CSSProperties}
+          data-part="size"
+          data-tag={wire ? `<SizePicker value="${CODE_SIZES[frame.size]}" />` : undefined}
+        >
+          <span className="seg-thumb" />
+          {t.sizes.map((label, i) => (
+            <span
+              key={label}
+              className="seg-option grid place-items-center"
+              aria-checked={frame.size === i}
+              ref={i === 2 && register ? (el) => register("size", el) : undefined}
+            >
+              {label}
+            </span>
+          ))}
+        </div>
+        <div className="stepper" data-part="qty" data-tag={wire ? `<Quantity value={${frame.qty}} />` : undefined}>
+          <span className="step-btn">
+            <svg width="12" height="12" viewBox="0 0 12 12">
+              <path d="M2 6h8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          </span>
+          <span className="qty">{frame.qty}</span>
+          <span className="step-btn" data-pressed={press("plus")} ref={register ? (el) => register("plus", el) : undefined}>
+            <svg width="12" height="12" viewBox="0 0 12 12">
+              <path d="M2 6h8M6 2v8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <div
+        className="order-btn"
+        data-part="order"
+        data-tag={wire ? (frame.sent ? "POST /api/orders → 201" : "<OrderButton onClick={send} />") : undefined}
+        data-pressed={press("add")}
+        data-sent={frame.sent ? "" : undefined}
+        ref={register ? (el) => register("add", el) : undefined}
+      >
+        <span className="swap">
+          <span data-hidden={frame.sent ? "" : undefined}>{t.add}</span>
+          <span data-hidden={frame.sent ? undefined : ""} className="inline-flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="m2.5 7.5 3 3 6-7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {t.added}
+          </span>
+        </span>
+        <span className="price mono">{total}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ── Lens ───────────────────────────────────────────────────
+   A hidden magnifier. Over the card (or after press-and-hold on touch)
+   a lens follows the pointer and shows the card's wiring underneath. */
+
+const HOLD_MS = 320;
+
+function Lens({ lang, t, frame }: { lang: Locale; t: Dictionary["demo"]; frame: Frame }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const label = useRef<HTMLSpanElement>(null);
+  const part = useRef("");
+
+  const setPart = useCallback((name: string) => {
+    part.current = name;
+    const lens = ref.current;
+    if (!lens || !label.current) return;
+    let tag = "";
+    for (const el of lens.querySelectorAll<HTMLElement>("[data-part]")) {
+      const on = el.dataset.part === name;
+      el.toggleAttribute("data-active", on);
+      if (on) tag = el.dataset.tag ?? "";
+    }
+    label.current.textContent = tag;
+    label.current.toggleAttribute("data-show", Boolean(tag));
+  }, []);
+
+  // The demo keeps playing under the lens; keep the label's values live.
+  useEffect(() => {
+    if (part.current) setPart(part.current);
+  }, [frame, setPart]);
+
+  useEffect(() => {
+    const card = ref.current?.parentElement;
+    if (!card) return;
+    let active = false;
+    let hold: ReturnType<typeof setTimeout> | undefined;
+    let start = { x: 0, y: 0 };
+
+    // Highlight the part under the pointer and name it in the lens label.
+    const place = (e: PointerEvent) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--lx", `${e.clientX - r.left}px`);
+      card.style.setProperty("--ly", `${e.clientY - r.top}px`);
+      const hit = document.elementFromPoint(e.clientX, e.clientY)?.closest<HTMLElement>(".card-content [data-part]");
+      setPart(hit?.dataset.part ?? "");
+    };
+    // On touch the lens floats above the fingertip, like a text loupe,
+    // so the finger never covers what it is magnifying.
+    const show = (on: boolean, touch = false) => {
+      active = on;
+      card.toggleAttribute("data-lens", on);
+      card.toggleAttribute("data-touch", on && touch);
+    };
+    const cancelHold = () => {
+      clearTimeout(hold);
+      hold = undefined;
+    };
+
+    const onEnter = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      place(e);
+      show(true);
+    };
+    const onLeave = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") show(false);
+    };
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") return;
+      start = { x: e.clientX, y: e.clientY };
+      place(e);
+      hold = setTimeout(() => show(true, true), HOLD_MS);
+    };
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType === "mouse" || active) place(e);
+      // Moving before the hold completes means the visitor is scrolling.
+      else if (hold && Math.hypot(e.clientX - start.x, e.clientY - start.y) > 8) cancelHold();
+    };
+    const onUp = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") return;
+      cancelHold();
+      show(false);
+    };
+    // While the lens is held, the finger moves the lens, not the page.
+    const onTouchMove = (e: TouchEvent) => {
+      if (active) e.preventDefault();
+    };
+    const onContextMenu = (e: Event) => {
+      if (active || hold) e.preventDefault();
+    };
+
+    const pointer: [string, (e: PointerEvent) => void][] = [
+      ["pointerenter", onEnter],
+      ["pointerleave", onLeave],
+      ["pointerdown", onDown],
+      ["pointermove", onMove],
+      ["pointerup", onUp],
+      ["pointercancel", onUp],
+    ];
+    for (const [type, fn] of pointer) card.addEventListener(type, fn as EventListener);
+    card.addEventListener("touchmove", onTouchMove, { passive: false });
+    card.addEventListener("contextmenu", onContextMenu);
+    return () => {
+      cancelHold();
+      for (const [type, fn] of pointer) card.removeEventListener(type, fn as EventListener);
+      card.removeEventListener("touchmove", onTouchMove);
+      card.removeEventListener("contextmenu", onContextMenu);
+    };
+  }, [setPart]);
+
+  return (
+    <div ref={ref} className="lens" aria-hidden="true">
+      <div className="lens-view">
+        <CardContent lang={lang} t={t} frame={frame} wire />
+      </div>
+      <span className="lens-ring" />
+      <span ref={label} className="lens-label mono" />
     </div>
   );
 }

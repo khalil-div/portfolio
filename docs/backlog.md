@@ -14,9 +14,9 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 6 | Launch on Vercel: https://khalil-alblushi.vercel.app | ✅ Live |
 | 7 | Clean slate: remove X-Ray completely | ✅ Done |
 | 8 | Golden hour I: living sky, Hajar mountains, scroll = a day in Muscat, real-time opening, cards catch the light | ✅ Approved |
-| 9 | Golden hour II: night finale (city lights in the valley, city glow, shooting star, ending shot) | ✅ Ready for review |
-| 10 | The lens: magnifier in the hero demo shows the sketch underneath | ⏳ Next |
-| 11 | Signature: name drawn in Arabic, turns into English (first visit, < 1.5 s) | |
+| 9 | Golden hour II: night finale (city lights in the valley, city glow, shooting star, ending shot) | ✅ Approved |
+| 10 | The lens: magnifier over the hero card shows its wiring; one live code label for the part under the pointer | ✅ Ready for review |
+| 11 | Signature: name drawn in Arabic, turns into English (first visit, < 1.5 s) | ⏳ Next |
 | 12 | Quality pass, new share images, launch | |
 
 ## Later
@@ -65,3 +65,5 @@ A section is done only when it meets the Definition of Done in `design-brief.md`
 | 2026-10-28 | Review: bodies behind small text felt too strong, and day↔night seemed to jump. Sun and moon now share one east→west arc with their own glows; discs are sharp only just above the ridges and dissolve as they climb; night falls over ~2 screens |
 | 2026-10-28 | City lights sit in the valley between the middle and front ridges (some hidden by the foothills); they switch on as the sun nears the mountains |
 | 2026-10-28 | The page ends on an "ending shot": space below the footer so the city is never under text |
+| 2026-10-28 | The lens shows a wireframe twin of the card (same markup and live state), magnified 12%; only the part under the pointer is labelled, below the lens |
+| 2026-10-28 | On touch the lens opens after a 0.32 s hold and floats above the fingertip like a text loupe; a quick swipe still scrolls |
