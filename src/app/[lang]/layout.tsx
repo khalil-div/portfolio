@@ -69,6 +69,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
 
 export const viewport: Viewport = {
   themeColor: [
+    // Phones open on the window (see world.tsx), which starts in the dark.
+    { media: "(max-width: 767px)", color: "#0b0b0c" },
     { media: "(prefers-color-scheme: light)", color: "#f5f4f0" },
     { media: "(prefers-color-scheme: dark)", color: "#0b0b0c" },
   ],

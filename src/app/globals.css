@@ -380,6 +380,33 @@ body::before {
 
 .hero-copy {
   container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The order on large screens. On phones, the frame is the first screen. */
+.hero-frame {
+  display: contents;
+}
+
+.hero-meta {
+  order: 1;
+}
+
+.hero-title {
+  order: 2;
+}
+
+.hero-intro {
+  order: 3;
+}
+
+.hero-ctas {
+  order: 4;
+}
+
+.hero-caption {
+  display: none;
 }
 
 /* Sized to the column so each sentence always holds one line. */
@@ -558,90 +585,476 @@ body::before {
   transform: scaleX(1);
 }
 
-/* Phones: one cinematic frame, like the laptop's. The status line, the
-   headline and the live café card, standing in front of the mountains,
-   fill the first screen; the call to action and introduction follow. */
-@media (max-width: 639px) {
+/* ───────────────────────── World ─────────────────────────
+   On phones the whole page is one continuous shot of Muscat, drawn live on the
+   phone (see world.tsx). In the first screen the headline hangs in the sky and
+   the buttons float on the water; the rest of the page scrolls over a still
+   picture that has developed into its paper or ink. */
+
+.world,
+.world-canvas {
+  display: none;
+}
+
+@media (max-width: 767px) {
   :root {
-    --ridges: clamp(150px, 26svh, 230px);
+    /* The soft space where the scene dissolves into the page. */
+    --ramp: 34svh;
+  }
+
+  .hero {
+    padding-top: 0;
+  }
+
+  /* Behind everything, never moving with the page. Taller than the first screen,
+     so the browser's bars can come and go without it changing size. */
+  .world-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    display: block;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
+    opacity: 0;
+  }
+
+  :root[data-world-live] .world-canvas {
+    opacity: 1;
+  }
+
+  /* The real thing has taken over from everything that stood in for it. Fewer
+     full-screen layers for the phone to blend on every frame of a scroll. */
+  :root[data-world-live] .sky,
+  :root[data-world-live] body::before {
+    display: none;
+  }
+
+  .world {
+    position: absolute;
+    top: 0;
+    inset-inline: 0;
+    display: block;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    /* What shows before the first frame: the world fades up out of this. */
+    background: linear-gradient(to bottom, #0a0c18, #11131f 65%, #07080f);
+    color: #fff;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  :root[data-world-live] .world {
+    background: none;
+  }
+
+  /* It's only the frame that lets touches through to the world behind it. */
+  .hero-intro,
+  .hero-caption {
+    pointer-events: auto;
+  }
+
+  /* The sun is the control: a large invisible target that follows it. */
+  .world-handle {
+    position: absolute;
+    top: -44px;
+    left: -44px;
+    width: 88px;
+    height: 88px;
+    display: none;
+    border-radius: 50%;
+    touch-action: none;
+    cursor: grab;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .world[data-ready] .world-handle {
+    display: block;
+  }
+
+  .world-handle[data-held] {
+    cursor: grabbing;
+  }
+
+  .world-ring {
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    border: 1.5px solid rgb(255 255 255 / 75%);
+    opacity: 0;
+    transition: opacity 500ms var(--ease);
+  }
+
+  .world[data-hint="sun"] .world-ring,
+  .world[data-hint="moon"] .world-ring {
+    animation: world-pulse 2.6s var(--ease) infinite;
+  }
+
+  .world-handle[data-held] .world-ring {
+    animation: none;
+    opacity: 0.7;
+    transform: scale(1.15);
+  }
+
+  @keyframes world-pulse {
+    0% {
+      opacity: 0;
+      transform: scale(0.55);
+    }
+    30% {
+      opacity: 0.9;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.35);
+    }
+  }
+
+  .world-hint {
+    position: absolute;
+    top: 84px;
+    left: 50%;
+    /* Slides inward near the screen's edges, so it's never cut off. */
+    transform: translateX(calc(-50% - var(--edge, 0) * 34%));
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: #fff;
+    background: rgb(6 10 24 / 46%);
+    animation: fade-up 700ms var(--ease) both;
+  }
+
+  .world-hint-free {
+    top: auto;
+    bottom: 164px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* The clock, at the end of the status line. */
+  .world-bar {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 600ms var(--ease);
+    inset-inline: var(--gutter);
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    font-size: 13px;
+    pointer-events: none;
+  }
+
+  .world[data-ready] .world-bar {
+    opacity: 1;
+  }
+
+  .world-time {
+    display: inline-flex;
+    gap: 7px;
+    color: rgb(255 255 255 / 82%);
+  }
+
+  .world-time .mono {
+    min-width: 5ch;
+    color: #fff;
+  }
+
+  .world-now {
+    display: none;
+    height: 34px;
+    padding-inline: 13px;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 400;
+    background: rgb(6 10 24 / 46%);
+    border: 1px solid rgb(255 255 255 / 22%);
+    pointer-events: auto;
+    animation: fade-up 400ms var(--ease) both;
+  }
+
+  .world-now[data-show] {
+    display: inline-block;
+  }
+
+  /* While the hour is moved, the clock's the news, and the status steps aside. */
+  .world-touched ~ .hero-grid .hero-meta {
+    opacity: 0;
+    transition: opacity 300ms var(--ease);
   }
 
   .hero-grid {
-    container-type: inline-size;
+    position: relative;
+    display: block;
+    padding-block: 0 44px;
+    pointer-events: none;
+  }
+
+  .hero-frame {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0;
-    padding-block: 16px 36px;
-    text-align: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-block: calc(72px + 2svh) calc(14px + env(safe-area-inset-bottom, 0px));
+    color: var(--world-ink, #fff);
+    pointer-events: none;
   }
 
-  /* Its children join the frame directly, so they can be re-ordered. */
   .hero-copy {
-    display: contents;
+    display: block;
+    container-type: inline-size;
   }
 
-  .hero-meta {
-    order: 1;
-    justify-content: center;
-    margin-bottom: 12px;
-  }
-
+  /* First a quiet sentence, then the promise, as large as the screen allows. */
   .hero-title {
-    order: 2;
-    margin-bottom: 14px;
+    order: 1;
+    white-space: normal;
+    font-size: min(21.7cqi, 13.5svh);
+    line-height: 0.96;
+    margin-bottom: 0;
+    letter-spacing: -0.052em;
+    text-shadow: 0 1px 30px rgb(6 10 24 / 22%);
   }
 
-  .hero-demo {
-    order: 3;
-    width: 100%;
-    text-align: start; /* the frame is centred; the card inside is not */
-    animation-name: rise-in;
-    animation-duration: 1100ms;
+  .hero-title .title-line:nth-child(1) {
+    color: color-mix(in srgb, currentColor 76%, transparent);
+    font-size: 0.385em;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    margin-bottom: 0.32em;
+  }
+
+  .hero-title .caret {
+    display: none;
+  }
+
+  :lang(ar) .hero-title {
+    font-size: min(19.6cqi, 12.5svh);
+    line-height: 1.03;
+    letter-spacing: 0;
+    white-space: normal;
+  }
+
+  /* Room for the letters that hang below the line. */
+  :lang(ar) .hero-title .title-line {
+    padding-block: 0.1em 0.42em;
+    margin-block: -0.1em -0.42em;
+  }
+
+  :lang(ar) .hero-title .title-line:nth-child(1) {
+    font-size: 0.42em;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 0.12em;
+    letter-spacing: 0;
+  }
+
+  .stop {
+    color: var(--accent);
   }
 
   .hero-ctas {
-    order: 4;
-    justify-content: center;
-    margin-top: 22px;
+    order: 2;
+    margin-top: auto;
+    gap: 10px 22px;
+    margin-bottom: 14px;
+  }
+
+  .hero-ctas a {
+    pointer-events: auto;
+  }
+
+  .hero-frame .btn-primary {
+    background: #fff;
+    color: #0b0b0c;
+    height: 52px;
+    box-shadow: 0 10px 40px -8px rgb(4 8 20 / 45%);
+  }
+
+  .hero-frame .btn-text {
+    color: inherit;
+  }
+
+  .hero-frame .btn-text::after {
+    background: color-mix(in srgb, currentColor 45%, transparent);
+  }
+
+  .hero-frame .btn-text::before {
+    background: currentColor;
+  }
+
+  .hero-meta {
+    order: 3;
+    height: 34px;
+    margin-bottom: 0;
+    gap: 0;
+    color: inherit;
+    flex-wrap: nowrap;
+    transition: opacity 300ms var(--ease);
+  }
+
+  .hero-meta .text-ink {
+    color: inherit;
+  }
+
+  .hero-meta > :not(:first-child) {
+    display: none;
+  }
+
+  .hero-caption {
+    display: block;
+    margin-top: var(--ramp);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 34em;
+  }
+
+  .hero-caption a {
+    color: var(--ink-2);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--line-strong);
+    white-space: nowrap;
   }
 
   .hero-intro {
-    order: 5;
-    margin: 30px auto 0;
+    margin-top: 28px;
+    margin-bottom: 0;
     max-width: 30em;
   }
 
-  /* A smaller card that floats gently, like it is standing in the scene. */
-  .stage {
-    width: min(100%, 300px);
-    padding-top: 40px;
-    animation: float 7s var(--ease-in-out) 1.4s infinite alternate;
+  .hero-demo {
+    margin-top: 40px;
+    pointer-events: auto;
   }
 
-  .product-visual {
-    height: 104px;
+  /* The header stands in the window, with nothing to separate, and leaves with it. */
+  :root:not([data-past-world]) .nav {
+    position: absolute;
+    background: transparent;
+    border-color: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
-}
-
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(48px) scale(0.96);
+  :root:not([data-past-world]) .nav .logo-tile {
+    fill: #f5f4f0;
   }
-}
 
-@keyframes float {
-  to {
-    translate: 0 -7px;
+  :root:not([data-past-world]) .nav .logo-letter {
+    fill: #0b0b0c;
+  }
+
+  :root:not([data-past-world]) .nav .tool {
+    color: #fff;
+    background: rgb(6 10 24 / 24%);
+    border-color: rgb(255 255 255 / 26%);
+  }
+
+  /* Past the first screen it comes back as the usual bar. No blur: on a phone
+     it would have to re-blur the page under it on every frame of a scroll. */
+  :root[data-past-world] .nav {
+    /* The colour of the sky behind it, sampled by world.tsx. */
+    background: color-mix(in srgb, var(--bar, var(--bg)) 93%, transparent);
+    border-color: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    animation: nav-drop 420ms var(--ease) both;
+  }
+
+  :root .toast {
+    background: var(--surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  /* The last shot: Muscat at night, clear of any text. */
+  :root .footer {
+    padding-bottom: calc(100svh - 216px);
+  }
+
+  @keyframes nav-drop {
+    from {
+      transform: translateY(-100%);
+    }
+  }
+
+  /* The first visit opens in the dark, whatever the theme: it's a cinema. */
+  .intro {
+    --bg: #0b0b0c;
+    --ink: #f5f4f0;
+  }
+
+  /* The logo's full stop becomes the sun. */
+  .intro-spark {
+    position: absolute;
+    display: none;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 22px 6px rgb(255 170 90 / 70%);
+    translate: -50% -50%;
+  }
+
+  :root[data-intro="out"] .intro-spark[data-go] {
+    display: block;
+    animation: spark-fly 760ms var(--ease-in-out) both;
+  }
+
+  @keyframes spark-fly {
+    65% {
+      opacity: 1;
+      background: #ffe2b8;
+      transform: translate(var(--to-x), var(--to-y)) scale(1.35);
+    }
+    to {
+      opacity: 0;
+      background: #fff3df;
+      transform: translate(var(--to-x), var(--to-y)) scale(1.5);
+    }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stage {
+  .world[data-hint] .world-ring {
     animation: none;
+    opacity: 0.8;
   }
+}
+
+@media (max-width: 767px) and (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* No WebGL: the headline stands on a painted dusk, with the page's painted sky
+   below it, and nothing pretends to be draggable. */
+:root[data-world="off"] .world {
+  border-radius: 0 0 28px 28px;
+  background: linear-gradient(to bottom, #171a33 0%, #3b2f4f 40%, #b0614f 62%, #e8a15a 65.5%, #2a2a3c 65.5%, #0e1220 100%);
+}
+
+:root[data-world="off"] .hero-caption {
+  margin-top: 16px;
+}
+
+:root[data-world="off"] .world-canvas,
+:root[data-world="off"] .world-handle,
+:root[data-world="off"] .world-bar,
+:root[data-world="off"] .world-range {
+  display: none;
 }
 
 /* The narrowest phones: the status line wraps, so drop its separator dot. */

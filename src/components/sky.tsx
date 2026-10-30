@@ -28,6 +28,9 @@ export function Sky() {
     // `?hour=21` previews the page at another time of day.
     const preview = new URLSearchParams(location.search).get("hour");
     const opening = preview && Number.isFinite(Number(preview)) ? clockT(Number(preview)) : muscatT();
+    // On phones the real world takes over as the page's sky (see world.tsx), and this one rests.
+    const phones = matchMedia("(max-width: 767px)");
+    const resting = () => phones.matches && root.hasAttribute("data-world-live");
     let knots: [y: number, t: number][] = [[0, opening]];
     let raf = 0;
     let lastLight = "";
@@ -94,6 +97,7 @@ export function Sky() {
 
     const paint = () => {
       raf = 0;
+      if (resting()) return;
       const t = timeAt(scrollY);
       const theme = root.dataset.theme === "dark" ? "dark" : "light";
       const b = bodiesAt(t);
@@ -159,6 +163,7 @@ export function Sky() {
       if (!raf) raf = requestAnimationFrame(paint);
     };
     const remeasure = () => {
+      if (resting()) return;
       measure();
       schedule();
     };

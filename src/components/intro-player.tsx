@@ -6,6 +6,25 @@ import { useEffect } from "react";
 const FLY_MS = 1000; // the logo leaves for the header
 const DONE_MS = 1500;
 
+/* On phones the sun in the world says where it is, once it's ready. The logo's
+   full stop leaves a copy of itself there, as the world fades up around it. */
+function launchSpark(logo: SVGElement) {
+  const root = document.documentElement;
+  const x = parseFloat(root.style.getPropertyValue("--world-sun-x"));
+  const y = parseFloat(root.style.getPropertyValue("--world-sun-y"));
+  const spark = document.querySelector<HTMLElement>(".intro-spark");
+  const dot = logo.querySelector(".logo-sun")?.getBoundingClientRect();
+  if (!spark || !dot || !Number.isFinite(x) || !Number.isFinite(y)) return;
+  const cx = dot.left + dot.width / 2;
+  const cy = dot.top + dot.height / 2;
+  spark.style.left = `${cx}px`;
+  spark.style.top = `${cy}px`;
+  spark.style.width = spark.style.height = `${dot.width}px`;
+  spark.style.setProperty("--to-x", `${x - cx}px`);
+  spark.style.setProperty("--to-y", `${y - cy}px`);
+  spark.dataset.go = "";
+}
+
 /* Ends the intro: flies the logo into the header's logo (wherever it sits
    on this screen and in this language), clears the screen, then removes
    the overlay. Any click, key or scroll skips straight to the flight. */
@@ -25,6 +44,7 @@ export function IntroPlayer() {
         logo.style.setProperty("--fly-x", `${to.left + to.width / 2 - (from.left + from.width / 2)}px`);
         logo.style.setProperty("--fly-y", `${to.top + to.height / 2 - (from.top + from.height / 2)}px`);
         logo.style.setProperty("--fly-s", String(to.width / from.width));
+        launchSpark(logo);
       }
       root.dataset.intro = "out";
     };

@@ -11,6 +11,7 @@ import { ProcessStory } from "@/components/process-story";
 import { Sky } from "@/components/sky";
 import { OrderDemo, ShowcaseProvider, StoryRail } from "@/components/showcase";
 import { GovCase, MatchaCase, NextCase } from "@/components/work";
+import { World } from "@/components/world";
 import { isLocale } from "@/lib/i18n";
 import { EMAIL, GITHUB, LINKEDIN, SITE_URL, whatsappLink } from "@/lib/site";
 import { getDictionary } from "./dictionaries";
@@ -69,50 +70,62 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
       <main id="main">
         <ShowcaseProvider className="hero">
+          <World t={t.world} />
           <div className="container hero-grid">
             <div className="hero-copy">
-              <p className="hero-meta fade-up">
-                <span className="inline-flex items-center text-ink">
-                  <span className="status-dot" aria-hidden="true" />
-                  {t.hero.status}
-                </span>
-                <span className="meta-sep" aria-hidden="true" />
-                <span>{t.hero.location}</span>
-                <span className="meta-sep hidden min-[440px]:inline-block" aria-hidden="true" />
-                <span className="hidden min-[440px]:inline">
-                  <LocalTime />
-                </span>
-              </p>
-
-              <h1 className="hero-title">
-                <span className="title-line">
-                  <span>{t.hero.line1}</span>
-                </span>
-                <span className="title-line">
-                  <span>
-                    {t.hero.line2}
-                    <span className="caret" aria-hidden="true" />
+              {/* On phones this is what stands in the window. Elsewhere it dissolves into the column. */}
+              <div className="hero-frame">
+                <p className="hero-meta fade-up">
+                  <span className="inline-flex items-center text-ink">
+                    <span className="status-dot" aria-hidden="true" />
+                    {t.hero.status}
                   </span>
-                </span>
-              </h1>
+                  <span className="meta-sep" aria-hidden="true" />
+                  <span>{t.hero.location}</span>
+                  <span className="meta-sep hidden min-[440px]:inline-block" aria-hidden="true" />
+                  <span className="hidden min-[440px]:inline">
+                    <LocalTime />
+                  </span>
+                </p>
+
+                <h1 className="hero-title">
+                  <span className="title-line">
+                    <span>{t.hero.line1}</span>
+                  </span>
+                  <span className="title-line">
+                    <span>
+                      {t.hero.line2.slice(0, -1)}
+                      <span className="stop">{t.hero.line2.slice(-1)}</span>
+                      <span className="caret" aria-hidden="true" />
+                    </span>
+                  </span>
+                </h1>
+
+                <div className="hero-ctas fade-up" style={{ animationDelay: "480ms" }}>
+                  <a className="btn-primary" href={whatsapp} target="_blank" rel="noopener noreferrer">
+                    {t.hero.ctaPrimary}
+                    <span className="btn-arrow" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </a>
+                  <a className="btn-text" href="#work">
+                    {t.hero.ctaSecondary}
+                  </a>
+                </div>
+              </div>
+
+              <p className="hero-caption">
+                {t.world.caption}{" "}
+                <a href={`${GITHUB}/portfolio#the-window`} target="_blank" rel="noopener noreferrer">
+                  {t.world.how}
+                </a>
+              </p>
 
               <p className="hero-intro fade-up" style={{ animationDelay: "380ms" }}>
                 {t.hero.intro}
               </p>
-
-              <div className="hero-ctas fade-up" style={{ animationDelay: "480ms" }}>
-                <a className="btn-primary" href={whatsapp} target="_blank" rel="noopener noreferrer">
-                  {t.hero.ctaPrimary}
-                  <span className="btn-arrow" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </a>
-                <a className="btn-text" href="#work">
-                  {t.hero.ctaSecondary}
-                </a>
-              </div>
             </div>
 
             <div className="hero-demo fade-up" style={{ animationDelay: "260ms" }}>

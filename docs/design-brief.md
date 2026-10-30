@@ -42,7 +42,11 @@ The sun owns the day and the moon the night, both on the same east → west arc,
 
 **The logo: "k."** A lowercase k (Readex Pro) and an orange full stop. The full stop is the sun of the golden hour, and it finishes the headline: "You bring the idea. I build the rest." Minimal, so it reads from a 16 px browser tab up. An ink tile with a paper k (inverted in dark mode), the sun always orange. Hovering the name in the header raises the sun a little.
 
-**First second: the loading screen.** On the first visit, the k writes itself on a clean screen and fills, the full stop rises into place like the sun and glows, then the tile forms around it as it flies up into its place in the header and the screen clears. 1.5 s; any click, key or scroll skips it.
+**First second: the loading screen.** On the first visit, the k writes itself on a clean screen and fills, the full stop rises into place like the sun and glows, then the tile forms around it as it flies up into its place in the header and the screen clears. 1.5 s; any click, key or scroll skips it. On phones it always plays on black, and the full stop stays behind to become the real sun.
+
+**Phones: one continuous shot.** Under 768 px the page is a live picture of Muscat, drawn on the visitor's phone (no video, no image files): the sun, moon and stars where they really are at this moment, over the Hajar and the Sea of Oman, with a dhow crossing the water. In the first screen the headline hangs in the sky, the buttons float on the water, and the status and clock run along the bottom. The sun is the control: drag it and the whole world relights. Opens with a time-lapse that slows into the present.
+
+Scrolling never leaves that world. The camera tilts up until the mountains stand along the bottom of the screen, and the scene develops into the page's paper or ink along a soft line just ahead of the text: light theme, a watercolour of the same sky, tinted by the hour; dark theme, ink, with the sun felt as coloured light. The day passes through the story, as it does on the laptop, and the page ends in full colour on Muscat at night, moon on the water, the dhow's lantern lit. The first screen is the same in both themes. The laptop stays as it is. How it works: "The window" in the README.
 
 ## 3. Principles
 
@@ -136,6 +140,8 @@ Language is detected from a saved choice, then the browser's `Accept-Language` (
 Scroll story: GSAP ScrollTrigger writes progress to CSS variables; CSS does the animating. Lenis smooths wheel scrolling.
 
 ## 10. Quality (measured 2026-10-28, production build)
+
+Phone page (2026-10-30, Chrome, iPhone-sized window, Apple M1 GPU. Scrolling stuttered on a real iPhone before the fix, and the phone page was approved after it on 2026-10-31; no numbers were taken on the iPhone itself): about 5 ms of GPU per frame at 780×1328, a steady 60 fps during the opening, world on screen about 0.5 s after opening on a return visit, no drawing at all while reading. On the throttled phone below: largest content painted 1.6–2.0 s, layout shift 0.
 
 Throttled mid-range phone (slow 4G, 4× CPU slowdown):
 

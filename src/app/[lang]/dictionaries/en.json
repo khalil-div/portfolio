@@ -17,11 +17,21 @@
     "status": "Available for new projects",
     "location": "Muscat, Oman",
     "line1": "You bring the idea.",
-    "line2": "I build the rest.",
+    "line2": "I build the\u00a0rest.",
     "intro": "I'm Khalil, a software engineer in Muscat. I design, build and launch complete websites and web apps — from the first sketch to the server it runs on.",
     "ctaPrimary": "Start a project",
     "ctaSecondary": "See the work",
     "whatsappMessage": "Hi Khalil, I have a project idea I'd like to talk about."
+  },
+  "world": {
+    "dragSun": "Drag the sun",
+    "dragMoon": "Drag the moon",
+    "swipe": "Swipe to change the hour",
+    "now": "Back to now",
+    "place": "Muscat",
+    "caption": "The real sun and moon over Muscat, drawn live on your phone. No video, no photos.",
+    "how": "How it's made",
+    "hourLabel": "Hour in Muscat"
   },
   "demo": {
     "label": "Live example: an online ordering page",

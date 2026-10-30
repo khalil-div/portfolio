@@ -85,15 +85,23 @@ export function ShowcaseProvider({ className, children }: { className?: string; 
   const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   const anchor = useRef<HTMLElement>(null);
 
-  // Only animate while the hero is on screen and the tab is visible.
+  // Only animate while it's on screen and the tab is visible. On phones the
+  // hero's first screen is the world, and the card waits below it.
   useEffect(() => {
-    let onScreen = false;
-    const update = () => setRunning(onScreen && !document.hidden);
-    const observer = new IntersectionObserver(([entry]) => {
-      onScreen = entry.isIntersecting;
+    const seen = new Set<Element>();
+    const update = () => setRunning(seen.size > 0 && !document.hidden);
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) seen.add(entry.target);
+        else seen.delete(entry.target);
+      }
       update();
     });
-    if (anchor.current) observer.observe(anchor.current);
+    const hero = anchor.current;
+    if (hero) {
+      const narrow = matchMedia("(max-width: 767px)").matches;
+      for (const el of narrow ? hero.querySelectorAll(".hero-demo, .rail") : [hero]) observer.observe(el);
+    }
     document.addEventListener("visibilitychange", update);
     return () => {
       observer.disconnect();
