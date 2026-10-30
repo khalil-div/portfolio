@@ -852,6 +852,17 @@ body::before {
     margin-block: -0.1em -0.42em;
   }
 
+  /* With that much room, the text has to wait further down to stay out of sight. */
+  :lang(ar) .hero-title .title-line > span {
+    animation-name: rise-clear;
+  }
+
+  @keyframes rise-clear {
+    from {
+      transform: translateY(calc(100% + 0.8em));
+    }
+  }
+
   :lang(ar) .hero-title .title-line:nth-child(1) {
     font-size: 0.42em;
     font-weight: 500;
